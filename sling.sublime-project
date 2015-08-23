@@ -1,0 +1,20 @@
+{
+	"folders":
+	[
+		{
+			"file_exclude_patterns":
+			[
+				"*.o",
+				"*.sublime-*",
+				".gitignore",
+				"sling"
+			],
+			"folder_exclude_patterns":
+			[
+				"obj",
+				".git"
+			],
+			"path": "."
+		}
+	]
+}
