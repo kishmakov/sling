@@ -12,7 +12,7 @@ typedef std::string ComputationType;
 
 struct Computation
 {
-    virtual State compute(State&& input);
+    virtual State compute(State&& input) = 0;
 
     virtual const ComputationType& type() const = 0;
 };
