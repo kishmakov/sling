@@ -1,7 +1,7 @@
-#include "include/state.h"
+#include "sling/state.h"
 
-#include "include/computation.h"
-#include "include/datum.h"
+#include "sling/computation.h"
+#include "sling/datum.h"
 
 #include <assert.h>
 

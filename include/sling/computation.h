@@ -1,7 +1,7 @@
 #pragma once
 
-#include "include/datum.h"
-#include "include/state.h"
+#include "sling/datum.h"
+#include "sling/state.h"
 
 #include <memory>
 #include <vector>

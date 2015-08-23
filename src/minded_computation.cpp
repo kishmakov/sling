@@ -1,4 +1,4 @@
-#include "include/computation.h"
+#include "sling/computation.h"
 
 namespace sling {
 

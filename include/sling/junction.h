@@ -1,7 +1,7 @@
 #pragma once
 
-#include "include/computation.h"
-#include "include/state.h"
+#include "sling/computation.h"
+#include "sling/state.h"
 
 namespace sling {
 

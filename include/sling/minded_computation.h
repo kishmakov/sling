@@ -1,8 +1,8 @@
 #pragma once
 
-#include "include/computation.h"
+#include "sling/computation.h"
 
-#include "include/mind.h"
+#include "sling/mind.h"
 
 
 namespace sling {
