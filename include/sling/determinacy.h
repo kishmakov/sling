@@ -11,11 +11,13 @@ typedef std::unique_ptr<Computation> ComputationUPtr;
 struct Datum;
 typedef std::unique_ptr<Datum> DatumUPtr;
 
-struct State
+struct Determinacy
 {
     std::vector<ComputationUPtr> computations;
     std::vector<DatumUPtr> data;
 };
+
+typedef std::unique_ptr<Determinacy> DeterminacyUPtr;
 
 typedef uint32_t Index;
 
@@ -30,7 +32,9 @@ struct Transmitter
     std::vector<IdMap> computationsMaps;
     std::vector<IdMap> dataMaps;
 
-    void transmit(State& donor, State& recepient) const;
+    void transmit(Determinacy& donor, Determinacy& recepient) const;
 };
+
+typedef std::unique_ptr<Transmitter> TransmitterUPtr;
 
 } // sling

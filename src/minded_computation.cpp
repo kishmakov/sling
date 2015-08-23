@@ -1,8 +1,8 @@
-#include "sling/computation.h"
+#include "sling/minded_computation.h"
 
 namespace sling {
 
-State Computation::compute(State&& input)
+DeterminacyUPtr MindedComputation::compute(DeterminacyUPtr input)
 {
     return std::move(input);
 }

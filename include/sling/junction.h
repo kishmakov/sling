@@ -1,7 +1,7 @@
 #pragma once
 
 #include "sling/computation.h"
-#include "sling/state.h"
+#include "sling/determinacy.h"
 
 namespace sling {
 
@@ -9,12 +9,14 @@ struct Junction
 {
     struct Direction {
         ComputationType type;
-        Transmitter transmitter;
+        TransmitterUPtr transmitter;
     };
 
-    State state;
+    Determinacy determinacy;
 
     std::vector<Direction> directions;
 };
+
+typedef std::unique_ptr<Junction> JunctionUPtr;
 
 } // sling
