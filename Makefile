@@ -9,7 +9,7 @@ OBJ_FILES = $(strip $(patsubst %.cpp, $(OBJ_DIR)/%.o, $(notdir $(CPP_FILES))))
 
 # options
 CC = g++
-CFLAGS = -O0 -g -pthread -fPIC -std=c++0x $(WARNING_FLAGS) $(addprefix -I, $(INCLUDES))
+CFLAGS = -O0 -g -fPIC -std=c++0x $(WARNING_FLAGS) $(addprefix -I, $(INCLUDES))
 LFLAGS = -pthread
 
 # Main Targets
@@ -19,7 +19,7 @@ all: verbose-link
 
 clean:
 	@rm -rf $(OBJ_DIR)
-	rm -f sling
+	@rm -f sling
 
 # Internal Targets
 ##################
