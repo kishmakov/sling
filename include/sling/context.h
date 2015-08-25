@@ -17,6 +17,7 @@ struct Context
     std::vector<DatumUPtr> data;
 };
 
+typedef Context* ContextPtr;
 typedef std::unique_ptr<Context> ContextUPtr;
 
 typedef uint32_t Index;
@@ -32,7 +33,7 @@ struct Transmitter
     std::vector<IdMap> computationsMaps;
     std::vector<IdMap> dataMaps;
 
-    void transmit(Context& donor, Context& recepient) const;
+    void transmit(ContextPtr donor, ContextPtr recepient) const;
 };
 
 typedef std::unique_ptr<Transmitter> TransmitterUPtr;

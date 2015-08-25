@@ -27,10 +27,10 @@ void transmitImpl(
         dst[idMap.to].reset(src[idMap.from].release());
 }
 
-void Transmitter::transmit(Context& donor, Context& recepient) const
+void Transmitter::transmit(ContextPtr donor, ContextPtr recepient) const
 {
-    transmitImpl(computationsMaps, donor.computations, recepient.computations);
-    transmitImpl(dataMaps, donor.data, recepient.data);
+    transmitImpl(computationsMaps, donor->computations, recepient->computations);
+    transmitImpl(dataMaps, donor->data, recepient->data);
 }
 
 } // sling

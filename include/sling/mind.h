@@ -12,7 +12,7 @@ typedef std::vector<char> Bytes;
 
 struct Mind
 {
-    virtual Index direct(const Symbol& symbol) const = 0;
+    virtual Symbol::DirectionPtr direct(const SymbolPtr symbol, const ContextPtr context) const = 0;
 };
 
 typedef std::unique_ptr<Mind> MindUPtr;

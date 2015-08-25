@@ -5,18 +5,22 @@
 
 namespace sling {
 
+
 struct Symbol
 {
-    struct Direction {
+    struct Direction
+    {
         ComputationType type;
-        TransmitterUPtr transmitter;
+        TransmitterUPtr selection;
     };
 
-    Context context;
+    typedef Direction* DirectionPtr;
+    typedef std::unique_ptr<Direction> DirectionUPtr;
 
-    std::vector<Direction> directions;
+    std::vector<DirectionUPtr> directions;
 };
 
+typedef Symbol* SymbolPtr;
 typedef std::unique_ptr<Symbol> SymbolUPtr;
 
 } // sling
