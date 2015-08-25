@@ -1,7 +1,7 @@
 #pragma once
 
+#include "sling/context.h"
 #include "sling/datum.h"
-#include "sling/determinacy.h"
 
 #include <memory>
 #include <vector>
@@ -12,7 +12,7 @@ typedef std::string ComputationType;
 
 struct Computation
 {
-    virtual DeterminacyUPtr compute(DeterminacyUPtr input) = 0;
+    virtual ContextUPtr compute(ContextUPtr input) = 0;
 
     virtual const ComputationType& type() const = 0;
 };

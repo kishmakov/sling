@@ -1,22 +1,22 @@
 #pragma once
 
 #include "sling/computation.h"
-#include "sling/determinacy.h"
+#include "sling/context.h"
 
 namespace sling {
 
-struct Junction
+struct Symbol
 {
     struct Direction {
         ComputationType type;
         TransmitterUPtr transmitter;
     };
 
-    Determinacy determinacy;
+    Context context;
 
     std::vector<Direction> directions;
 };
 
-typedef std::unique_ptr<Junction> JunctionUPtr;
+typedef std::unique_ptr<Symbol> SymbolUPtr;
 
 } // sling

@@ -1,8 +1,8 @@
 #pragma once
 
 #include "sling/computation.h"
-#include "sling/junction.h"
 #include "sling/mind.h"
+#include "sling/symbol.h"
 
 #include <list>
 
@@ -15,13 +15,13 @@ typedef std::unique_ptr<State> StateUPtr;
 
 struct State
 {
-    JunctionUPtr junction;
+    SymbolUPtr symbol;
     std::vector<StatePtr> successors;
 };
 
 struct MindedComputation : public Computation
 {
-    virtual DeterminacyUPtr compute(DeterminacyUPtr input);
+    virtual ContextUPtr compute(ContextUPtr input);
 
     MindUPtr mind;
 };

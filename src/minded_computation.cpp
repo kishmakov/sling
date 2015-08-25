@@ -2,7 +2,7 @@
 
 namespace sling {
 
-DeterminacyUPtr MindedComputation::compute(DeterminacyUPtr input)
+ContextUPtr MindedComputation::compute(ContextUPtr input)
 {
     return std::move(input);
 }

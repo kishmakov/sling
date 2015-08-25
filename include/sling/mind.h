@@ -1,6 +1,6 @@
 #pragma once
 
-#include "sling/junction.h"
+#include "sling/symbol.h"
 
 #include <memory>
 #include <string>
@@ -12,7 +12,7 @@ typedef std::vector<char> Bytes;
 
 struct Mind
 {
-    virtual Index direct(const Junction& junction) const = 0;
+    virtual Index direct(const Symbol& symbol) const = 0;
 };
 
 typedef std::unique_ptr<Mind> MindUPtr;

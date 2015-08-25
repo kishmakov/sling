@@ -1,4 +1,4 @@
-#include "sling/determinacy.h"
+#include "sling/context.h"
 
 #include "sling/computation.h"
 #include "sling/datum.h"
@@ -27,7 +27,7 @@ void transmitImpl(
         dst[idMap.to].reset(src[idMap.from].release());
 }
 
-void Transmitter::transmit(Determinacy& donor, Determinacy& recepient) const
+void Transmitter::transmit(Context& donor, Context& recepient) const
 {
     transmitImpl(computationsMaps, donor.computations, recepient.computations);
     transmitImpl(dataMaps, donor.data, recepient.data);

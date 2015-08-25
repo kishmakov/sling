@@ -11,13 +11,13 @@ typedef std::unique_ptr<Computation> ComputationUPtr;
 struct Datum;
 typedef std::unique_ptr<Datum> DatumUPtr;
 
-struct Determinacy
+struct Context
 {
     std::vector<ComputationUPtr> computations;
     std::vector<DatumUPtr> data;
 };
 
-typedef std::unique_ptr<Determinacy> DeterminacyUPtr;
+typedef std::unique_ptr<Context> ContextUPtr;
 
 typedef uint32_t Index;
 
@@ -32,7 +32,7 @@ struct Transmitter
     std::vector<IdMap> computationsMaps;
     std::vector<IdMap> dataMaps;
 
-    void transmit(Determinacy& donor, Determinacy& recepient) const;
+    void transmit(Context& donor, Context& recepient) const;
 };
 
 typedef std::unique_ptr<Transmitter> TransmitterUPtr;
