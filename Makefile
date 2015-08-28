@@ -19,7 +19,7 @@ all: verbose-link
 
 clean:
 	@rm -rf $(OBJ_DIR)
-	@rm -f sling
+	@rm -f run-tests
 
 # Internal Targets
 ##################
@@ -46,4 +46,4 @@ endef
 $(foreach file, $(CPP_FILES), $(eval $(call rul_gen, $(file))))
 
 link:
-	$(CC) -o sling $(OBJ_FILES) $(LFLAGS)
+	$(CC) -o run-tests $(OBJ_FILES) $(LFLAGS)

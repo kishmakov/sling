@@ -2,4 +2,4 @@
 *~
 *.sublime-*
 .gitignore
-sling
+run-tests

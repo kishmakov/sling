@@ -7,7 +7,7 @@
 				"*.o",
 				"*.sublime-*",
 				".gitignore",
-				"sling"
+				"run-tests"
 			],
 			"folder_exclude_patterns":
 			[
