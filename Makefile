@@ -1,15 +1,16 @@
 # dirs
-INCLUDES = ./include .
+INCLUDES = src
 OBJ_DIR = obj
 SRC_DIR = src
 
 # file sets
-CPP_FILES = $(wildcard $(SRC_DIR)/*.cpp)
-OBJ_FILES = $(strip $(patsubst %.cpp, $(OBJ_DIR)/%.o, $(notdir $(CPP_FILES))))
+SOURCE_FILES = $(wildcard $(SRC_DIR)/*.c)
+SOURCE_FILES += $(wildcard $(SRC_DIR)/*/*.c)
+OBJ_FILES = $(strip $(patsubst %.c, $(OBJ_DIR)/%.o, $(notdir $(SOURCE_FILES))))
 
 # options
-CC = g++
-CFLAGS = -O0 -g -fPIC -std=c++0x $(WARNING_FLAGS) $(addprefix -I, $(INCLUDES))
+CC = clang
+CFLAGS = -O0 -g -fPIC -std=c99 $(WARNING_FLAGS) $(addprefix -I, $(INCLUDES))
 LFLAGS = -pthread
 
 # Main Targets
@@ -39,11 +40,11 @@ create-dirs:
 
 # pattern matching for obj files
 define rul_gen
-$(patsubst %.cpp, $(OBJ_DIR)/%.o, $(notdir $(1))): $(1)
+$(patsubst %.c, $(OBJ_DIR)/%.o, $(notdir $(1))): $(1)
 	$(CC) $(CFLAGS) -c $$< -o $$@
 endef
 
-$(foreach file, $(CPP_FILES), $(eval $(call rul_gen, $(file))))
+$(foreach file, $(SOURCE_FILES), $(eval $(call rul_gen, $(file))))
 
 link:
 	$(CC) -o run-tests $(OBJ_FILES) $(LFLAGS)

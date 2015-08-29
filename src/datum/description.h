@@ -2,7 +2,8 @@
 
 #include <stdint.h>
 
-typedef struct datum_description_type* datum_description_ptr;
+typedef struct datum_description_type datum_description_type;
+typedef datum_description_type* datum_description_ptr;
 
 struct datum_description_type {
     char * scheme;
@@ -10,8 +11,5 @@ struct datum_description_type {
     datum_description_ptr next;
 };
 
-typedef struct datum_description_type datum_description_type;
+datum_description_ptr datum_descriptions();
 
-extern datum_description_ptr datum_descriptions_head;
-
-void initialize_datum_descriptions();
