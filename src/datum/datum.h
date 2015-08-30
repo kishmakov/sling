@@ -9,4 +9,6 @@ typedef struct {
 
 typedef datum_type* datum_ptr;
 
+datum_ptr create_datum(datum_description_ptr description, const void* src);
+
 void remove_datum(datum_ptr* datum_holder);

@@ -9,7 +9,7 @@ SOURCE_FILES += $(wildcard $(SRC_DIR)/*/*.c)
 OBJ_FILES = $(strip $(patsubst %.c, $(OBJ_DIR)/%.o, $(notdir $(SOURCE_FILES))))
 
 # options
-CC = clang
+CC = clang-3.5
 CFLAGS = -O0 -g -fPIC -std=c99 $(WARNING_FLAGS) $(addprefix -I, $(INCLUDES))
 LFLAGS = -pthread
 
