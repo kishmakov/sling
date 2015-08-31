@@ -10,7 +10,7 @@ OBJ_FILES = $(strip $(patsubst %.c, $(OBJ_DIR)/%.o, $(notdir $(SOURCE_FILES))))
 
 # options
 CC = clang-3.5
-CFLAGS = -O0 -g -fPIC -std=c99 $(WARNING_FLAGS) $(addprefix -I, $(INCLUDES))
+CFLAGS = -O0 -g -fPIC -std=c11 $(WARNING_FLAGS) $(addprefix -I, $(INCLUDES))
 LFLAGS = -pthread
 
 # Main Targets
