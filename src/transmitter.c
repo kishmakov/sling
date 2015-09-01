@@ -1,6 +1,7 @@
 #include "transmitter.h"
 
 #include "context.h"
+#include "utils.h"
 
 #include <assert.h>
 #include <stdlib.h>
@@ -19,7 +20,7 @@ void transmit_pointes(
 
     for (int mapId = 0; mapId < maps_size; mapId++) {
         assert(maps[mapId].from < src_size);
-        maxDstId = maxDstId < maps[mapId].to ? maps[mapId].to :  maxDstId;
+        maxDstId = MACRO_MIN(maxDstId, maps[mapId].to);
     }
 
     if (maxDstId > dst_size)

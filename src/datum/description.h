@@ -1,11 +1,10 @@
 #pragma once
 
+#include "utils.h"
+
 #include <stdint.h>
 
-typedef struct datum_description_type datum_description_type;
-typedef datum_description_type* datum_description_ptr;
-
-struct datum_description_type {
+MACRO_STRUCTURE_DEFINITION(datum_description) {
     char * scheme;
     uint64_t size;
     datum_description_ptr next;

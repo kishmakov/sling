@@ -1,13 +1,12 @@
 #pragma once
 
 #include "datum/description.h"
+#include "utils.h"
 
-typedef struct {
+MACRO_STRUCTURE_DEFINITION(datum) {
     void* bytes;
     datum_description_ptr description;
-} datum_type;
-
-typedef datum_type* datum_ptr;
+};
 
 datum_ptr create_datum(datum_description_ptr description, const void* src);
 
