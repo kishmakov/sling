@@ -19,7 +19,7 @@ datum_ptr sum_int32_datums(datum_ptr* datum_holder_1, datum_ptr* datum_holder_2)
 
 int main(int argc, char ** argv)
 {
-    datum_descriptions();
+    data_descriptions();
 
     datum_ptr d1 = create_int32_datum(1023);
     datum_ptr d2 = create_int32_datum(10000);

@@ -6,7 +6,7 @@ SRC_DIR = src
 # file sets
 SOURCE_FILES = $(wildcard $(SRC_DIR)/*.c)
 SOURCE_FILES += $(wildcard $(SRC_DIR)/*/*.c)
-OBJ_FILES = $(strip $(patsubst %.c, $(OBJ_DIR)/%.o, $(notdir $(SOURCE_FILES))))
+OBJ_FILES = $(strip $(patsubst %.c, $(OBJ_DIR)/%.o, $(subst /,_,$(SOURCE_FILES))))
 
 # options
 CC = clang-3.5
@@ -40,7 +40,7 @@ create-dirs:
 
 # pattern matching for obj files
 define rul_gen
-$(patsubst %.c, $(OBJ_DIR)/%.o, $(notdir $(1))): $(1)
+$(patsubst %.c, $(OBJ_DIR)/%.o, $(subst /,_,$(1))): $(1)
 	$(CC) $(CFLAGS) -c $$< -o $$@
 endef
 

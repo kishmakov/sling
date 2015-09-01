@@ -11,5 +11,5 @@ struct datum_description_type {
     datum_description_ptr next;
 };
 
-datum_description_ptr datum_descriptions();
+datum_description_ptr data_descriptions();
 
