@@ -18,4 +18,4 @@ MACRO_STRUCTURE_DEFINITION(context) {
     transform_ptr* transforms;
 };
 
-context_ptr create_context(uint32_t data_size, uint32_t transforms_size);
+context_ptr context_create(uint32_t data_size, uint32_t transforms_size);

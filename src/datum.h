@@ -8,6 +8,8 @@ MACRO_STRUCTURE_DEFINITION(datum) {
     type_description_ptr description;
 };
 
-datum_ptr create_datum(type_description_ptr description, const void* src);
+datum_ptr datum_create(type_description_ptr description, const void* src);
 
-void remove_datum(datum_ptr* datum_holder);
+void datum_extract_value(const datum_type* datum, void* dst);
+
+void datum_remove(datum_ptr* datum_holder);

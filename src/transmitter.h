@@ -18,5 +18,5 @@ MACRO_STRUCTURE_DEFINITION(transmitter) {
     id_map_type* data_maps;
 };
 
-void transmit(context_ptr dst, context_ptr src, transmitter_ptr transmitter);
+void transmit(const transmitter_type* transmitter, context_ptr dst, context_ptr src);
 

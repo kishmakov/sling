@@ -12,9 +12,9 @@ static_assert(sizeof(void*) == sizeof(datum_ptr), "Required for pointer independ
 typedef void** void_ptr_array;
 
 void transmit_pointes(
+    uint32_t maps_size, const id_map_type* maps,
     uint32_t dst_size, void_ptr_array* dst,
-    uint32_t src_size, void_ptr_array* src,
-    uint32_t maps_size, const id_map_type* maps)
+    uint32_t src_size, void_ptr_array* src)
 {
     uint32_t maxDstId = 0;
 
@@ -33,15 +33,15 @@ void transmit_pointes(
     }
 }
 
-void transmit(context_ptr dst, context_ptr src, transmitter_ptr transmitter)
+void transmit(const transmitter_type* transmitter, context_ptr dst, context_ptr src)
 {
     transmit_pointes(
+        transmitter->transforms_maps_size, transmitter->transforms_maps,
         dst->transforms_size, (void_ptr_array*) &(dst->transforms),
-        src->transforms_size, (void_ptr_array*) &(src->transforms),
-        transmitter->transforms_maps_size, transmitter->transforms_maps);
+        src->transforms_size, (void_ptr_array*) &(src->transforms));
 
     transmit_pointes(
+        transmitter->data_maps_size, transmitter->data_maps,
         dst->data_size, (void_ptr_array*) &(dst->data),
-        src->data_size, (void_ptr_array*) &(src->data),
-        transmitter->data_maps_size, transmitter->data_maps);
+        src->data_size, (void_ptr_array*) &(src->data));
 }

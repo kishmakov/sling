@@ -2,6 +2,6 @@
 
 #include "datum.h"
 
-void register_double_type(type_description_ptr* head);
+void double_type_register(type_description_ptr* head);
 
-datum_ptr create_double_datum(double value);
+datum_ptr double_datum_create(double value);

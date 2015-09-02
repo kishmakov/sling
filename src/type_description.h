@@ -6,7 +6,7 @@
 
 MACRO_STRUCTURE_DEFINITION(type_description) {
     char * scheme;
-    uint64_t size;
+    uint32_t size;
     type_description_ptr next;
 };
 
