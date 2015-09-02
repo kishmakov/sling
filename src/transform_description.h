@@ -1,18 +1,21 @@
 #pragma once
 
+#include "context.h"
 #include "utils.h"
 
 #include <stdint.h>
 
-// typedef context_ptr (*compute_func_ptr)(computation_ptr computation, context_ptr input);
+struct trasform_type;
+typedef context_ptr (*transform_func_ptr)(struct trasform_type transform, context_ptr input);
 
-MACRO_STRUCTURE_DEFINITION(computation_description) {
+MACRO_STRUCTURE_DEFINITION(transform_description) {
     char * input_scheme;
     char * output_scheme;
-    char * description;
+    char * profile;
+    transform_func_ptr function;
 
-    computation_description_ptr next;
+    transform_description_ptr next;
 };
 
-computation_description_ptr computations_descriptions();
+transform_description_ptr transform_descriptions();
 

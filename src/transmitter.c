@@ -6,7 +6,7 @@
 #include <assert.h>
 #include <stdlib.h>
 
-static_assert(sizeof(void*) == sizeof(computation_ptr), "Required for pointer independent code.");
+static_assert(sizeof(void*) == sizeof(transform_ptr), "Required for pointer independent code.");
 static_assert(sizeof(void*) == sizeof(datum_ptr), "Required for pointer independent code.");
 
 typedef void** void_ptr_array;
@@ -36,9 +36,9 @@ void transmit_pointes(
 void transmit(context_ptr dst, context_ptr src, transmitter_ptr transmitter)
 {
     transmit_pointes(
-        dst->computations_size, (void_ptr_array*) &(dst->computations),
-        src->computations_size, (void_ptr_array*) &(src->computations),
-        transmitter->computations_maps_size, transmitter->computations_maps);
+        dst->transforms_size, (void_ptr_array*) &(dst->transforms),
+        src->transforms_size, (void_ptr_array*) &(src->transforms),
+        transmitter->transforms_maps_size, transmitter->transforms_maps);
 
     transmit_pointes(
         dst->data_size, (void_ptr_array*) &(dst->data),

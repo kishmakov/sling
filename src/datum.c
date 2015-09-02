@@ -7,6 +7,7 @@
 datum_ptr create_datum(type_description_ptr description, const void* src)
 {
     assert(description != NULL); // description registred?
+    assert(description->size > 0); // data types must contain something
     datum_ptr result = malloc(sizeof(datum_type));
     result->description = description;
     result->bytes = malloc(description->size);

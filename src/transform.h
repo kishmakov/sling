@@ -2,9 +2,9 @@
 
 #include "utils.h"
 
-#include "computation/description.h"
+#include "transform_description.h"
 
-MACRO_STRUCTURE_DEFINITION(computation) {
+MACRO_STRUCTURE_DEFINITION(transform) {
     void* bytes;
-    computation_description_ptr description;
+    transform_description_ptr description;
 };
