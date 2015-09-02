@@ -16,5 +16,4 @@ MACRO_STRUCTURE_DEFINITION(context) {
 
     computation_ptr* computations;
     datum_ptr* data;
-
 };

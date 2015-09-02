@@ -1,20 +1,20 @@
-#include "datum/int32.h"
+#include "types/int32.h"
 
 #include <stdlib.h>
 
-static datum_description_ptr int32_datum_description = NULL;
+static type_description_ptr int32_type_description = NULL;
 
-static char* int32_datum_scheme = "{\"int32\": 1}";
+static char* int32_type_scheme = "{\"int32\": 1}";
 
-void register_int32_datum(datum_description_ptr* head) {
-    int32_datum_description = malloc(sizeof(datum_description_type));
-    int32_datum_description->scheme = int32_datum_scheme;
-    int32_datum_description->size = sizeof(int32_t);
-    int32_datum_description->next = *head;
+void register_int32_type(type_description_ptr* head) {
+    int32_type_description = malloc(sizeof(type_description_type));
+    int32_type_description->scheme = int32_type_scheme;
+    int32_type_description->size = sizeof(int32_t);
+    int32_type_description->next = *head;
 
-    *head = int32_datum_description;
+    *head = int32_type_description;
 }
 
 datum_ptr create_int32_datum(int32_t value) {
-    return create_datum(int32_datum_description, (const void*) &value);
+    return create_datum(int32_type_description, (const void*) &value);
 }

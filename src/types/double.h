@@ -1,7 +1,7 @@
 #pragma once
 
-#include "datum/datum.h"
+#include "datum.h"
 
-void register_double_datum(datum_description_ptr* head);
+void register_double_type(type_description_ptr* head);
 
 datum_ptr create_double_datum(double value);

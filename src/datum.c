@@ -1,10 +1,10 @@
-#include "datum/datum.h"
+#include "datum.h"
 
 #include <assert.h>
 #include <memory.h>
 #include <stdlib.h>
 
-datum_ptr create_datum(datum_description_ptr description, const void* src)
+datum_ptr create_datum(type_description_ptr description, const void* src)
 {
     assert(description != NULL); // description registred?
     datum_ptr result = malloc(sizeof(datum_type));
