@@ -11,12 +11,13 @@ typedef struct {
 } id_map_type;
 
 MACRO_STRUCTURE_DEFINITION(transmitter) {
-    uint32_t transforms_maps_size;
-    uint32_t data_maps_size;
-
-    id_map_type* transforms_maps;
-    id_map_type* data_maps;
+    MACRO_VECTOR_DEFINITION(data_maps, id_map_type);
+    MACRO_VECTOR_DEFINITION(transforms_maps, id_map_type);
 };
 
-void transmit(const transmitter_type* transmitter, context_ptr dst, context_ptr src);
+transmitter_ptr transmitter_create(uint32_t data_size, uint32_t transforms_size);
+
+void transmitter_remove(transmitter_ptr* transmitter_holder);
+
+void transmit(transmitter_cptr transmitter, context_ptr dst, context_ptr src);
 

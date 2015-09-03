@@ -4,7 +4,8 @@
 
 #include <stdint.h>
 
-MACRO_STRUCTURE_DEFINITION(type_description) {
+MACRO_STRUCTURE_DEFINITION(type_description)
+{
     char * scheme;
     uint32_t size;
     type_description_ptr next;

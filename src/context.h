@@ -11,11 +11,8 @@ struct datum_type;
 typedef struct datum_type* datum_ptr;
 
 MACRO_STRUCTURE_DEFINITION(context) {
-    uint32_t data_size;
-    uint32_t transforms_size;
-
-    datum_ptr* data;
-    transform_ptr* transforms;
+    MACRO_VECTOR_DEFINITION(data, datum_ptr);
+    MACRO_VECTOR_DEFINITION(transforms, transform_ptr);
 };
 
 context_ptr context_create(uint32_t data_size, uint32_t transforms_size);

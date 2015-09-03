@@ -17,7 +17,7 @@ datum_ptr datum_create(type_description_ptr description, const void* src)
     return result;
 }
 
-void datum_extract_value(const datum_type* datum, void* dst)
+void datum_extract_value(datum_cptr datum, void* dst)
 {
     memcpy(dst, datum->bytes, datum->description->size);
 }
