@@ -16,3 +16,5 @@ type_name* name
 #define MACRO_VECTOR_ALLOCATE(name, type_name, requested_size) \
 name ## _size = requested_size; \
 name = requested_size > 0 ? malloc(sizeof(type_name) * requested_size) : NULL
+
+char* scheme_description(const char * data, const char * transforms);

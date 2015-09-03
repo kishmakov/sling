@@ -10,12 +10,12 @@ typedef context_ptr (*transform_func_ptr)(struct trasform_type transform, contex
 
 MACRO_STRUCTURE_DEFINITION(transform_description)
 {
-    char * input_scheme;
-    char * output_scheme;
-    char * profile;
+    const char * input_scheme;
+    const char * output_scheme;
+    const char * profile;
     transform_func_ptr function;
 
-    transform_description_ptr next;
+    transform_description_cptr next;
 };
 
 transform_description_ptr transforms_descriptions();
