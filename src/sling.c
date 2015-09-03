@@ -1,4 +1,5 @@
 #include "context.h"
+#include "init.h"
 #include "transforms/int32_duplicator.h"
 #include "types/int32.h"
 
@@ -56,7 +57,7 @@ void test2()
 
 int main(int argc, char ** argv)
 {
-    types_descriptions();
+    init();
 
     test1();
     test2();

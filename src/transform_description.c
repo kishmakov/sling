@@ -4,13 +4,18 @@
 
 #include <stdlib.h>
 
-transform_description_ptr transform_descriptions_head = NULL;
+transform_description_ptr transforms_descriptions_head = NULL;
 
-transform_description_ptr transform_descriptions()
+transform_description_ptr transforms_descriptions()
 {
-    if (transform_descriptions_head == NULL) {
-        int32_duplicator_register(&transform_descriptions_head);
+    if (transforms_descriptions_head == NULL) {
+        int32_duplicator_register(&transforms_descriptions_head);
     }
 
-    return transform_descriptions_head;
+    return transforms_descriptions_head;
+}
+
+void init_transforms_descriptions()
+{
+    transforms_descriptions();
 }

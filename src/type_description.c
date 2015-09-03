@@ -17,3 +17,8 @@ type_description_ptr types_descriptions()
     return types_descriptions_head;
 }
 
+void init_types_descriptions()
+{
+    types_descriptions();
+}
+

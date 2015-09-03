@@ -22,7 +22,8 @@ void datum_extract_value(datum_cptr datum, void* dst)
     memcpy(dst, datum->bytes, datum->description->size);
 }
 
-void datum_remove(datum_ptr* datum_holder) {
+void datum_remove(datum_ptr* datum_holder)
+{
     free((*datum_holder)->bytes);
     free(*datum_holder);
     *datum_holder = NULL;

@@ -10,7 +10,8 @@ typedef struct transform_type* transform_ptr;
 struct datum_type;
 typedef struct datum_type* datum_ptr;
 
-MACRO_STRUCTURE_DEFINITION(context) {
+MACRO_STRUCTURE_DEFINITION(context)
+{
     MACRO_VECTOR_DEFINITION(data, datum_ptr);
     MACRO_VECTOR_DEFINITION(transforms, transform_ptr);
 };

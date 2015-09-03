@@ -13,3 +13,4 @@ MACRO_STRUCTURE_DEFINITION(type_description)
 
 type_description_ptr types_descriptions();
 
+void init_types_descriptions();

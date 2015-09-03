@@ -3,7 +3,8 @@
 #include "type_description.h"
 #include "utils.h"
 
-MACRO_STRUCTURE_DEFINITION(datum) {
+MACRO_STRUCTURE_DEFINITION(datum)
+{
     void* bytes;
     type_description_ptr description;
 };
