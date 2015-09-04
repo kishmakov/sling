@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-static const char* format = "{\"transforms\": [%s], \"data\": [%s]}";
+static const char* format = "{\"data\": [%s], \"transforms\": [%s]}";
 
 char* scheme_description(const char * data, const char * transforms)
 {

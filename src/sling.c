@@ -1,5 +1,6 @@
 #include "context.h"
 #include "init.h"
+#include "transforms/int32_addition.h"
 #include "transforms/int32_duplicator.h"
 #include "types/int32.h"
 
@@ -7,33 +8,31 @@
 #include <stdio.h>
 #include <memory.h>
 
-datum_ptr sum_int32_datums(datum_ptr* datum_holder_1, datum_ptr* datum_holder_2)
-{
-    int32_t value1 = int32_datum_extract(*datum_holder_1);
-    int32_t value2 = int32_datum_extract(*datum_holder_2);
-
-    datum_remove(datum_holder_1);
-    datum_remove(datum_holder_2);
-
-    return int32_datum_create(value1 + value2);
-}
-
 void test1()
 {
-    int32_t v1 = 1023;
-    int32_t v2 = 10000;
+    int32_t v0 = 1023;
+    int32_t v1 = 10000;
 
-    datum_ptr d1 = int32_datum_create(v1);
-    datum_ptr d2 = int32_datum_create(v2);
+    context_ptr input = context_create(2, 0);
+    input->data[0] = int32_datum_create(v0);
+    input->data[1] = int32_datum_create(v1);
 
-    datum_ptr ds = sum_int32_datums(&d1, &d2);
+    transform_ptr addition = int32_addition_create();
 
-    assert(d1 == NULL && d2 == NULL);
+    printf("t1: input: %s\n", addition->description->input_scheme);
+    printf("t1: output: %s\n", addition->description->output_scheme);
+    printf("t1: profile: %s\n", addition->description->profile);
 
-    int32_t res = int32_datum_extract(ds);
-    datum_remove(&ds);
+    context_ptr output = int32_addition_func(addition, input);
 
-    printf("%d = %d + %d =?= %d\n", v1 + v2, v1, v2, res);
+    assert(output->data_size == 1);
+
+    int32_t vres = int32_datum_extract(output->data[0]);
+    datum_remove(&(output->data[0]));
+
+    assert(input->data[0] == NULL && input->data[1] == NULL);
+
+    printf("%d = %d + %d =?= %d\n", v0 + v1, v0, v1, vres);
 }
 
 void test2()
@@ -45,12 +44,19 @@ void test2()
 
     transform_ptr duplicator = int32_duplicator_create();
 
+    printf("t2: input: %s\n", duplicator->description->input_scheme);
+    printf("t2: output: %s\n", duplicator->description->output_scheme);
+    printf("t2: profile: %s\n", duplicator->description->profile);
+
     context_ptr output = int32_duplicator_func(duplicator, input);
 
     assert(output->data_size == 2);
 
     int32_t v1 = int32_datum_extract(output->data[0]);
     int32_t v2 = int32_datum_extract(output->data[1]);
+    datum_remove(&(output->data[0]));
+    datum_remove(&(output->data[1]));
+
 
     printf("%d -> {%d, %d}\n", v, v1, v2);
 }

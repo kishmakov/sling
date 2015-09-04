@@ -13,8 +13,8 @@ static const char* int32_duplicator_profile = "int32_dupl";
 
 void int32_duplicator_register(transform_description_ptr* head)
 {
-    int32_duplicator_input = scheme_description("", "{\"int32\": 1}");
-    int32_duplicator_output = scheme_description("", "{\"int32\": 1}, {\"int32\": 1}");
+    int32_duplicator_input = scheme_description("{\"int32\": 1}", "");
+    int32_duplicator_output = scheme_description("{\"int32\": 1}, {\"int32\": 1}", "");
 
     int32_duplicator_description = malloc(sizeof(transform_description_type));
     int32_duplicator_description->input_scheme = int32_duplicator_input;
