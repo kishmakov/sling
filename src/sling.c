@@ -2,7 +2,9 @@
 #include "init.h"
 #include "transforms/int32_addition.h"
 #include "transforms/int32_duplicator.h"
+#include "transforms/int32_to_double.h"
 #include "types/int32.h"
+#include "types/double.h"
 
 #include <assert.h>
 #include <stdio.h>
@@ -25,6 +27,8 @@ void test1()
 
     context_ptr output = int32_addition_func(addition, input);
 
+    assert(input->data[0] == NULL);
+    assert(input->data[1] == NULL);
     assert(output->data_size == 1);
 
     int32_t vres = int32_datum_extract(output->data[0]);
@@ -50,6 +54,7 @@ void test2()
 
     context_ptr output = int32_duplicator_func(duplicator, input);
 
+    assert(input->data[0] == NULL);
     assert(output->data_size == 2);
 
     int32_t v1 = int32_datum_extract(output->data[0]);
@@ -61,12 +66,38 @@ void test2()
     printf("%d -> {%d, %d}\n", v, v1, v2);
 }
 
+void test3()
+{
+    int32_t vi = 239;
+
+    context_ptr input = context_create(1, 0);
+    input->data[0] = int32_datum_create(vi);
+
+    transform_ptr converter = int32_to_double_create();
+
+    printf("t3: input: %s\n", converter->description->input_scheme);
+    printf("t3: output: %s\n", converter->description->output_scheme);
+    printf("t3: profile: %s\n", converter->description->profile);
+
+    context_ptr output = int32_to_double_func(converter, input);
+
+    assert(input->data[0] == NULL);
+    assert(output->data_size == 1);
+
+    double vd = double_datum_extract(output->data[0]);
+    datum_remove(&(output->data[0]));
+
+    printf("%d -> %f\n", vi, vd);
+}
+
+
 int main(int argc, char ** argv)
 {
     init();
 
     test1();
     test2();
+    test3();
 
     return 0;
 }

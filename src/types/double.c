@@ -1,5 +1,6 @@
 #include "types/double.h"
 
+#include <assert.h>
 #include <stdlib.h>
 
 static type_description_ptr double_type_description = NULL;
@@ -17,4 +18,13 @@ void double_type_register(type_description_ptr* head) {
 
 datum_ptr double_datum_create(double value) {
     return datum_create(double_type_description, (const void*) &value);
+}
+
+double double_datum_extract(datum_cptr datum)
+{
+    assert(datum->description == double_type_description);
+
+    double result;
+    datum_extract_value(datum, &result);
+    return result;
 }
