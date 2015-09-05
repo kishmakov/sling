@@ -11,12 +11,15 @@ OBJ_FILES = $(strip $(patsubst %.c, $(OBJ_DIR)/%.o, $(subst /,_,$(SOURCE_FILES))
 # options
 CC = clang-3.5
 CFLAGS = -O0 -g -fPIC -std=c11 $(WARNING_FLAGS) $(addprefix -I, $(INCLUDES))
+CFLAGS += -D DIAGNOSTIC_ON
 LFLAGS = -pthread
 
 # Main Targets
 ##############
 
 all: verbose-link
+
+diagnostic: defdiagnostic verbose-link
 
 clean:
 	@rm -rf $(OBJ_DIR)

@@ -95,6 +95,10 @@ int main(int argc, char ** argv)
 {
     init();
 
+#ifdef DIAGNOSTIC_ON
+    printf("Diagnotic mode is turn on.\n");
+#endif
+
     test1();
     test2();
     test3();
