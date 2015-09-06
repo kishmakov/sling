@@ -1,14 +1,14 @@
 #include "init.h"
 
-#include "diagnostic.h"
-#include "log.h"
 #include "transform_description.h"
 #include "type_description.h"
+#include "utils/diagnostic.h"
+#include "utils/log.h"
 
 void init()
 {
 #ifdef DIAGNOSTIC_MODE
-    LOG_INFO("Diagnostic mode is turn on.");
+    LOG_INFO("Diagnostic mode is turned on.");
 #endif
 
     init_types_descriptions();
