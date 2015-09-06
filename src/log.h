@@ -11,9 +11,23 @@
 
 #if LOGLEVEL >= LOGLEVEL_INFO
 #define LOG_INFO(format, ...) \
-printf(format "\n", ## __VA_ARGS__)
+printf("INFO: " format "\n", ## __VA_ARGS__)
 #else
 #define LOG_INFO(format, ...)
+#endif
+
+#if LOGLEVEL >= LOGLEVEL_WARNING
+#define LOG_WARNING(format, ...) \
+printf("WARNING: " format "\n", ## __VA_ARGS__)
+#else
+#define LOG_WARNING(format, ...)
+#endif
+
+#if LOGLEVEL >= LOGLEVEL_ERROR
+#define LOG_ERROR(format, ...) \
+printf("ERROR: " format "\n", ## __VA_ARGS__)
+#else
+#define LOG_ERROR(format, ...)
 #endif
 
 #endif
