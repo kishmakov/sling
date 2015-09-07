@@ -17,4 +17,7 @@ type_name* name
 name ## _size = requested_size; \
 name = requested_size > 0 ? malloc(sizeof(type_name) * requested_size) : NULL
 
+#define MACRO_STRINGIFY(value) #value
+#define MACRO_QUOTE(value) MACRO_STRINGIFY(value)
+
 char* scheme_description(const char * data, const char * transforms);

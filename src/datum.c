@@ -1,6 +1,6 @@
 #include "datum.h"
 
-#include "utils/diagnostic.h"
+#include "utils/diagnostics.h"
 #include "utils/log.h"
 
 #include <assert.h>
