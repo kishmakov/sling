@@ -32,7 +32,7 @@ void test1()
     assert(output->data_size == 1);
 
     int32_t vres = int32_datum_extract(output->data[0]);
-    datum_remove(&(output->data[0]));
+    datum_delete(&(output->data[0]));
 
     assert(input->data[0] == NULL && input->data[1] == NULL);
 
@@ -59,8 +59,8 @@ void test2()
 
     int32_t v1 = int32_datum_extract(output->data[0]);
     int32_t v2 = int32_datum_extract(output->data[1]);
-    datum_remove(&(output->data[0]));
-    datum_remove(&(output->data[1]));
+    datum_delete(&(output->data[0]));
+    datum_delete(&(output->data[1]));
 
 
     printf("%d -> {%d, %d}\n", v, v1, v2);
@@ -85,7 +85,7 @@ void test3()
     assert(output->data_size == 1);
 
     double vd = double_datum_extract(output->data[0]);
-    datum_remove(&(output->data[0]));
+    datum_delete(&(output->data[0]));
 
     printf("%d -> %f\n", vi, vd);
 }
@@ -93,11 +93,18 @@ void test3()
 
 int main(int argc, char ** argv)
 {
-    init();
+    const char * log_file_name = NULL;
+
+    if (argc == 2)
+        log_file_name = argv[1];
+
+    init(log_file_name);
 
     test1();
     test2();
     test3();
+
+    fini();
 
     return 0;
 }

@@ -17,7 +17,7 @@ MACRO_STRUCTURE_DEFINITION(transmitter) {
 
 transmitter_ptr transmitter_create(uint32_t data_size, uint32_t transforms_size);
 
-void transmitter_remove(transmitter_ptr* transmitter_holder);
+void transmitter_delete(transmitter_ptr* transmitter_holder);
 
 void transmit(transmitter_cptr transmitter, context_ptr dst, context_ptr src);
 

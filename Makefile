@@ -1,9 +1,3 @@
-#log levels
-LOG_LEVEL_NONE=0
-LOG_LEVEL_ERROR=1
-LOG_LEVEL_WARNING=2
-LOG_LEVEL_INFO=3
-
 # dirs
 INCLUDES = src
 OBJ_DIR = obj
@@ -17,9 +11,7 @@ OBJ_FILES = $(strip $(patsubst %.c, $(OBJ_DIR)/%.o, $(subst /,_,$(SOURCE_FILES))
 # options
 CC = clang-3.5
 CFLAGS = -O0 -g -fPIC -std=c11 $(WARNING_FLAGS) $(addprefix -I, $(INCLUDES))
-CFLAGS += -D DIAGNOSTIC_MODE
-CFLAGS += -D LOG_LEVEL=$(LOG_LEVEL_INFO)
-CFLAGS += -D LOG_FILE=log.txt
+# CFLAGS += -D NDEBUG
 LFLAGS = -pthread
 
 # Main Targets

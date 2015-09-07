@@ -1,3 +1,5 @@
 #pragma once
 
-void init();
+void init(const char * logging_file_name);
+
+void fini();

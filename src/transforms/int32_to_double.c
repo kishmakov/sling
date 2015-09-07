@@ -42,7 +42,7 @@ context_ptr int32_to_double_func(transform_ptr transform, context_ptr input)
     assert(transform->description == int32_to_double_description);
 
     int32_t val = int32_datum_extract(input->data[0]);
-    datum_remove(&(input->data[0]));
+    datum_delete(&(input->data[0]));
 
     context_ptr result = context_create(1, 0);
     result->data[0] = double_datum_create((double) val);

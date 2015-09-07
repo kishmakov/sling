@@ -1,14 +1,11 @@
 #include "utils/log.h"
 
-#include "utils/utils.h"
+#include "utils/diagnostics.h"
 
-FILE* logging_file = NULL;
+FILE* LOGGING_FILE = NULL;
 
-void init_logging()
+void init_logging(const char * logging_file_name)
 {
-#ifdef LOG_FILE
-    logging_file = fopen(MACRO_QUOTE(LOG_FILE), "a");
-#else
-    logging_file = stderr;
-#endif
+    if (logging_file_name != NULL)
+        LOGGING_FILE = fopen(logging_file_name, "a");
 }

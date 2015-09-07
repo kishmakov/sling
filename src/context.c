@@ -13,7 +13,7 @@ context_ptr context_create(uint32_t data_size, uint32_t transforms_size)
     return result;
 }
 
-void context_remove(context_ptr* context_holder)
+void context_delete(context_ptr* context_holder)
 {
     free((*context_holder)->data);
     free((*context_holder)->transforms);
