@@ -46,7 +46,7 @@ context_ptr int32_duplicator_func(transform_ptr transform, context_ptr* input_ho
     context_ptr result = context_create(2, 0);
 
     result->data[0] = input->data[0];
-    result->data[1] = int32_datum_create(int32_datum_extract(input->data[0]));
+    result->data[1] = datum_copy(input->data[0]);
 
     input->data[0] = NULL;
     context_delete(input_holder);

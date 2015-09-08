@@ -8,7 +8,7 @@
 
 DEBUG(allocation_list_ptr allocated_datums = NULL);
 
-datum_ptr datum_create(type_description_ptr description, const void* src)
+datum_ptr datum_create(type_description_cptr description, const void* src)
 {
     assert(description != NULL); // description registred?
     assert(description->size > 0); // data types must contain something
@@ -33,6 +33,11 @@ void datum_delete(datum_ptr* datum_holder)
     free(*datum_holder);
     *datum_holder = NULL;
 };
+
+datum_ptr datum_copy(datum_cptr datum)
+{
+    return datum_create(datum->description, datum->bytes);
+}
 
 void datum_extract_value(datum_cptr datum, void* dst)
 {
