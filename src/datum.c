@@ -6,7 +6,7 @@
 #include <memory.h>
 #include <stdlib.h>
 
-DIAG(allocation_list_ptr allocated_datums);
+DEBUG(allocation_list_ptr allocated_datums = NULL);
 
 datum_ptr datum_create(type_description_ptr description, const void* src)
 {
@@ -18,7 +18,7 @@ datum_ptr datum_create(type_description_ptr description, const void* src)
     if (src != NULL)
         memcpy(result->bytes, src, description->size);
 
-    DIAG(allocation_list_insert(&allocated_datums, result));
+    DEBUG(allocation_list_insert(&allocated_datums, result));
     LOG("datum created @ %zu.", (size_t) result);
 
     return result;
@@ -26,8 +26,8 @@ datum_ptr datum_create(type_description_ptr description, const void* src)
 
 void datum_delete(datum_ptr* datum_holder)
 {
-    DIAG(allocation_list_remove(&allocated_datums, *datum_holder));
-    LOG("datum removed @ %zu.", (size_t) *datum_holder);
+    DEBUG(allocation_list_remove(&allocated_datums, *datum_holder));
+    LOG("datum deleted @ %zu.", (size_t) *datum_holder);
 
     free((*datum_holder)->bytes);
     free(*datum_holder);

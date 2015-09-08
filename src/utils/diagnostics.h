@@ -1,11 +1,11 @@
 #pragma once
 
 #ifndef NDEBUG
-#define DIAG_MODE 1
-#define DIAG(argument) argument
+#define DEBUG_MODE 1
+#define DEBUG(argument) argument
 #else
-#define DIAG_MODE 0
-#define DIAG(argument)
+#define DEBUG_MODE 0
+#define DEBUG(argument)
 #endif
 
 #include <assert.h>

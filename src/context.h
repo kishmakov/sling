@@ -1,8 +1,11 @@
 #pragma once
 
+#include "utils/diagnostics.h"
 #include "utils/utils.h"
 
 #include <stdint.h>
+
+DEBUG(extern allocation_list_ptr allocated_contexts);
 
 struct transform_type;
 typedef struct transform_type* transform_ptr;

@@ -34,7 +34,11 @@ transform_ptr int32_duplicator_create()
     return result;
 }
 
-context_ptr int32_duplicator_func(transform_ptr transform, context_ptr input) {
+context_ptr int32_duplicator_func(transform_ptr transform, context_ptr* input_holder)
+{
+    assert(input_holder != NULL);
+    context_ptr input = *input_holder;
+
     assert(input->data_size == 1);
     assert(input->transforms_size == 0);
     assert(transform->description == int32_duplicator_description);
@@ -45,5 +49,7 @@ context_ptr int32_duplicator_func(transform_ptr transform, context_ptr input) {
     result->data[1] = int32_datum_create(int32_datum_extract(input->data[0]));
 
     input->data[0] = NULL;
+    context_delete(input_holder);
+
     return result;
 }

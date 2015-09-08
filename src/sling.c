@@ -25,16 +25,14 @@ void test1()
     printf("t1: output: %s\n", addition->description->output_scheme);
     printf("t1: profile: %s\n", addition->description->profile);
 
-    context_ptr output = int32_addition_func(addition, input);
+    context_ptr output = int32_addition_func(addition, &input);
 
-    assert(input->data[0] == NULL);
-    assert(input->data[1] == NULL);
+    assert(input == NULL);
     assert(output->data_size == 1);
 
     int32_t vres = int32_datum_extract(output->data[0]);
     datum_delete(&(output->data[0]));
-
-    assert(input->data[0] == NULL && input->data[1] == NULL);
+    context_delete(&output);
 
     printf("%d = %d + %d =?= %d\n", v0 + v1, v0, v1, vres);
 }
@@ -52,16 +50,16 @@ void test2()
     printf("t2: output: %s\n", duplicator->description->output_scheme);
     printf("t2: profile: %s\n", duplicator->description->profile);
 
-    context_ptr output = int32_duplicator_func(duplicator, input);
+    context_ptr output = int32_duplicator_func(duplicator, &input);
 
-    assert(input->data[0] == NULL);
+    assert(input == NULL);
     assert(output->data_size == 2);
 
     int32_t v1 = int32_datum_extract(output->data[0]);
     int32_t v2 = int32_datum_extract(output->data[1]);
     datum_delete(&(output->data[0]));
     datum_delete(&(output->data[1]));
-
+    context_delete(&output);
 
     printf("%d -> {%d, %d}\n", v, v1, v2);
 }
@@ -79,13 +77,14 @@ void test3()
     printf("t3: output: %s\n", converter->description->output_scheme);
     printf("t3: profile: %s\n", converter->description->profile);
 
-    context_ptr output = int32_to_double_func(converter, input);
+    context_ptr output = int32_to_double_func(converter, &input);
 
-    assert(input->data[0] == NULL);
+    assert(input == NULL);
     assert(output->data_size == 1);
 
     double vd = double_datum_extract(output->data[0]);
     datum_delete(&(output->data[0]));
+    context_delete(&output);
 
     printf("%d -> %f\n", vi, vd);
 }
