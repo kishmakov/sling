@@ -1,8 +1,8 @@
 #include "utils/allocation_list.h"
 
-#include "utils/diagnostics.h"
 #include "utils/log.h"
 
+#include <assert.h>
 #include <stdlib.h>
 #include <string.h>
 

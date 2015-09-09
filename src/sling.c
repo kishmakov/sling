@@ -5,6 +5,7 @@
 #include "transforms/int32_to_double.h"
 #include "types/int32.h"
 #include "types/double.h"
+#include "utils/trie.h"
 
 #include <assert.h>
 #include <stdio.h>
@@ -89,6 +90,34 @@ void test3()
     printf("%d -> %f\n", vi, vd);
 }
 
+void test4()
+{
+    char* s[] = {"abacaba", "aba", "abba", "baba"};
+    int v[] = {1, 2, 3, 4};
+
+    trie test_trie = NULL;
+
+    for (int i = 0; i < 4; i++)
+        trie_insert(&test_trie, s[i], &v[i]);
+
+    for (int i = 0; i < 4; i++)
+        assert(&v[i] == trie_check(&test_trie, s[i]));
+
+    assert(&v[0] == trie_remove(&test_trie, s[0]));
+    assert(NULL == trie_remove(&test_trie, s[0]));
+    assert(&v[3] == trie_remove(&test_trie, s[3]));
+    assert(NULL == trie_remove(&test_trie, s[3]));
+
+    void* vv[] = {NULL, &v[1], &v[2], NULL};
+
+    for (int i = 0; i < 4; i++)
+        assert(vv[i] == trie_check(&test_trie, s[i]));
+
+    assert(&v[1] == trie_remove(&test_trie, s[1]));
+    assert(NULL == trie_remove(&test_trie, s[1]));
+    assert(&v[2] == trie_remove(&test_trie, s[2]));
+    assert(NULL == trie_remove(&test_trie, s[2]));
+}
 
 int main(int argc, char ** argv)
 {
@@ -102,6 +131,7 @@ int main(int argc, char ** argv)
     test1();
     test2();
     test3();
+    test4();
 
     fini();
 
