@@ -9,6 +9,8 @@ MACRO_STRUCTURE_DEFINITION(allocation_list_node)
     allocation_list_node_ptr next;
 };
 
-void allocation_list_insert(allocation_list_node_ptr* head_holder, const void* address);
-void allocation_list_remove(allocation_list_node_ptr* head_holder, const void* address);
-void allocation_list_to_string(allocation_list_node_cptr head_holder, char* buffer, int max_size);
+typedef allocation_list_node_ptr allocation_list;
+
+void allocation_list_insert(allocation_list* list, const void* address);
+void allocation_list_remove(allocation_list* list, const void* address);
+void allocation_list_to_string(const allocation_list* list, char* buffer, int max_size);

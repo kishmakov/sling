@@ -28,13 +28,13 @@ void fini()
 
     if (allocated_datums != NULL) {
         sprintf(buffer, "Remaining datums at addresses: ");
-        allocation_list_to_string(allocated_datums, buffer, MAX_MESSAGE_SIZE);
+        allocation_list_to_string(&allocated_datums, buffer, MAX_MESSAGE_SIZE);
         LOG("%s", buffer);
     }
 
     if (allocated_contexts != NULL) {
         sprintf(buffer, "Remaining contexts at addresses: ");
-        allocation_list_to_string(allocated_contexts, buffer, MAX_MESSAGE_SIZE);
+        allocation_list_to_string(&allocated_contexts, buffer, MAX_MESSAGE_SIZE);
         LOG("%s", buffer);
     }
 

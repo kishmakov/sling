@@ -5,7 +5,7 @@
 #include <memory.h>
 #include <stdlib.h>
 
-DEBUG(allocation_list_node_ptr allocated_datums = NULL);
+DEBUG(allocation_list allocated_datums = NULL);
 
 datum_ptr datum_create(type_description_cptr description, const void* src)
 {
