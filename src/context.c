@@ -1,7 +1,7 @@
 #include "context.h"
 
-#include "datum.h"
 #include "transform.h"
+#include "types/datum.h"
 #include "utils/log.h"
 
 #include <stdlib.h>

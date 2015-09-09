@@ -1,6 +1,6 @@
 #pragma once
 
-#include "datum.h"
+#include "types/datum.h"
 
 void int32_type_register(type_description_ptr* head);
 

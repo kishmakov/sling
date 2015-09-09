@@ -1,9 +1,9 @@
 #include "init.h"
 
 #include "context.h"
-#include "datum.h"
 #include "transform_description.h"
-#include "type_description.h"
+#include "types/datum.h"
+#include "types/type_description.h"
 #include "utils/diagnostics.h"
 #include "utils/log.h"
 

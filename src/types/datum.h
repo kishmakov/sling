@@ -1,6 +1,6 @@
 #pragma once
 
-#include "type_description.h"
+#include "types/type_description.h"
 #include "utils/diagnostics.h"
 #include "utils/utils.h"
 
