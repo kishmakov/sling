@@ -2,16 +2,16 @@
 
 #include "utils/log.h"
 
-#include <assert.h>
 #include <memory.h>
 #include <stdlib.h>
 
-DEBUG(allocation_list_ptr allocated_datums = NULL);
+DEBUG(allocation_list_node_ptr allocated_datums = NULL);
 
 datum_ptr datum_create(type_description_cptr description, const void* src)
 {
     assert(description != NULL); // description registred?
     assert(description->size > 0); // data types must contain something
+
     datum_ptr result = malloc(sizeof(datum_type));
     result->description = description;
     result->bytes = malloc(description->size);

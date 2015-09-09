@@ -11,7 +11,7 @@ void init(const char * logging_file_name)
 {
     init_logging(logging_file_name);
 
-    DEBUG(LOG("Diagnostic mode is turned on."));
+    DLOG("Diagnostic mode is turned on.");
 
     init_types_descriptions();
     init_transforms_descriptions();

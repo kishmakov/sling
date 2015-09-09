@@ -6,7 +6,7 @@
 
 #include <stdlib.h>
 
-DEBUG(allocation_list_ptr allocated_contexts = NULL);
+DEBUG(allocation_list_node_ptr allocated_contexts = NULL);
 
 context_ptr context_create(uint32_t data_size, uint32_t transforms_size)
 {
