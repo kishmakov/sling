@@ -4,6 +4,8 @@ compiler:
   - clang
   - gcc
 
+script: make && make test
+
 before_install:
   - wget http://ftp.ru.debian.org/debian/pool/main/c/cmocka/libcmocka0_1.0.1-2_amd64.deb
   - wget http://ftp.ru.debian.org/debian/pool/main/c/cmocka/libcmocka-dev_1.0.1-2_amd64.deb
