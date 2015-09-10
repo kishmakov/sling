@@ -19,6 +19,7 @@ OBJ_FILES = $(strip $(patsubst %.c, $(OBJ_DIR)/%.o, $(subst /,_,$(SRC_FILES))))
 TST_OBJ_FILES = $(strip $(patsubst %.c, $(OBJ_DIR)/%.o, $(subst /,_,$(TST_SRC_FILES))))
 
 # options
+# CC ?= gcc
 CC = clang-3.5
 COMMON_CFLAGS = -O0 -g -fPIC -std=c11 $(WARNING_FLAGS)
 # COMMON_CFLAGS += -D NDEBUG

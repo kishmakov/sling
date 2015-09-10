@@ -20,9 +20,10 @@ void sling_init(const char * logging_file_name)
     init_transforms_descriptions();
 }
 
+#define MAX_MESSAGE_SIZE 500
+
 void allocation_balance(allocation_list allocated_objects, const char * msg)
 {
-    static const int MAX_MESSAGE_SIZE = 500;
     static char buffer[MAX_MESSAGE_SIZE + 1];
 
     if (allocated_objects == NULL)
