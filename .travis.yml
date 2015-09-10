@@ -1,12 +1,8 @@
 language: c
 
-compiler:
-  - clang
-  - gcc
+compiler: clang
 
-script:
-  - $CC --version
-  - make && make test
+script: make && make test
 
 before_install:
   # cmocka
@@ -14,20 +10,3 @@ before_install:
   - wget http://ftp.ru.debian.org/debian/pool/main/c/cmocka/libcmocka-dev_1.0.1-2_amd64.deb
   - sudo dpkg -i libcmocka0_1.0.1-2_amd64.deb
   - sudo dpkg -i libcmocka-dev_1.0.1-2_amd64.deb
-  # g++4.8.1
-  - if [ "$CC" == "gcc" ]; then sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test; fi
-
-  # clang 3.5
-  - if [ "$CC" == "clang" ]; then sudo add-apt-repository -y ppa:h-rayflood/llvm; fi
-
-  - sudo apt-get update -qq
-
-install:
-  # g++4.8.1
-  - if [ "$CC" = "gcc" ]; then sudo apt-get install -qq gcc-4.8; fi
-  - if [ "$CC" = "gcc" ]; then export CC="gcc-4.8"; fi
-
-  # clang 3.4
-  - if [ "$CC" == "clang" ]; then sudo apt-get install --allow-unauthenticated -qq clang-3.5; fi
-  - if [ "$CC" == "clang" ]; then export CC="clang-3.5"; fi
-
