@@ -22,8 +22,8 @@ void transmitter_delete(transmitter_ptr* transmitter_holder)
     *transmitter_holder = NULL;
 };
 
-static_assert(sizeof(void*) == sizeof(transform_ptr), "Required for pointer independent code.");
-static_assert(sizeof(void*) == sizeof(datum_ptr), "Required for pointer independent code.");
+// static_assert(sizeof(void*) == sizeof(transform_ptr), "Required for pointer independent code.");
+// static_assert(sizeof(void*) == sizeof(datum_ptr), "Required for pointer independent code.");
 
 typedef void** void_ptr_array;
 
