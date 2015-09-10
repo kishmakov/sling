@@ -4,7 +4,9 @@ compiler:
   - clang
   - gcc
 
-script: make && make test
+script:
+  - $CC --version
+  - make && make test
 
 before_install:
   # cmocka
@@ -26,6 +28,6 @@ install:
   - if [ "$CC" = "gcc" ]; then export CC="gcc-4.8"; fi
 
   # clang 3.4
-  - if [ "$CC" == "clang++" ]; then sudo apt-get install --allow-unauthenticated -qq clang-3.5; fi
-  - if [ "$CC" == "clang++" ]; then export CC="clang-3.5"; fi
+  - if [ "$CC" == "clang" ]; then sudo apt-get install --allow-unauthenticated -qq clang-3.5; fi
+  - if [ "$CC" == "clang" ]; then export CC="clang-3.5"; fi
 
