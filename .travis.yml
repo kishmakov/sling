@@ -1,6 +1,8 @@
 language: c
 
-compiler: clang
+compiler:
+  - gcc
+  - clang
 
 script: make && make test
 
