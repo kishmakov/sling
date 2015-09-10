@@ -1,4 +1,4 @@
-#include "init.h"
+#include "sling_init.h"
 
 #include "context.h"
 #include "transform_description.h"
@@ -8,7 +8,9 @@
 #include "utils/log.h"
 #include "utils/trie.h"
 
-void init(const char * logging_file_name)
+#include <string.h>
+
+void sling_init(const char * logging_file_name)
 {
     init_logging(logging_file_name);
 
@@ -31,7 +33,7 @@ void allocation_balance(allocation_list allocated_objects, const char * msg)
     LOG("%s", buffer);
 }
 
-void fini()
+void sling_fini()
 {
 #if DEBUG_MODE
     LOG("-------------------------------");
