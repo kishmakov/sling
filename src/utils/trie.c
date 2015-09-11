@@ -77,11 +77,9 @@ void* trie_remove(trie* node_holder, const char* tag)
 
         trie_node_ptr* next_ver = &((*node_holder)->ver);
         result = (*node_holder)->value;
+        (*node_holder)->value = *(++tag) == 0 ? NULL : result;
 
-        (*node_holder)->count--;
-        tag++;
-
-        if ((*node_holder)->count == 0) {
+        if (--(*node_holder)->count == 0) {
             assert((*node_holder)->value == NULL || *tag == 0);
             list_insert(&removed_nodes, *node_holder);
             *node_holder = (*node_holder)->hor;
