@@ -5,7 +5,7 @@
 #include <memory.h>
 #include <stdlib.h>
 
-DEBUG(allocation_list allocated_datums = NULL);
+DEBUG(allocation_list allocated_data = NULL);
 
 datum_ptr datum_create(type_description_cptr description, const void* src)
 {
@@ -18,7 +18,7 @@ datum_ptr datum_create(type_description_cptr description, const void* src)
     if (src != NULL)
         memcpy(result->bytes, src, description->size);
 
-    DEBUG(allocation_list_insert(&allocated_datums, result));
+    DEBUG(allocation_list_insert(&allocated_data, result));
     LOG("datum created @ %zu.", (size_t) result);
 
     return result;
@@ -26,7 +26,7 @@ datum_ptr datum_create(type_description_cptr description, const void* src)
 
 void datum_delete(datum_ptr* datum_holder)
 {
-    DEBUG(allocation_list_remove(&allocated_datums, *datum_holder));
+    DEBUG(allocation_list_remove(&allocated_data, *datum_holder));
     LOG("datum deleted @ %zu.", (size_t) *datum_holder);
 
     free((*datum_holder)->bytes);

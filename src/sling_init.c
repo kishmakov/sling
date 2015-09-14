@@ -39,7 +39,7 @@ void sling_fini()
 #if DEBUG_MODE
     LOG("-------------------------------");
 
-    allocation_balance(allocated_datums, "datum");
+    allocation_balance(allocated_data, "datum");
     allocation_balance(allocated_contexts, "context");
     allocation_balance(allocated_trie_nodes, "trie_node");
 #endif
