@@ -19,6 +19,6 @@ MACRO_STRUCTURE_DEFINITION(context)
     MACRO_VECTOR_DEFINITION(transforms, transform_ptr);
 };
 
-context_ptr context_create(uint32_t data_size, uint32_t transforms_size);
+context_ptr context_construct(uint32_t data_size, uint32_t transforms_size);
 
 void context_delete(context_ptr* context_holder);

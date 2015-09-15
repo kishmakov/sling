@@ -12,7 +12,7 @@ MACRO_STRUCTURE_DEFINITION(mind)
     mind_description_cptr description;
 };
 
-mind_ptr mind_create(mind_description_cptr description, const void* src);
+mind_ptr mind_construct(mind_description_cptr description, const void* src);
 
 void mind_delete(mind_ptr* mind_holder);
 

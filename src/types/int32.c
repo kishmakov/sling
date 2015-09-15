@@ -17,9 +17,9 @@ void int32_type_register(type_description_ptr* head)
     *head = int32_type_description;
 }
 
-datum_ptr int32_datum_create(int32_t value)
+datum_ptr int32_datum_construct(int32_t value)
 {
-    return datum_create(int32_type_description, (const void*) &value);
+    return datum_construct(int32_type_description, (const void*) &value);
 }
 
 int32_t int32_datum_extract(datum_cptr datum)

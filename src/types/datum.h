@@ -12,7 +12,7 @@ MACRO_STRUCTURE_DEFINITION(datum)
     type_description_cptr description;
 };
 
-datum_ptr datum_create(type_description_cptr description, const void* src);
+datum_ptr datum_construct(type_description_cptr description, const void* src);
 
 void datum_delete(datum_ptr* datum_holder);
 

@@ -16,8 +16,8 @@ void double_type_register(type_description_ptr* head) {
     *head = double_type_description;
 }
 
-datum_ptr double_datum_create(double value) {
-    return datum_create(double_type_description, (const void*) &value);
+datum_ptr double_datum_construct(double value) {
+    return datum_construct(double_type_description, (const void*) &value);
 }
 
 double double_datum_extract(datum_cptr datum)

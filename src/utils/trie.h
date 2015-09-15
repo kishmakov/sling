@@ -18,7 +18,7 @@ MACRO_STRUCTURE_DEFINITION(trie_node)
 
 typedef trie_node_ptr trie;
 
-trie_node_ptr trie_node_create(char code);
+trie_node_ptr trie_node_construct(char code);
 void trie_node_delete(trie_node_ptr* trie_node_holder);
 
 void  trie_insert(trie* trie_holder, const char* tag, void* value);

@@ -26,7 +26,7 @@ void int32_to_double_register(transform_description_ptr* head)
     *head = int32_to_double_description;
 }
 
-transform_ptr int32_to_double_create()
+transform_ptr int32_to_double_construct()
 {
     transform_ptr result = malloc(sizeof(transform_type));
     result->bytes = NULL;
@@ -48,8 +48,8 @@ context_ptr int32_to_double_func(transform_ptr transform, context_ptr* input_hol
     datum_delete(&(input->data[0]));
     context_delete(input_holder);
 
-    context_ptr result = context_create(1, 0);
-    result->data[0] = double_datum_create((double) val);
+    context_ptr result = context_construct(1, 0);
+    result->data[0] = double_datum_construct((double) val);
 
     return result;
 }

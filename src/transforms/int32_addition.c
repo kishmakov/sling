@@ -25,7 +25,7 @@ void int32_addition_register(transform_description_ptr* head)
     *head = int32_addition_description;
 }
 
-transform_ptr int32_addition_create()
+transform_ptr int32_addition_construct()
 {
     transform_ptr result = malloc(sizeof(transform_type));
     result->bytes = NULL;
@@ -49,8 +49,8 @@ context_ptr int32_addition_func(transform_ptr transform, context_ptr* input_hold
     datum_delete(&(input->data[1]));
     context_delete(input_holder);
 
-    context_ptr result = context_create(1, 0);
-    result->data[0] = int32_datum_create(v0 + v1);
+    context_ptr result = context_construct(1, 0);
+    result->data[0] = int32_datum_construct(v0 + v1);
 
     return result;
 }

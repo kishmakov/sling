@@ -18,11 +18,11 @@ void run_int32_addition_tests(void **state)
     int32_t v0 = 1023;
     int32_t v1 = 10000;
 
-    context_ptr input = context_create(2, 0);
-    input->data[0] = int32_datum_create(v0);
-    input->data[1] = int32_datum_create(v1);
+    context_ptr input = context_construct(2, 0);
+    input->data[0] = int32_datum_construct(v0);
+    input->data[1] = int32_datum_construct(v1);
 
-    transform_ptr addition = int32_addition_create();
+    transform_ptr addition = int32_addition_construct();
 
     context_ptr output = int32_addition_func(addition, &input);
 
@@ -42,10 +42,10 @@ void run_int32_duplicator_tests(void **state)
 
     int32_t v = 239;
 
-    context_ptr input = context_create(1, 0);
-    input->data[0] = int32_datum_create(v);
+    context_ptr input = context_construct(1, 0);
+    input->data[0] = int32_datum_construct(v);
 
-    transform_ptr duplicator = int32_duplicator_create();
+    transform_ptr duplicator = int32_duplicator_construct();
     context_ptr output = int32_duplicator_func(duplicator, &input);
 
     assert_null(input);
@@ -67,10 +67,10 @@ void run_int32_to_double_tests(void **state)
 
     int32_t vi = 239;
 
-    context_ptr input = context_create(1, 0);
-    input->data[0] = int32_datum_create(vi);
+    context_ptr input = context_construct(1, 0);
+    input->data[0] = int32_datum_construct(vi);
 
-    transform_ptr converter = int32_to_double_create();
+    transform_ptr converter = int32_to_double_construct();
 
     context_ptr output = int32_to_double_func(converter, &input);
 

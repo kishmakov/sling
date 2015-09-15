@@ -7,7 +7,7 @@
 
 DEBUG(allocation_list allocated_minds = NULL);
 
-mind_ptr mind_create(mind_description_cptr description, const void* src)
+mind_ptr mind_construct(mind_description_cptr description, const void* src)
 {
     assert(description != NULL); // description registred?
 
@@ -18,7 +18,7 @@ mind_ptr mind_create(mind_description_cptr description, const void* src)
         memcpy(result->bytes, src, description->size);
 
     DEBUG(allocation_list_insert(&allocated_minds, result));
-    LOG("mind created @ %zu.", (size_t) result);
+    LOG("mind constructd @ %zu.", (size_t) result);
 
     return result;
 }
@@ -35,5 +35,5 @@ void mind_delete(mind_ptr* mind_holder)
 
 mind_ptr mind_copy(mind_cptr mind)
 {
-    return mind_create(mind->description, mind->bytes);
+    return mind_construct(mind->description, mind->bytes);
 }

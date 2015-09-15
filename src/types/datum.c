@@ -7,7 +7,7 @@
 
 DEBUG(allocation_list allocated_data = NULL);
 
-datum_ptr datum_create(type_description_cptr description, const void* src)
+datum_ptr datum_construct(type_description_cptr description, const void* src)
 {
     assert(description != NULL); // description registred?
     assert(description->size > 0); // data types must contain something
@@ -19,7 +19,7 @@ datum_ptr datum_create(type_description_cptr description, const void* src)
         memcpy(result->bytes, src, description->size);
 
     DEBUG(allocation_list_insert(&allocated_data, result));
-    LOG("datum created @ %zu.", (size_t) result);
+    LOG("datum constructd @ %zu.", (size_t) result);
 
     return result;
 }
@@ -36,7 +36,7 @@ void datum_delete(datum_ptr* datum_holder)
 
 datum_ptr datum_copy(datum_cptr datum)
 {
-    return datum_create(datum->description, datum->bytes);
+    return datum_construct(datum->description, datum->bytes);
 }
 
 void datum_extract_value(datum_cptr datum, void* dst)

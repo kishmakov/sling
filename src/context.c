@@ -8,14 +8,14 @@
 
 DEBUG(allocation_list allocated_contexts = NULL);
 
-context_ptr context_create(uint32_t data_size, uint32_t transforms_size)
+context_ptr context_construct(uint32_t data_size, uint32_t transforms_size)
 {
     context_ptr result = malloc(sizeof(context_type));
     MACRO_VECTOR_ALLOCATE(result->data, datum_ptr, data_size);
     MACRO_VECTOR_ALLOCATE(result->transforms, transform_ptr, transforms_size);
 
     DEBUG(allocation_list_insert(&allocated_contexts, result));
-    LOG("context created @ %zu.", (size_t) result);
+    LOG("context constructd @ %zu.", (size_t) result);
 
     return result;
 }

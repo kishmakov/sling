@@ -6,7 +6,7 @@
 #include <assert.h>
 #include <stdlib.h>
 
-transmitter_ptr transmitter_create(uint32_t data_size, uint32_t transforms_size)
+transmitter_ptr transmitter_construct(uint32_t data_size, uint32_t transforms_size)
 {
     transmitter_ptr result = malloc(sizeof(transmitter_type));
     MACRO_VECTOR_ALLOCATE(result->data_maps, id_map_type, data_size);

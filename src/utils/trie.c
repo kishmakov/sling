@@ -6,7 +6,7 @@
 
 DEBUG(allocation_list_node_ptr allocated_trie_nodes = NULL);
 
-trie_node_ptr trie_node_create(char code)
+trie_node_ptr trie_node_construct(char code)
 {
     trie_node_ptr result = malloc(sizeof(trie_node_type));
     result->ver = NULL;
@@ -44,7 +44,7 @@ void trie_insert(trie* node_holder, const char* tag, void* value)
             node_holder = &((*node_holder)->hor);
 
         if (*node_holder == NULL)
-            *node_holder = trie_node_create(*tag);
+            *node_holder = trie_node_construct(*tag);
 
         (*node_holder)->count++;
 

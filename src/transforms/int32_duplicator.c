@@ -25,7 +25,7 @@ void int32_duplicator_register(transform_description_ptr* head)
     *head = int32_duplicator_description;
 }
 
-transform_ptr int32_duplicator_create()
+transform_ptr int32_duplicator_construct()
 {
     transform_ptr result = malloc(sizeof(transform_type));
     result->bytes = NULL;
@@ -43,7 +43,7 @@ context_ptr int32_duplicator_func(transform_ptr transform, context_ptr* input_ho
     assert(input->transforms_size == 0);
     assert(transform->description == int32_duplicator_description);
 
-    context_ptr result = context_create(2, 0);
+    context_ptr result = context_construct(2, 0);
 
     result->data[0] = input->data[0];
     result->data[1] = datum_copy(input->data[0]);
