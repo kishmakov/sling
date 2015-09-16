@@ -14,7 +14,7 @@ transmitter_ptr transmitter_construct(uint32_t data_size, uint32_t transforms_si
     return result;
 }
 
-void transmitter_delete(transmitter_ptr* transmitter_holder)
+void transmitter_destruct(transmitter_ptr* transmitter_holder)
 {
     free((*transmitter_holder)->data_maps);
     free((*transmitter_holder)->transforms_maps);

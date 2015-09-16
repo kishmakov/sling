@@ -22,10 +22,10 @@ void* list_pop_front(list* node_holder)
         return NULL;
 
     void* result = (*node_holder)->value;
-    list_node_ptr to_delete = *node_holder;
+    list_node_ptr to_destruct = *node_holder;
     *node_holder = (*node_holder)->next;
 
-    free(to_delete);
+    free(to_destruct);
 
     return result;
 }

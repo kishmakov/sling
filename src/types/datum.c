@@ -24,10 +24,10 @@ datum_ptr datum_construct(type_description_cptr description, const void* src)
     return result;
 }
 
-void datum_delete(datum_ptr* datum_holder)
+void datum_destruct(datum_ptr* datum_holder)
 {
     DEBUG(allocation_list_remove(&allocated_data, *datum_holder));
-    LOG("datum deleted @ %zu.", (size_t) *datum_holder);
+    LOG("datum destructd @ %zu.", (size_t) *datum_holder);
 
     free((*datum_holder)->bytes);
     free(*datum_holder);

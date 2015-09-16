@@ -5,12 +5,15 @@
 
 #include <stdint.h>
 
-struct trasform_type;
-typedef struct trasform_type* trasform_ptr;
-typedef const struct trasform_type* trasform_cptr;
+void init_transforms_descriptions();
 
-typedef context_ptr (*transform_func_ptr)(trasform_cptr transform, context_ptr input);
+struct transform_type;
+typedef struct transform_type* transform_ptr;
+typedef const struct transform_type* transform_cptr;
+
 typedef transform_ptr (*transform_constructor_ptr)(void);
+typedef void (*transform_destructor_ptr)(transform_ptr* transform_holder);
+typedef context_ptr (*transform_function_ptr)(transform_cptr transform, context_ptr* input_holder);
 
 MACRO_STRUCTURE_DEFINITION(transform_description)
 {
@@ -20,14 +23,13 @@ MACRO_STRUCTURE_DEFINITION(transform_description)
     const char * output_scheme;
     const char * profile;
 
-    // methods
+    // transform frame methods
 
-    transform_func_ptr function;
     transform_constructor_ptr construct;
+    transform_destructor_ptr destruct;
+    transform_function_ptr function;
 
 };
 
 transform_description_ptr transforms_descriptions();
-
-void init_transforms_descriptions();
 

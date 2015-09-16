@@ -7,25 +7,12 @@
 
 static transform_description_ptr int32_duplicator_description = NULL;
 
-static char* int32_duplicator_input = NULL;
-static char* int32_duplicator_output = NULL;
-static const char* int32_duplicator_profile = "int32_dupl";
-
-void int32_duplicator_register(transform_description_ptr* head)
+transform_description_cptr get_int32_duplicator_description()
 {
-    int32_duplicator_input = scheme_description("{\"int32\": 1}", "");
-    int32_duplicator_output = scheme_description("{\"int32\": 1}, {\"int32\": 1}", "");
-
-    int32_duplicator_description = malloc(sizeof(transform_description_type));
-    int32_duplicator_description->input_scheme = int32_duplicator_input;
-    int32_duplicator_description->output_scheme = int32_duplicator_output;
-    int32_duplicator_description->profile = int32_duplicator_profile;
-    int32_duplicator_description->next = *head;
-
-    *head = int32_duplicator_description;
+    return int32_duplicator_description;
 }
 
-transform_ptr int32_duplicator_construct()
+static transform_ptr int32_duplicator_construct()
 {
     transform_ptr result = malloc(sizeof(transform_type));
     result->bytes = NULL;
@@ -34,7 +21,7 @@ transform_ptr int32_duplicator_construct()
     return result;
 }
 
-context_ptr int32_duplicator_func(transform_ptr transform, context_ptr* input_holder)
+static context_ptr int32_duplicator_function(transform_cptr transform, context_ptr* input_holder)
 {
     assert(input_holder != NULL);
     context_ptr input = *input_holder;
@@ -49,7 +36,31 @@ context_ptr int32_duplicator_func(transform_ptr transform, context_ptr* input_ho
     result->data[1] = datum_copy(input->data[0]);
 
     input->data[0] = NULL;
-    context_delete(input_holder);
+    context_destruct(input_holder);
 
     return result;
 }
+
+
+static char* int32_duplicator_input = NULL;
+static char* int32_duplicator_output = NULL;
+static const char* int32_duplicator_profile = "int32_dupl";
+
+void int32_duplicator_register(transform_description_ptr* head)
+{
+    int32_duplicator_input = scheme_description("{\"int32\": 1}", "");
+    int32_duplicator_output = scheme_description("{\"int32\": 1}, {\"int32\": 1}", "");
+
+    int32_duplicator_description = malloc(sizeof(transform_description_type));
+    int32_duplicator_description->input_scheme = int32_duplicator_input;
+    int32_duplicator_description->output_scheme = int32_duplicator_output;
+    int32_duplicator_description->profile = int32_duplicator_profile;
+
+    int32_duplicator_description->construct = &int32_duplicator_construct;
+    int32_duplicator_description->destruct = NULL;
+    int32_duplicator_description->function = &int32_duplicator_function;
+
+    int32_duplicator_description->next = *head;
+    *head = int32_duplicator_description;
+}
+

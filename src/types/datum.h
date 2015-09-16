@@ -14,7 +14,7 @@ MACRO_STRUCTURE_DEFINITION(datum)
 
 datum_ptr datum_construct(type_description_cptr description, const void* src);
 
-void datum_delete(datum_ptr* datum_holder);
+void datum_destruct(datum_ptr* datum_holder);
 
 datum_ptr datum_copy(datum_cptr datum);
 

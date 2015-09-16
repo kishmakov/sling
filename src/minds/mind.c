@@ -23,10 +23,10 @@ mind_ptr mind_construct(mind_description_cptr description, const void* src)
     return result;
 }
 
-void mind_delete(mind_ptr* mind_holder)
+void mind_destruct(mind_ptr* mind_holder)
 {
     DEBUG(allocation_list_remove(&allocated_minds, *mind_holder));
-    LOG("mind deleted @ %zu.", (size_t) *mind_holder);
+    LOG("mind destructd @ %zu.", (size_t) *mind_holder);
 
     free((*mind_holder)->bytes);
     free(*mind_holder);

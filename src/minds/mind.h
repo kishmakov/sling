@@ -14,7 +14,7 @@ MACRO_STRUCTURE_DEFINITION(mind)
 
 mind_ptr mind_construct(mind_description_cptr description, const void* src);
 
-void mind_delete(mind_ptr* mind_holder);
+void mind_destruct(mind_ptr* mind_holder);
 
 mind_ptr mind_copy(mind_cptr mind);
 

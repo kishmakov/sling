@@ -20,10 +20,10 @@ context_ptr context_construct(uint32_t data_size, uint32_t transforms_size)
     return result;
 }
 
-void context_delete(context_ptr* context_holder)
+void context_destruct(context_ptr* context_holder)
 {
     DEBUG(allocation_list_remove(&allocated_contexts, *context_holder));
-    LOG("context deleted @ %zu.", (size_t) *context_holder);
+    LOG("context destructd @ %zu.", (size_t) *context_holder);
 
 #if DEBUG_MODE
     context_ptr context = *context_holder;

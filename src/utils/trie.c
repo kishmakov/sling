@@ -20,7 +20,7 @@ trie_node_ptr trie_node_construct(char code)
     return result;
 }
 
-void trie_node_delete(trie_node_ptr* node_holder)
+void trie_node_destruct(trie_node_ptr* node_holder)
 {
     DEBUG(allocation_list_remove(&allocated_trie_nodes, *node_holder));
 
@@ -95,7 +95,7 @@ void* trie_remove(trie* node_holder, const char* tag)
         node->value = NULL;
         node->ver = NULL;
         node->hor = NULL;
-        trie_node_delete(&node);
+        trie_node_destruct(&node);
         assert(node == NULL);
     }
 

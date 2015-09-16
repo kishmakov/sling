@@ -24,14 +24,14 @@ void run_int32_addition_tests(void **state)
 
     transform_ptr addition = int32_addition_construct();
 
-    context_ptr output = int32_addition_func(addition, &input);
+    context_ptr output = int32_addition_function(addition, &input);
 
     assert_null(input);
     assert_int_equal(output->data_size, 1);
 
     int32_t vres = int32_datum_extract(output->data[0]);
-    datum_delete(&(output->data[0]));
-    context_delete(&output);
+    datum_destruct(&(output->data[0]));
+    context_destruct(&output);
 
     assert_int_equal(v0 + v1, vres);
 }
@@ -45,17 +45,19 @@ void run_int32_duplicator_tests(void **state)
     context_ptr input = context_construct(1, 0);
     input->data[0] = int32_datum_construct(v);
 
-    transform_ptr duplicator = int32_duplicator_construct();
-    context_ptr output = int32_duplicator_func(duplicator, &input);
+    transform_description_cptr desc = get_int32_duplicator_description();
+
+    transform_ptr duplicator = transform_construct(desc);
+    context_ptr output = transform_function(duplicator, &input);
 
     assert_null(input);
     assert_int_equal(output->data_size, 2);
 
     int32_t v1 = int32_datum_extract(output->data[0]);
     int32_t v2 = int32_datum_extract(output->data[1]);
-    datum_delete(&(output->data[0]));
-    datum_delete(&(output->data[1]));
-    context_delete(&output);
+    datum_destruct(&(output->data[0]));
+    datum_destruct(&(output->data[1]));
+    context_destruct(&output);
 
     assert_int_equal(v, v1);
     assert_int_equal(v, v2);
@@ -72,14 +74,14 @@ void run_int32_to_double_tests(void **state)
 
     transform_ptr converter = int32_to_double_construct();
 
-    context_ptr output = int32_to_double_func(converter, &input);
+    context_ptr output = int32_to_double_function(converter, &input);
 
     assert_null(input);
     assert_int_equal(output->data_size, 1);
 
     double vd = double_datum_extract(output->data[0]);
-    datum_delete(&(output->data[0]));
-    context_delete(&output);
+    datum_destruct(&(output->data[0]));
+    context_destruct(&output);
     assert_true(fabs(vd - (double) vi) < 1e-10);
 }
 

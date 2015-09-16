@@ -31,9 +31,9 @@ void allocation_list_remove(allocation_list* node_holder, const void* address)
             continue;
         }
 
-        allocation_list_node_ptr to_delete = *node_holder;
+        allocation_list_node_ptr to_destruct = *node_holder;
         *node_holder = (*node_holder)->next;
-        free(to_delete);
+        free(to_destruct);
         count++;
     }
 

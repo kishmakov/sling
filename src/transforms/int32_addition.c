@@ -34,7 +34,7 @@ transform_ptr int32_addition_construct()
     return result;
 }
 
-context_ptr int32_addition_func(transform_ptr transform, context_ptr* input_holder)
+context_ptr int32_addition_function(transform_ptr transform, context_ptr* input_holder)
 {
     assert(input_holder != NULL);
     context_ptr input = *input_holder;
@@ -45,9 +45,9 @@ context_ptr int32_addition_func(transform_ptr transform, context_ptr* input_hold
 
     int32_t v0 = int32_datum_extract(input->data[0]);
     int32_t v1 = int32_datum_extract(input->data[1]);
-    datum_delete(&(input->data[0]));
-    datum_delete(&(input->data[1]));
-    context_delete(input_holder);
+    datum_destruct(&(input->data[0]));
+    datum_destruct(&(input->data[1]));
+    context_destruct(input_holder);
 
     context_ptr result = context_construct(1, 0);
     result->data[0] = int32_datum_construct(v0 + v1);
