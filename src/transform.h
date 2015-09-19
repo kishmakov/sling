@@ -3,6 +3,8 @@
 #include "transform_description.h"
 #include "utils/utils.h"
 
+DEBUG(extern allocation_list allocated_transforms);
+
 MACRO_STRUCTURE_DEFINITION(transform) {
     void* bytes;
     transform_description_ptr description;

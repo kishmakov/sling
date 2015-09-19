@@ -33,7 +33,7 @@ TST_LFLAGS = $(LFLAGS) -lcmocka
 
 all: verbose-sling
 
-test: verbose-sling verbose-test run-unit-test
+test: verbose-test run-unit-test
 
 clean:
 	@rm -rf $(OBJ_DIR)

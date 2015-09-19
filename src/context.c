@@ -4,6 +4,7 @@
 #include "types/datum.h"
 #include "utils/log.h"
 
+#include <assert.h>
 #include <stdlib.h>
 
 DEBUG(allocation_list allocated_contexts = NULL);
@@ -22,8 +23,11 @@ context_ptr context_construct(uint32_t data_size, uint32_t transforms_size)
 
 void context_destruct(context_ptr* context_holder)
 {
+    assert(context_holder != NULL);
+    assert(*context_holder != NULL);
+
     DEBUG(allocation_list_remove(&allocated_contexts, *context_holder));
-    LOG("context destructd @ %zu.", (size_t) *context_holder);
+    LOG("context destructed @ %zu.", (size_t) *context_holder);
 
 #if DEBUG_MODE
     context_ptr context = *context_holder;

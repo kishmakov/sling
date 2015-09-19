@@ -1,6 +1,7 @@
 #include "sling_init.h"
 
 #include "context.h"
+#include "transform.h"
 #include "transform_description.h"
 #include "types/datum.h"
 #include "types/type_description.h"
@@ -41,6 +42,7 @@ void sling_fini()
 
     allocation_balance(allocated_data, "datum");
     allocation_balance(allocated_contexts, "context");
+    allocation_balance(allocated_transforms, "transfrom");
     allocation_balance(allocated_trie_nodes, "trie_node");
 #endif
 }

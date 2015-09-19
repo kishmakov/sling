@@ -2,6 +2,7 @@
 
 #include "utils/log.h"
 
+#include <assert.h>
 #include <memory.h>
 #include <stdlib.h>
 
@@ -19,15 +20,22 @@ datum_ptr datum_construct(type_description_cptr description, const void* src)
         memcpy(result->bytes, src, description->size);
 
     DEBUG(allocation_list_insert(&allocated_data, result));
-    LOG("datum constructd @ %zu.", (size_t) result);
+    LOG("%s constructed @ %zu.", description->scheme, (size_t) result);
 
     return result;
 }
 
 void datum_destruct(datum_ptr* datum_holder)
 {
+    assert(datum_holder != NULL);
+    assert(*datum_holder != NULL);
+
+    type_description_cptr description = (*datum_holder)->description;
+
+    assert(description != NULL);
+
     DEBUG(allocation_list_remove(&allocated_data, *datum_holder));
-    LOG("datum destructd @ %zu.", (size_t) *datum_holder);
+    LOG("%s destructed @ %zu.", description->scheme, (size_t) *datum_holder);
 
     free((*datum_holder)->bytes);
     free(*datum_holder);

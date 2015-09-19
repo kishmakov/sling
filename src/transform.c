@@ -3,19 +3,25 @@
 #include <assert.h>
 #include <stdlib.h>
 
+DEBUG(allocation_list allocated_transforms = NULL);
+
 transform_ptr transform_construct(transform_description_cptr description)
 {
     assert(description->construct != NULL);
-    return description->construct();
+    transform_ptr result = description->construct();
+    return result;
 }
 
 void transform_destruct(transform_ptr* transform_holder)
 {
     assert(transform_holder != NULL);
     assert(*transform_holder != NULL);
-    assert((*transform_holder)->description != NULL);
-    assert((*transform_holder)->description->destruct != NULL);
-    (*transform_holder)->description->destruct(transform_holder);
+
+    transform_description_cptr description = (*transform_holder)->description;
+
+    assert(description != NULL);
+    assert(description->destruct != NULL);
+    description->destruct(transform_holder);
     assert(*transform_holder == NULL);
 }
 
