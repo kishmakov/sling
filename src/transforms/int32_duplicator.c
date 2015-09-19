@@ -7,18 +7,22 @@
 
 static transform_description_ptr int32_duplicator_description = NULL;
 
-transform_description_cptr get_int32_duplicator_description()
-{
-    return int32_duplicator_description;
-}
-
-static transform_ptr int32_duplicator_construct()
+transform_ptr int32_duplicator_construct()
 {
     transform_ptr result = malloc(sizeof(transform_type));
     result->bytes = NULL;
     result->description = int32_duplicator_description;
 
     return result;
+}
+
+static void int32_duplicator_destruct(transform_ptr* transform_holder)
+{
+    assert(transform_holder != NULL);
+    assert(*transform_holder != NULL);
+    assert((*transform_holder)->description == int32_duplicator_description);
+    free(*transform_holder);
+    *transform_holder = NULL;
 }
 
 static context_ptr int32_duplicator_function(transform_cptr transform, context_ptr* input_holder)
@@ -57,7 +61,7 @@ void int32_duplicator_register(transform_description_ptr* head)
     int32_duplicator_description->profile = int32_duplicator_profile;
 
     int32_duplicator_description->construct = &int32_duplicator_construct;
-    int32_duplicator_description->destruct = NULL;
+    int32_duplicator_description->destruct = &int32_duplicator_destruct;
     int32_duplicator_description->function = &int32_duplicator_function;
 
     int32_duplicator_description->next = *head;

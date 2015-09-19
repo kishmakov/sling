@@ -10,4 +10,6 @@ MACRO_STRUCTURE_DEFINITION(transform) {
 
 transform_ptr transform_construct(transform_description_cptr description);
 
+void transform_destruct(transform_ptr* transform_holder);
+
 context_ptr transform_function(transform_cptr transform, context_ptr* input_holder);

@@ -11,10 +11,6 @@ struct transform_type;
 typedef struct transform_type* transform_ptr;
 typedef const struct transform_type* transform_cptr;
 
-typedef transform_ptr (*transform_constructor_ptr)(void);
-typedef void (*transform_destructor_ptr)(transform_ptr* transform_holder);
-typedef context_ptr (*transform_function_ptr)(transform_cptr transform, context_ptr* input_holder);
-
 MACRO_STRUCTURE_DEFINITION(transform_description)
 {
     transform_description_cptr next;
@@ -25,10 +21,9 @@ MACRO_STRUCTURE_DEFINITION(transform_description)
 
     // transform frame methods
 
-    transform_constructor_ptr construct;
-    transform_destructor_ptr destruct;
-    transform_function_ptr function;
-
+    transform_ptr (*construct)(void);
+    void (*destruct)(transform_ptr* transform_holder);
+    context_ptr (*function)(transform_cptr transform, context_ptr* input_holder);
 };
 
 transform_description_ptr transforms_descriptions();

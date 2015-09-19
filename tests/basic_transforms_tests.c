@@ -15,25 +15,30 @@ void run_int32_addition_tests(void **state)
 {
     (void) state;
 
-    int32_t v0 = 1023;
-    int32_t v1 = 10000;
-
-    context_ptr input = context_construct(2, 0);
-    input->data[0] = int32_datum_construct(v0);
-    input->data[1] = int32_datum_construct(v1);
-
+    const int32_t vs[] = {-1073741823, -1023, 0, 1023, 1073741823};
+    const int N = sizeof(vs) / sizeof(int32_t);
     transform_ptr addition = int32_addition_construct();
 
-    context_ptr output = int32_addition_function(addition, &input);
+    for (int i = 0; i + 1 < N; i++)
+        for (int j = i + 1; j < N; j++) {
+            context_ptr input = context_construct(2, 0);
+            input->data[0] = int32_datum_construct(vs[i]);
+            input->data[1] = int32_datum_construct(vs[j]);
 
-    assert_null(input);
-    assert_int_equal(output->data_size, 1);
+            context_ptr output = int32_addition_function(addition, &input);
 
-    int32_t vres = int32_datum_extract(output->data[0]);
-    datum_destruct(&(output->data[0]));
-    context_destruct(&output);
+            assert_null(input);
+            assert_int_equal(output->data_size, 1);
 
-    assert_int_equal(v0 + v1, vres);
+            int32_t vres = int32_datum_extract(output->data[0]);
+            datum_destruct(&(output->data[0]));
+            context_destruct(&output);
+
+            assert_int_equal(vs[i] + vs[j], vres);
+        }
+
+    // transform_destruct(&addition);
+    // assert_null(addition);
 }
 
 void run_int32_duplicator_tests(void **state)
@@ -45,9 +50,7 @@ void run_int32_duplicator_tests(void **state)
     context_ptr input = context_construct(1, 0);
     input->data[0] = int32_datum_construct(v);
 
-    transform_description_cptr desc = get_int32_duplicator_description();
-
-    transform_ptr duplicator = transform_construct(desc);
+    transform_ptr duplicator = int32_duplicator_construct();
     context_ptr output = transform_function(duplicator, &input);
 
     assert_null(input);
@@ -61,6 +64,9 @@ void run_int32_duplicator_tests(void **state)
 
     assert_int_equal(v, v1);
     assert_int_equal(v, v2);
+
+    transform_destruct(&duplicator);
+    assert_null(duplicator);
 }
 
 void run_int32_to_double_tests(void **state)
