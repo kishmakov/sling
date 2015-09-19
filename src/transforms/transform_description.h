@@ -19,7 +19,7 @@ MACRO_STRUCTURE_DEFINITION(transform_description)
     const char * output_scheme;
     const char * profile;
 
-    // transform frame methods
+    // transform methods
 
     transform_ptr (*construct)(void);
     void (*destruct)(transform_ptr* transform_holder);

@@ -1,4 +1,4 @@
-#include "transform.h"
+#include "transforms/transform.h"
 
 #include <assert.h>
 #include <stdlib.h>
@@ -7,9 +7,9 @@ DEBUG(allocation_list allocated_transforms = NULL);
 
 transform_ptr transform_construct(transform_description_cptr description)
 {
+    assert(description != NULL); // description registred?
     assert(description->construct != NULL);
-    transform_ptr result = description->construct();
-    return result;
+    return description->construct();
 }
 
 void transform_destruct(transform_ptr* transform_holder)

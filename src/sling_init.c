@@ -1,8 +1,8 @@
 #include "sling_init.h"
 
 #include "context.h"
-#include "transform.h"
-#include "transform_description.h"
+#include "transforms/transform.h"
+#include "transforms/transform_description.h"
 #include "types/datum.h"
 #include "types/type_description.h"
 #include "utils/diagnostics.h"

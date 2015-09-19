@@ -12,11 +12,11 @@ MACRO_STRUCTURE_DEFINITION(mind)
     mind_description_cptr description;
 };
 
-mind_ptr mind_construct(mind_description_cptr description, const void* src);
+mind_ptr mind_construct(mind_description_cptr description);
 
 void mind_destruct(mind_ptr* mind_holder);
 
-mind_ptr mind_copy(mind_cptr mind);
+// mind_ptr mind_copy(mind_cptr mind);
 
-void mind_extract_value(mind_cptr mind, void* dst);
+uint32_t mind_function(mind_cptr mind, context_ptr* input_holder);
 

@@ -5,21 +5,26 @@
 
 #include <stdint.h>
 
+void init_minds_descriptions();
+
 struct mind_type;
-typedef uint32_t (*mind_func_ptr)(const struct mind_type* mind, context_ptr input);
+typedef struct mind_type* mind_ptr;
+typedef const struct mind_type* mind_cptr;
 
 MACRO_STRUCTURE_DEFINITION(mind_description)
 {
+    mind_description_cptr next;
+
     const char * input_scheme;
     const char * decision_scheme;
     const char * profile;
-    uint32_t size;
 
-    mind_func_ptr function;
+    // transform methods
 
-    mind_description_ptr next;
+    mind_ptr (*construct)(void);
+    void (*destruct)(mind_ptr* mind_holder);
+    uint32_t (*function)(mind_cptr mind, context_ptr* input_holder);
 };
 
 mind_description_ptr minds_descriptions();
 
-void init_minds_descriptions();
