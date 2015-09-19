@@ -16,7 +16,7 @@ context_ptr context_construct(uint32_t data_size, uint32_t transforms_size)
     MACRO_VECTOR_ALLOCATE(result->transforms, transform_ptr, transforms_size);
 
     DEBUG(allocation_list_insert(&allocated_contexts, result));
-    LOG("context constructd @ %zu.", (size_t) result);
+    DLOG("context constructed @ %zu.", (size_t) result);
 
     return result;
 }
@@ -27,7 +27,7 @@ void context_destruct(context_ptr* context_holder)
     assert(*context_holder != NULL);
 
     DEBUG(allocation_list_remove(&allocated_contexts, *context_holder));
-    LOG("context destructed @ %zu.", (size_t) *context_holder);
+    DLOG("context destructed @ %zu.", (size_t) *context_holder);
 
 #if DEBUG_MODE
     context_ptr context = *context_holder;

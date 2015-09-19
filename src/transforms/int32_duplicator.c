@@ -19,7 +19,7 @@ transform_ptr int32_duplicator_construct()
     result->description = int32_duplicator_description;
 
     DEBUG(allocation_list_insert(&allocated_transforms, result));
-    LOG("%s constructed @ %zu.", int32_duplicator_profile, (size_t) result);
+    DLOG("%s constructed @ %zu.", int32_duplicator_profile, (size_t) result);
 
     return result;
 }
@@ -31,7 +31,7 @@ static void int32_duplicator_destruct(transform_ptr* transform_holder)
     assert((*transform_holder)->description == int32_duplicator_description);
 
     DEBUG(allocation_list_remove(&allocated_transforms, *transform_holder));
-    LOG("%s destructed @ %zu.", int32_duplicator_profile, (size_t) *transform_holder);
+    DLOG("%s destructed @ %zu.", int32_duplicator_profile, (size_t) *transform_holder);
 
     free(*transform_holder);
     *transform_holder = NULL;
@@ -40,19 +40,22 @@ static void int32_duplicator_destruct(transform_ptr* transform_holder)
 static context_ptr int32_duplicator_function(transform_cptr transform, context_ptr* input_holder)
 {
     assert(input_holder != NULL);
+    assert(*input_holder != NULL);
     context_ptr input = *input_holder;
 
     assert(input->data_size == 1);
     assert(input->transforms_size == 0);
     assert(transform->description == int32_duplicator_description);
 
-    context_ptr result = context_construct(2, 0);
-
-    result->data[0] = input->data[0];
-    result->data[1] = datum_copy(input->data[0]);
-
+    datum_ptr datum = input->data[0];
     input->data[0] = NULL;
     context_destruct(input_holder);
+
+    context_ptr result = context_construct(2, 0);
+    result->data[0] = datum;
+    result->data[1] = datum_copy(datum);
+
+    DLOG("forked %zu from %zu.", (size_t) result->data[1], (size_t) datum);
 
     return result;
 }
@@ -62,14 +65,7 @@ void int32_duplicator_register(transform_description_ptr* head)
     int32_duplicator_input = scheme_description("{\"int32\": 1}", "");
     int32_duplicator_output = scheme_description("{\"int32\": 1}, {\"int32\": 1}", "");
 
-    int32_duplicator_description = malloc(sizeof(transform_description_type));
-    int32_duplicator_description->input_scheme = int32_duplicator_input;
-    int32_duplicator_description->output_scheme = int32_duplicator_output;
-    int32_duplicator_description->profile = int32_duplicator_profile;
-
-    int32_duplicator_description->construct = &int32_duplicator_construct;
-    int32_duplicator_description->destruct = &int32_duplicator_destruct;
-    int32_duplicator_description->function = &int32_duplicator_function;
+    MACRO_TRANSFORM_INITIALIZER(int32_duplicator);
 
     int32_duplicator_description->next = *head;
     *head = int32_duplicator_description;
