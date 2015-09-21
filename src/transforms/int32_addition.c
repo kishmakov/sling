@@ -60,8 +60,8 @@ static context_ptr int32_addition_function(transform_cptr transform, context_ptr
 
 void int32_addition_register(transform_description_ptr* head)
 {
-    int32_addition_input = scheme_description("{\"int32\": 1}, {\"int32\": 1}", "");
-    int32_addition_output = scheme_description("{\"int32\": 1}", "");
+    int32_addition_input = context_scheme("{\"int32\": 1}, {\"int32\": 1}", "");
+    int32_addition_output = context_scheme("{\"int32\": 1}", "");
 
     MACRO_TRANSFORM_INITIALIZER(int32_addition);
 

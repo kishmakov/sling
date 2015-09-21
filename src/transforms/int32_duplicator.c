@@ -62,8 +62,8 @@ static context_ptr int32_duplicator_function(transform_cptr transform, context_p
 
 void int32_duplicator_register(transform_description_ptr* head)
 {
-    int32_duplicator_input = scheme_description("{\"int32\": 1}", "");
-    int32_duplicator_output = scheme_description("{\"int32\": 1}, {\"int32\": 1}", "");
+    int32_duplicator_input = context_scheme("{\"int32\": 1}", "");
+    int32_duplicator_output = context_scheme("{\"int32\": 1}, {\"int32\": 1}", "");
 
     MACRO_TRANSFORM_INITIALIZER(int32_duplicator);
 

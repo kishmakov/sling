@@ -63,8 +63,8 @@ static context_ptr int32_to_double_function(transform_cptr transform, context_pt
 
 void int32_to_double_register(transform_description_ptr* head)
 {
-    int32_to_double_input = scheme_description("{\"int32\": 1}", "");
-    int32_to_double_output = scheme_description("{\"double\": 1}", "");
+    int32_to_double_input = context_scheme("{\"int32\": 1}", "");
+    int32_to_double_output = context_scheme("{\"double\": 1}", "");
 
     MACRO_TRANSFORM_INITIALIZER(int32_to_double);
 

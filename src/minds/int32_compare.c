@@ -58,7 +58,7 @@ static uint32_t int32_compare_function(mind_cptr mind, context_ptr* input_holder
 
 void int32_compare_register(mind_description_ptr* head)
 {
-    int32_compare_input = scheme_description("{\"int32\": 1}, {\"int32\": 1}", "");
+    int32_compare_input = context_scheme("{\"int32\": 1}, {\"int32\": 1}", "");
     int32_compare_decision = ""; // TODO: reasonable
 
     MACRO_MIND_INITIALIZER(int32_compare);
