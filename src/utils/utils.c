@@ -19,7 +19,6 @@ char* decision_scheme(const char* alternatives[], const uint32_t alternatives_nu
     for (uint32_t id = 0; id < alternatives_number; id++)
         needed_length += strlen(alternatives[id]) + 10;
 
-
     char* result = malloc(needed_length);
     sprintf(result, "{");
 
@@ -27,7 +26,6 @@ char* decision_scheme(const char* alternatives[], const uint32_t alternatives_nu
     for (uint32_t id = 0; id < alternatives_number; id++) {
         sprintf(local_buffer, "\"%s\":%u", alternatives[id], id);
         strcat(result, local_buffer);
-
         strcat(result, (id + 1 < alternatives_number ? "," : "}"));
     }
 

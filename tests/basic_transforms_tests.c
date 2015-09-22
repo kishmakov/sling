@@ -1,5 +1,6 @@
 #include "basic_transforms_tests.h"
 
+#include "tests_tools.h"
 #include "unit_tests_main.h"
 
 #include "sling_init.h"
@@ -10,9 +11,6 @@
 #include "transforms/int32_to_double.h"
 
 #include <math.h>
-
-const int32_t vs[] = {-1073741823, -1023, 0, 1023, 1073741823};
-const int N = sizeof(vs) / sizeof(int32_t);
 
 void run_int32_addition_tests(void **state)
 {

@@ -27,7 +27,11 @@ void transform_destruct(transform_ptr* transform_holder)
 
 context_ptr transform_function(transform_cptr transform, context_ptr* input_holder)
 {
+    assert(input_holder != NULL);
+    assert(*input_holder != NULL);
     assert(transform->description != NULL);
     assert(transform->description->function != NULL);
-    return transform->description->function(transform, input_holder);
+    context_ptr result = transform->description->function(transform, input_holder);
+    assert(*input_holder == NULL);
+    return result;
 }

@@ -50,3 +50,14 @@ void mind_destruct(mind_ptr* mind_holder)
 // {
 //     return mind_construct(mind->description, mind->bytes);
 // }
+
+uint32_t mind_function(mind_cptr mind, context_ptr* input_holder)
+{
+    assert(input_holder != NULL);
+    assert(*input_holder != NULL);
+    assert(mind->description != NULL);
+    assert(mind->description->function != NULL);
+    uint32_t result = mind->description->function(mind, input_holder);
+    assert(*input_holder == NULL);
+    return result;
+}
