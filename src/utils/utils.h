@@ -1,5 +1,7 @@
 #pragma once
 
+#include <stdint.h>
+
 #define MACRO_MIN(x, y)  ((x) < (y) ? (x) : (y))
 
 #define MACRO_STRUCTURE_DEFINITION(type_name) \
@@ -39,3 +41,4 @@ name = requested_size > 0 ? malloc(sizeof(type_name) * requested_size) : NULL
 #define MACRO_QUOTE(value) MACRO_STRINGIFY(value)
 
 char* context_scheme(const char* data, const char* transforms);
+char* decision_scheme(const char* alternatives[], const uint32_t alternatives_number);

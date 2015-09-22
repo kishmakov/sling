@@ -1,6 +1,7 @@
 #include "sling_init.h"
 
 #include "context.h"
+#include "minds/mind_description.h"
 #include "transforms/transform.h"
 #include "transforms/transform_description.h"
 #include "types/datum.h"
@@ -18,6 +19,7 @@ void sling_init(const char * logging_file_name)
     DLOG("Diagnostic mode is turned on.");
 
     init_types_descriptions();
+    init_minds_descriptions();
     init_transforms_descriptions();
 }
 

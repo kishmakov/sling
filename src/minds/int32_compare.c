@@ -11,6 +11,8 @@ static mind_description_ptr int32_compare_description = NULL;
 static char* int32_compare_input = NULL;
 static char* int32_compare_decision = NULL;
 static const char* int32_compare_profile = "int32_cmp";
+static const char* alternatives[] = {"1 < 2", "1 == 2", "1 > 2"};
+static const uint32_t alternatives_number = sizeof(alternatives) / sizeof(const char*);
 
 mind_ptr int32_compare_construct()
 {
@@ -59,7 +61,7 @@ static uint32_t int32_compare_function(mind_cptr mind, context_ptr* input_holder
 void int32_compare_register(mind_description_ptr* head)
 {
     int32_compare_input = context_scheme("{\"int32\": 1}, {\"int32\": 1}", "");
-    int32_compare_decision = ""; // TODO: reasonable
+    int32_compare_decision = decision_scheme(alternatives, alternatives_number);
 
     MACRO_MIND_INITIALIZER(int32_compare);
 
