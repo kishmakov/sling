@@ -1,6 +1,7 @@
 #include "mind_description.h"
 
 #include "minds/int32_compare.h"
+#include "minds/int32_sign.h"
 
 #include <assert.h>
 #include <stdlib.h>
@@ -17,4 +18,5 @@ void init_minds_descriptions()
     assert(minds_descriptions_head == NULL);
 
     int32_compare_register(&minds_descriptions_head);
+    int32_sign_register(&minds_descriptions_head);
 }

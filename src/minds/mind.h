@@ -19,4 +19,3 @@ void mind_destruct(mind_ptr* mind_holder);
 // mind_ptr mind_copy(mind_cptr mind);
 
 uint32_t mind_function(mind_cptr mind, context_ptr* input_holder);
-

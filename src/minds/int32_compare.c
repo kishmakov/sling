@@ -10,7 +10,7 @@ static mind_description_ptr int32_compare_description = NULL;
 
 static char* int32_compare_input = NULL;
 static char* int32_compare_decision = NULL;
-static const char* int32_compare_profile = "int32_cmp";
+static const char* int32_compare_profile = "int32_compare";
 static const char* alternatives[] = {"1 < 2", "1 == 2", "1 > 2"};
 static const uint32_t alternatives_number = sizeof(alternatives) / sizeof(const char*);
 
@@ -55,7 +55,7 @@ static uint32_t int32_compare_function(mind_cptr mind, context_ptr* input_holder
     datum_destruct(&(input->data[1]));
     context_destruct(input_holder);
 
-    return v0 < v1 ? 0 : (v0 > v1 ? 1 : 2);
+    return v0 < v1 ? 0 : (v0 > v1 ? 2 : 1);
 }
 
 void int32_compare_register(mind_description_ptr* head)

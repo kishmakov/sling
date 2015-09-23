@@ -22,6 +22,7 @@ int main(int argc, char ** argv)
 
         // basic_minds_tests
         cmocka_unit_test(run_int32_compare_tests),
+        cmocka_unit_test(run_int32_sign_tests),
     };
 
     int rv = cmocka_run_group_tests(tests, NULL, NULL);

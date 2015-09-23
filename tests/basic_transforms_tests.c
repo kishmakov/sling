@@ -91,4 +91,3 @@ void run_int32_to_double_tests(void **state)
     transform_destruct(&converter);
     assert_null(converter);
 }
-
