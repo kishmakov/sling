@@ -9,6 +9,7 @@ struct type_name ## _type; \
 typedef struct type_name ## _type type_name ## _type; \
 typedef type_name ## _type* type_name ## _ptr; \
 typedef const type_name ## _type* type_name ## _cptr; \
+typedef type_name ## _ptr* type_name ## _holder; \
 struct type_name ## _type
 
 #define MACRO_VECTOR_DEFINITION(name, type_name) \
