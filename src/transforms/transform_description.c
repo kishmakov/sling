@@ -18,8 +18,8 @@ void init_transforms_descriptions()
 {
     assert(transforms_descriptions_head == NULL);
 
-    int32_addition_register(&transforms_descriptions_head);
-    int32_duplicator_register(&transforms_descriptions_head);
-    int32_to_double_register(&transforms_descriptions_head);
+    transforms_descriptions_head = int32_addition_register(transforms_descriptions_head);
+    transforms_descriptions_head = int32_duplicator_register(transforms_descriptions_head);
+    transforms_descriptions_head = int32_to_double_register(transforms_descriptions_head);
 }
 

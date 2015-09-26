@@ -12,26 +12,26 @@ transform_ptr transform_construct(transform_description_cptr description)
     return description->construct();
 }
 
-void transform_destruct(transform_ptr* transform_holder)
+void transform_destruct(transform_holder transform)
 {
-    assert(transform_holder != NULL);
-    assert(*transform_holder != NULL);
+    assert(transform != NULL);
+    assert(*transform != NULL);
 
-    transform_description_cptr description = (*transform_holder)->description;
+    transform_description_cptr description = (*transform)->description;
 
     assert(description != NULL);
     assert(description->destruct != NULL);
-    description->destruct(transform_holder);
-    assert(*transform_holder == NULL);
+    description->destruct(transform);
+    assert(*transform == NULL);
 }
 
-context_ptr transform_function(transform_cptr transform, context_ptr* input_holder)
+context_ptr transform_function(transform_cptr transform, context_holder input)
 {
-    assert(input_holder != NULL);
-    assert(*input_holder != NULL);
+    assert(input != NULL);
+    assert(*input != NULL);
     assert(transform->description != NULL);
     assert(transform->description->function != NULL);
-    context_ptr result = transform->description->function(transform, input_holder);
-    assert(*input_holder == NULL);
+    context_ptr result = transform->description->function(transform, input);
+    assert(*input == NULL);
     return result;
 }

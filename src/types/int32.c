@@ -7,14 +7,14 @@ static type_description_ptr int32_type_description = NULL;
 
 static char* int32_type_scheme = "{\"int32\": 1}";
 
-void int32_type_register(type_description_ptr* head)
+type_description_ptr int32_type_register(type_description_cptr head)
 {
     int32_type_description = malloc(sizeof(type_description_type));
     int32_type_description->scheme = int32_type_scheme;
     int32_type_description->size = sizeof(int32_t);
-    int32_type_description->next = *head;
+    int32_type_description->next = head;
 
-    *head = int32_type_description;
+    return int32_type_description;
 }
 
 datum_ptr int32_datum_construct(int32_t value)

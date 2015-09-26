@@ -21,25 +21,24 @@ context_ptr context_construct(uint32_t data_size, uint32_t transforms_size)
     return result;
 }
 
-void context_destruct(context_ptr* context_holder)
+void context_destruct(context_holder context)
 {
-    assert(context_holder != NULL);
-    assert(*context_holder != NULL);
+    assert(context != NULL);
+    assert(*context != NULL);
 
-    DEBUG(allocation_list_remove(&allocated_contexts, *context_holder));
-    DLOG("context destructed @ %zu.", (size_t) *context_holder);
+    DEBUG(allocation_list_remove(&allocated_contexts, *context));
+    DLOG("context destructed @ %zu.", (size_t) *context);
 
 #if DEBUG_MODE
-    context_ptr context = *context_holder;
-    for (int id = 0; id < context->data_size; id++)
-        assert(context->data[id] == NULL);
+    for (int id = 0; id < (*context)->data_size; id++)
+        assert((*context)->data[id] == NULL);
 
-    for (int id = 0; id < context->transforms_size; id++)
-        assert(context->transforms[id] == NULL);
+    for (int id = 0; id < (*context)->transforms_size; id++)
+        assert((*context)->transforms[id] == NULL);
 #endif
 
-    free((*context_holder)->data);
-    free((*context_holder)->transforms);
-    free(*context_holder);
-    *context_holder = NULL;
+    free((*context)->data);
+    free((*context)->transforms);
+    free(*context);
+    *context = NULL;
 }

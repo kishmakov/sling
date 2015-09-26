@@ -17,10 +17,11 @@ MACRO_STRUCTURE_DEFINITION(trie_node)
 };
 
 typedef trie_node_ptr trie;
+typedef trie_node_holder trie_holder;
 
 trie_node_ptr trie_node_construct(char code);
-void trie_node_destruct(trie_node_ptr* trie_node_holder);
+void trie_node_destruct(trie_node_holder trie_node);
 
-void  trie_insert(trie* trie_holder, const char* tag, void* value);
-void* trie_remove(trie* trie_holder, const char* tag);
-void* trie_check(const trie* trie_holder, const char* tag);
+void  trie_insert(trie_holder root, const char* tag, void* value);
+void* trie_remove(trie_holder root, const char* tag);
+void* trie_check(const trie* root, const char* tag);

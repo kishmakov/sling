@@ -26,43 +26,42 @@ mind_ptr int32_sign_construct()
     return result;
 }
 
-static void int32_sign_destruct(mind_ptr* mind_holder)
+static void int32_sign_destruct(mind_holder mind)
 {
-    assert(mind_holder != NULL);
-    assert(*mind_holder != NULL);
-    assert((*mind_holder)->description == int32_sign_description);
+    assert(mind != NULL);
+    assert(*mind != NULL);
+    assert((*mind)->description == int32_sign_description);
 
-    DEBUG(allocation_list_remove(&allocated_minds, *mind_holder));
-    DLOG("%s destructed @ %zu.", int32_sign_profile, (size_t) *mind_holder);
+    DEBUG(allocation_list_remove(&allocated_minds, *mind));
+    DLOG("%s destructed @ %zu.", int32_sign_profile, (size_t) *mind);
 
-    free(*mind_holder);
-    *mind_holder = NULL;
+    free(*mind);
+    *mind = NULL;
 }
 
-static uint32_t int32_sign_function(mind_cptr mind, context_ptr* input_holder)
+static uint32_t int32_sign_function(mind_cptr mind, context_holder input)
 {
-    assert(input_holder != NULL);
-    assert(*input_holder != NULL);
-    context_ptr input = *input_holder;
+    assert(input != NULL);
+    assert(*input != NULL);
 
-    assert(input->data_size == 1);
-    assert(input->transforms_size == 0);
+    assert((*input)->data_size == 1);
+    assert((*input)->transforms_size == 0);
     assert(mind->description == int32_sign_description);
 
-    int32_t v = int32_datum_extract(input->data[0]);
-    datum_destruct(&(input->data[0]));
-    context_destruct(input_holder);
+    int32_t v = int32_datum_extract((*input)->data[0]);
+    datum_destruct(&((*input)->data[0]));
+    context_destruct(input);
 
     return v < 0 ? 0 : (v > 0 ? 2 : 1);
 }
 
-void int32_sign_register(mind_description_ptr* head)
+mind_description_ptr int32_sign_register(mind_description_cptr head)
 {
     int32_sign_input = context_scheme("{\"int32\": 1}", "");
     int32_sign_decision = decision_scheme(alternatives, alternatives_number);
 
     MACRO_MIND_INITIALIZER(int32_sign);
 
-    int32_sign_description->next = *head;
-    *head = int32_sign_description;
+    int32_sign_description->next = head;
+    return int32_sign_description;
 }

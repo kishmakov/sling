@@ -25,21 +25,21 @@ datum_ptr datum_construct(type_description_cptr description, const void* src)
     return result;
 }
 
-void datum_destruct(datum_ptr* datum_holder)
+void datum_destruct(datum_holder datum)
 {
-    assert(datum_holder != NULL);
-    assert(*datum_holder != NULL);
+    assert(datum != NULL);
+    assert(*datum != NULL);
 
-    type_description_cptr description = (*datum_holder)->description;
+    type_description_cptr description = (*datum)->description;
 
     assert(description != NULL);
 
-    DEBUG(allocation_list_remove(&allocated_data, *datum_holder));
-    DLOG("%s destructed @ %zu.", description->scheme, (size_t) *datum_holder);
+    DEBUG(allocation_list_remove(&allocated_data, *datum));
+    DLOG("%s destructed @ %zu.", description->scheme, (size_t) *datum);
 
-    free((*datum_holder)->bytes);
-    free(*datum_holder);
-    *datum_holder = NULL;
+    free((*datum)->bytes);
+    free(*datum);
+    *datum = NULL;
 };
 
 datum_ptr datum_copy(datum_cptr datum)

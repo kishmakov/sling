@@ -9,6 +9,7 @@ void init_transforms_descriptions();
 
 struct transform_type;
 typedef struct transform_type* transform_ptr;
+typedef transform_ptr* transform_holder;
 typedef const struct transform_type* transform_cptr;
 
 MACRO_STRUCTURE_DEFINITION(transform_description)
@@ -22,8 +23,8 @@ MACRO_STRUCTURE_DEFINITION(transform_description)
     // transform methods
 
     transform_ptr (*construct)(void);
-    void (*destruct)(transform_ptr* transform_holder);
-    context_ptr (*function)(transform_cptr transform, context_ptr* input_holder);
+    void (*destruct)(transform_holder transform);
+    context_ptr (*function)(transform_cptr transform, context_holder input);
 };
 
 transform_description_ptr transforms_descriptions();

@@ -21,4 +21,4 @@ MACRO_STRUCTURE_DEFINITION(context)
 
 context_ptr context_construct(uint32_t data_size, uint32_t transforms_size);
 
-void context_destruct(context_ptr* context_holder);
+void context_destruct(context_holder context);

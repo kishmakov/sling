@@ -25,25 +25,25 @@ mind_ptr mind_construct(mind_description_cptr description)
     // return result;
 }
 
-void mind_destruct(mind_ptr* mind_holder)
+void mind_destruct(mind_holder mind)
 {
-    assert(mind_holder != NULL);
-    assert(*mind_holder != NULL);
+    assert(mind != NULL);
+    assert(*mind != NULL);
 
-    mind_description_cptr description = (*mind_holder)->description;
+    mind_description_cptr description = (*mind)->description;
 
     assert(description != NULL);
     assert(description->destruct != NULL);
-    description->destruct(mind_holder);
-    assert(*mind_holder == NULL);
+    description->destruct(mind);
+    assert(*mind == NULL);
 
 
-    // DEBUG(allocation_list_remove(&allocated_minds, *mind_holder));
-    // LOG("mind destructd @ %zu.", (size_t) *mind_holder);
+    // DEBUG(allocation_list_remove(&allocated_minds, *mind));
+    // LOG("mind destructd @ %zu.", (size_t) *mind);
 
-    // free((*mind_holder)->bytes);
-    // free(*mind_holder);
-    // *mind_holder = NULL;
+    // free((*mind)->bytes);
+    // free(*mind);
+    // *mind = NULL;
 };
 
 // mind_ptr mind_copy(mind_cptr mind)
@@ -51,13 +51,13 @@ void mind_destruct(mind_ptr* mind_holder)
 //     return mind_construct(mind->description, mind->bytes);
 // }
 
-uint32_t mind_function(mind_cptr mind, context_ptr* input_holder)
+uint32_t mind_function(mind_cptr mind, context_holder input)
 {
-    assert(input_holder != NULL);
-    assert(*input_holder != NULL);
+    assert(input != NULL);
+    assert(*input != NULL);
     assert(mind->description != NULL);
     assert(mind->description->function != NULL);
-    uint32_t result = mind->description->function(mind, input_holder);
-    assert(*input_holder == NULL);
+    uint32_t result = mind->description->function(mind, input);
+    assert(*input == NULL);
     return result;
 }

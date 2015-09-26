@@ -2,6 +2,6 @@
 
 #include "minds/mind.h"
 
-void int32_compare_register(mind_description_ptr* head);
+mind_description_ptr int32_compare_register(mind_description_cptr head);
 
 mind_ptr int32_compare_construct();

@@ -14,12 +14,12 @@ transmitter_ptr transmitter_construct(uint32_t data_size, uint32_t transforms_si
     return result;
 }
 
-void transmitter_destruct(transmitter_ptr* transmitter_holder)
+void transmitter_destruct(transmitter_holder transmitter)
 {
-    free((*transmitter_holder)->data_maps);
-    free((*transmitter_holder)->transforms_maps);
-    free(*transmitter_holder);
-    *transmitter_holder = NULL;
+    free((*transmitter)->data_maps);
+    free((*transmitter)->transforms_maps);
+    free(*transmitter);
+    *transmitter = NULL;
 };
 
 #if __clang_major__ > 3 || (__clang_major__ == 3 && __clang_minor__ >= 5)

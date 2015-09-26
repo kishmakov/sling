@@ -25,33 +25,32 @@ transform_ptr int32_to_double_construct()
     return result;
 }
 
-static void int32_to_double_destruct(transform_ptr* transform_holder)
+static void int32_to_double_destruct(transform_holder transform)
 {
-    assert(transform_holder != NULL);
-    assert(*transform_holder != NULL);
-    assert((*transform_holder)->description == int32_to_double_description);
+    assert(transform != NULL);
+    assert(*transform != NULL);
+    assert((*transform)->description == int32_to_double_description);
 
-    DEBUG(allocation_list_remove(&allocated_transforms, *transform_holder));
-    DLOG("%s destructed @ %zu.", int32_to_double_profile, (size_t) *transform_holder);
+    DEBUG(allocation_list_remove(&allocated_transforms, *transform));
+    DLOG("%s destructed @ %zu.", int32_to_double_profile, (size_t) *transform);
 
-    free(*transform_holder);
-    *transform_holder = NULL;
+    free(*transform);
+    *transform = NULL;
 }
 
-static context_ptr int32_to_double_function(transform_cptr transform, context_ptr* input_holder)
+static context_ptr int32_to_double_function(transform_cptr transform, context_holder input)
 {
-    assert(input_holder != NULL);
-    context_ptr input = *input_holder;
+    assert(input != NULL);
 
-    assert(input->data_size == 1);
-    assert(input->transforms_size == 0);
+    assert((*input)->data_size == 1);
+    assert((*input)->transforms_size == 0);
     assert(transform->description == int32_to_double_description);
 
-    DEBUG(size_t source = (size_t) input->data[0]);
+    DEBUG(size_t source = (size_t) (*input)->data[0]);
 
-    int32_t val = int32_datum_extract(input->data[0]);
-    datum_destruct(&(input->data[0]));
-    context_destruct(input_holder);
+    int32_t val = int32_datum_extract((*input)->data[0]);
+    datum_destruct(&((*input)->data[0]));
+    context_destruct(input);
 
     context_ptr result = context_construct(1, 0);
     result->data[0] = double_datum_construct((double) val);
@@ -61,13 +60,13 @@ static context_ptr int32_to_double_function(transform_cptr transform, context_pt
     return result;
 }
 
-void int32_to_double_register(transform_description_ptr* head)
+transform_description_ptr int32_to_double_register(transform_description_cptr head)
 {
     int32_to_double_input = context_scheme("{\"int32\": 1}", "");
     int32_to_double_output = context_scheme("{\"double\": 1}", "");
 
     MACRO_TRANSFORM_INITIALIZER(int32_to_double);
 
-    int32_to_double_description->next = *head;
-    *head = int32_to_double_description;
+    int32_to_double_description->next = head;
+    return int32_to_double_description;
 }

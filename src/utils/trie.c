@@ -20,72 +20,72 @@ trie_node_ptr trie_node_construct(char code)
     return result;
 }
 
-void trie_node_destruct(trie_node_ptr* node_holder)
+void trie_node_destruct(trie_node_holder node)
 {
-    DEBUG(allocation_list_remove(&allocated_trie_nodes, *node_holder));
+    DEBUG(allocation_list_remove(&allocated_trie_nodes, *node));
 
-    assert((*node_holder)->hor == NULL);
-    assert((*node_holder)->ver == NULL);
-    assert((*node_holder)->value == NULL);
+    assert((*node)->hor == NULL);
+    assert((*node)->ver == NULL);
+    assert((*node)->value == NULL);
 
-    free(*node_holder);
-    *node_holder = NULL;
+    free(*node);
+    *node = NULL;
 }
 
-void trie_insert(trie* node_holder, const char* tag, void* value)
+void trie_insert(trie_holder node, const char* tag, void* value)
 {
     assert(tag != NULL);
     assert(*tag != 0);
-    assert(node_holder != NULL);
-    assert(trie_check(node_holder, tag) == NULL);
+    assert(node != NULL);
+    assert(trie_check(node, tag) == NULL);
 
     while (1) {
-        while (*node_holder != NULL && (*node_holder)->code != *tag)
-            node_holder = &((*node_holder)->hor);
+        while (*node != NULL && (*node)->code != *tag)
+            node = &((*node)->hor);
 
-        if (*node_holder == NULL)
-            *node_holder = trie_node_construct(*tag);
+        if (*node == NULL)
+            *node = trie_node_construct(*tag);
 
-        (*node_holder)->count++;
+        (*node)->count++;
 
         if (*(++tag) == 0) {
-            (*node_holder)->value = value;
+            (*node)->value = value;
             break;
         }
 
-        node_holder = &((*node_holder)->ver);
+        node = &((*node)->ver);
     }
 }
 
-void* trie_remove(trie* node_holder, const char* tag)
+void* trie_remove(trie_holder node, const char* tag)
 {
     assert(tag != NULL);
     assert(*tag != 0);
-    assert(node_holder != NULL);
+    assert(node != NULL);
 
-    void* result = trie_check(node_holder, tag);
+    void* result = trie_check(node, tag);
     if (result == NULL)
         return result;
 
     list removed_nodes = NULL;
 
     while (1) {
-        while (*node_holder != NULL && (*node_holder)->code != *tag)
-            node_holder = &((*node_holder)->hor);
+        while (*node != NULL && (*node)->code != *tag)
+            node = &((*node)->hor);
 
-        assert((*node_holder) != NULL);
+        assert((*node) != NULL);
 
-        trie_node_ptr* next_ver = &((*node_holder)->ver);
-        result = (*node_holder)->value;
-        (*node_holder)->value = *(++tag) == 0 ? NULL : result;
+        trie_node_holder next_ver = &((*node)->ver);
+        result = (*node)->value;
+        (*node)->value = *(++tag) == 0 ? NULL : result;
 
-        if (--(*node_holder)->count == 0) {
-            assert((*node_holder)->value == NULL || *tag == 0);
-            list_insert(&removed_nodes, *node_holder);
-            *node_holder = (*node_holder)->hor;
+        if (--(*node)->count == 0) {
+            assert((*node)->value == NULL || *tag == 0);
+            list_insert(&removed_nodes, *node);
+            *node = (*node)->hor;
         }
 
-        node_holder = next_ver;
+        node = next_ver;
         if (*tag == 0)
             break;
     }
@@ -102,22 +102,22 @@ void* trie_remove(trie* node_holder, const char* tag)
     return result;
 }
 
-void* trie_check(const trie* node_holder, const char* tag)
+void* trie_check(const trie* node, const char* tag)
 {
-    assert(node_holder != NULL);
+    assert(node != NULL);
     assert(tag != NULL);
     assert(*tag != 0);
 
     while (1) {
-        while (*node_holder != NULL && (*node_holder)->code != *tag)
-            node_holder = &((*node_holder)->hor);
+        while (*node != NULL && (*node)->code != *tag)
+            node = &((*node)->hor);
 
-        if (*node_holder == NULL)
+        if (*node == NULL)
             return NULL;
 
         if (*(++tag) == 0)
-            return (*node_holder)->value;
+            return (*node)->value;
 
-        node_holder = &((*node_holder)->ver);
+        node = &((*node)->ver);
     }
 }

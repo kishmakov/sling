@@ -14,8 +14,8 @@ MACRO_STRUCTURE_DEFINITION(mind)
 
 mind_ptr mind_construct(mind_description_cptr description);
 
-void mind_destruct(mind_ptr* mind_holder);
+void mind_destruct(mind_holder mind);
 
 // mind_ptr mind_copy(mind_cptr mind);
 
-uint32_t mind_function(mind_cptr mind, context_ptr* input_holder);
+uint32_t mind_function(mind_cptr mind, context_holder input);

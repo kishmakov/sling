@@ -12,6 +12,10 @@ This macro constructs a number of typedefs, parametrized by ```type_name```:
 struct type_name_type;
 typedef struct type_name_type type_name_type; // short name
 typedef type_name_type* type_name_ptr; // modifying non-holding pointer
-typedef const type_name_type* type_name _cptr; // constant pointer acting as reference
+typedef const type_name_type* type_name_cptr; // constant pointer acting as reference
 typedef type_name_ptr* type_name_holder; // actual holder of the object
 ```
+
+Usage of this typedefs are following:
+* ```type_name_cptr```
+* ```type_name_holder``` is used when ownership is transfered to the subroutine. Subroutine could either destroy or store object somewhere.
