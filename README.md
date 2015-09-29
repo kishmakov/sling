@@ -4,18 +4,26 @@
 
 ## Code Convention
 
-Each structured type definition **must** be done with ```MACRO_STRUCTURE_DEFINITION``` macro.
+### Ownership
+
+Each structured type definition **must** be done via ```MACRO_STRUCTURE_DEFINITION``` macro.
 
 This macro constructs a number of typedefs, parametrized by ```type_name```:
 
 ```c
-struct type_name_type;
-typedef struct type_name_type type_name_type; // short name
-typedef type_name_type* type_name_ptr; // modifying non-holding pointer
-typedef const type_name_type* type_name_cptr; // constant pointer acting as reference
-typedef type_name_ptr* type_name_holder; // actual holder of the object
+struct type_name_type; // type itself
+
+typedef struct type_name_type*       type_name_holder;
+// object holder; usage: either member description or local variable
+
+typedef struct type_name_type*       type_name_ref;
+// modifing reference; usage: parameter specification only; ownership is not transferred
+
+typedef struct const type_name_type* type_name_cref;
+// non-modifing reference; usage: parameter specification only; ownership is not transferred
+
+typedef struct type_name_ptr*        type_name_move;
+// ownership transferring reference; usage: parameter specification only
 ```
 
-Usage of this typedefs are following:
-* ```type_name_cptr```
-* ```type_name_holder``` is used when ownership is transfered to the subroutine. Subroutine could either destroy or store object somewhere.
+All type usages are supposed to stick to these guidelines.
