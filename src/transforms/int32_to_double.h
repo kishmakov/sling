@@ -2,6 +2,6 @@
 
 #include "transforms/transform.h"
 
-transform_description_ptr int32_to_double_register(transform_description_cptr head);
+transform_description_hld int32_to_double_register(transform_description_cref head);
 
-transform_ptr int32_to_double_construct();
+transform_hld int32_to_double_construct();

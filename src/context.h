@@ -8,17 +8,17 @@
 DEBUG(extern allocation_list allocated_contexts);
 
 struct transform_type;
-typedef struct transform_type* transform_ptr;
+typedef struct transform_type* transform_hld;
 
 struct datum_type;
-typedef struct datum_type* datum_ptr;
+typedef struct datum_type* datum_hld;
 
 MACRO_STRUCTURE_DEFINITION(context)
 {
-    MACRO_VECTOR_DEFINITION(data, datum_ptr);
-    MACRO_VECTOR_DEFINITION(transforms, transform_ptr);
+    MACRO_VECTOR_DEFINITION(data, datum_hld);
+    MACRO_VECTOR_DEFINITION(transforms, transform_hld);
 };
 
-context_ptr context_construct(uint32_t data_size, uint32_t transforms_size);
+context_hld context_construct(uint32_t data_size, uint32_t transforms_size);
 
-void context_destruct(context_holder context);
+void context_destruct(context_mv context);

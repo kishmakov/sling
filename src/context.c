@@ -9,11 +9,11 @@
 
 DEBUG(allocation_list allocated_contexts = NULL);
 
-context_ptr context_construct(uint32_t data_size, uint32_t transforms_size)
+context_hld context_construct(uint32_t data_size, uint32_t transforms_size)
 {
-    context_ptr result = malloc(sizeof(context_type));
-    MACRO_VECTOR_ALLOCATE(result->data, datum_ptr, data_size);
-    MACRO_VECTOR_ALLOCATE(result->transforms, transform_ptr, transforms_size);
+    context_hld result = malloc(sizeof(context_type));
+    MACRO_VECTOR_ALLOCATE(result->data, datum_hld, data_size);
+    MACRO_VECTOR_ALLOCATE(result->transforms, transform_hld, transforms_size);
 
     DEBUG(allocation_list_insert(&allocated_contexts, result));
     DLOG("context constructed @ %zu.", (size_t) result);
@@ -21,7 +21,7 @@ context_ptr context_construct(uint32_t data_size, uint32_t transforms_size)
     return result;
 }
 
-void context_destruct(context_holder context)
+void context_destruct(context_mv context)
 {
     assert(context != NULL);
     assert(*context != NULL);

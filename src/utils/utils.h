@@ -4,12 +4,15 @@
 
 #define MACRO_MIN(x, y)  ((x) < (y) ? (x) : (y))
 
+typedef void** out_param;
+
 #define MACRO_STRUCTURE_DEFINITION(type_name) \
 struct type_name ## _type; \
-typedef struct type_name ## _type type_name ## _type; \
-typedef type_name ## _type* type_name ## _ptr; \
-typedef const type_name ## _type* type_name ## _cptr; \
-typedef type_name ## _ptr* type_name ## _holder; \
+typedef struct type_name ## _type        type_name ## _type; \
+typedef struct type_name ## _type*       type_name ## _hld; \
+typedef struct type_name ## _type*       type_name ## _ref; \
+typedef const struct type_name ## _type* type_name ## _cref; \
+typedef struct type_name ## _type**      type_name ## _mv; \
 struct type_name ## _type
 
 #define MACRO_VECTOR_DEFINITION(name, type_name) \

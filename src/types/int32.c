@@ -3,11 +3,11 @@
 #include <assert.h>
 #include <stdlib.h>
 
-static type_description_ptr int32_type_description = NULL;
+static type_description_hld int32_type_description = NULL;
 
 static char* int32_type_scheme = "{\"int32\": 1}";
 
-type_description_ptr int32_type_register(type_description_cptr head)
+type_description_hld int32_type_register(type_description_cref head)
 {
     int32_type_description = malloc(sizeof(type_description_type));
     int32_type_description->scheme = int32_type_scheme;
@@ -17,12 +17,12 @@ type_description_ptr int32_type_register(type_description_cptr head)
     return int32_type_description;
 }
 
-datum_ptr int32_datum_construct(int32_t value)
+datum_hld int32_datum_construct(int32_t value)
 {
     return datum_construct(int32_type_description, (const void*) &value);
 }
 
-int32_t int32_datum_extract(datum_cptr datum)
+int32_t int32_datum_extract(datum_cref datum)
 {
     assert(datum->description == int32_type_description);
 

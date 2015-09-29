@@ -2,6 +2,6 @@
 
 #include "minds/mind.h"
 
-mind_description_ptr int32_sign_register(mind_description_cptr head);
+mind_description_hld int32_sign_register(mind_description_cref head);
 
-mind_ptr int32_sign_construct();
+mind_hld int32_sign_construct();

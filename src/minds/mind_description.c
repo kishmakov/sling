@@ -6,9 +6,9 @@
 #include <assert.h>
 #include <stdlib.h>
 
-mind_description_ptr minds_descriptions_head = NULL;
+mind_description_hld minds_descriptions_head = NULL;
 
-mind_description_ptr minds_descriptions()
+mind_description_cref minds_descriptions()
 {
     return minds_descriptions_head;
 }

@@ -7,9 +7,9 @@
 #include <assert.h>
 #include <stdlib.h>
 
-transform_description_ptr transforms_descriptions_head = NULL;
+transform_description_hld transforms_descriptions_head = NULL;
 
-transform_description_ptr transforms_descriptions()
+transform_description_cref transforms_descriptions()
 {
     return transforms_descriptions_head;
 }

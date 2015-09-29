@@ -6,15 +6,15 @@
 #include <assert.h>
 #include <stdlib.h>
 
-static transform_description_ptr int32_addition_description = NULL;
+static transform_description_hld int32_addition_description = NULL;
 
 static char* int32_addition_input = NULL;
 static char* int32_addition_output = NULL;
 static const char* int32_addition_profile = "int32_add";
 
-transform_ptr int32_addition_construct()
+transform_hld int32_addition_construct()
 {
-    transform_ptr result = malloc(sizeof(transform_type));
+    transform_hld result = malloc(sizeof(transform_type));
     result->bytes = NULL;
     result->description = int32_addition_description;
 
@@ -24,7 +24,7 @@ transform_ptr int32_addition_construct()
     return result;
 }
 
-static void int32_addition_destruct(transform_holder transform)
+static void int32_addition_destruct(transform_mv transform)
 {
     assert(transform != NULL);
     assert(*transform != NULL);
@@ -37,7 +37,7 @@ static void int32_addition_destruct(transform_holder transform)
     *transform = NULL;
 }
 
-static context_ptr int32_addition_function(transform_cptr transform, context_holder input)
+static context_hld int32_addition_function(transform_cref transform, context_mv input)
 {
     assert(input != NULL);
     assert(*input != NULL);
@@ -52,12 +52,12 @@ static context_ptr int32_addition_function(transform_cptr transform, context_hol
     datum_destruct(&((*input)->data[1]));
     context_destruct(input);
 
-    context_ptr result = context_construct(1, 0);
+    context_hld result = context_construct(1, 0);
     result->data[0] = int32_datum_construct(v0 + v1);
     return result;
 }
 
-transform_description_ptr int32_addition_register(transform_description_cptr head)
+transform_description_hld int32_addition_register(transform_description_cref head)
 {
     int32_addition_input = context_scheme("{\"int32\": 1}, {\"int32\": 1}", "");
     int32_addition_output = context_scheme("{\"int32\": 1}", "");

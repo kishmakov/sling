@@ -20,7 +20,7 @@ trie_node_ptr trie_node_construct(char code)
     return result;
 }
 
-void trie_node_destruct(trie_node_holder node)
+void trie_node_destruct(trie_node_mv node)
 {
     DEBUG(allocation_list_remove(&allocated_trie_nodes, *node));
 
@@ -32,7 +32,7 @@ void trie_node_destruct(trie_node_holder node)
     *node = NULL;
 }
 
-void trie_insert(trie_holder node, const char* tag, void* value)
+void trie_insert(trie_mv node, const char* tag, void* value)
 {
     assert(tag != NULL);
     assert(*tag != 0);
@@ -57,7 +57,7 @@ void trie_insert(trie_holder node, const char* tag, void* value)
     }
 }
 
-void* trie_remove(trie_holder node, const char* tag)
+void* trie_remove(trie_mv node, const char* tag)
 {
     assert(tag != NULL);
     assert(*tag != 0);
@@ -75,7 +75,7 @@ void* trie_remove(trie_holder node, const char* tag)
 
         assert((*node) != NULL);
 
-        trie_node_holder next_ver = &((*node)->ver);
+        trie_node_mv next_ver = &((*node)->ver);
         result = (*node)->value;
         (*node)->value = *(++tag) == 0 ? NULL : result;
 

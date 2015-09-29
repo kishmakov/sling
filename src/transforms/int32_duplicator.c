@@ -6,15 +6,15 @@
 #include <assert.h>
 #include <stdlib.h>
 
-static transform_description_ptr int32_duplicator_description = NULL;
+static transform_description_hld int32_duplicator_description = NULL;
 
 static char* int32_duplicator_input = NULL;
 static char* int32_duplicator_output = NULL;
 static const char* int32_duplicator_profile = "int32_x2";
 
-transform_ptr int32_duplicator_construct()
+transform_hld int32_duplicator_construct()
 {
-    transform_ptr result = malloc(sizeof(transform_type));
+    transform_hld result = malloc(sizeof(transform_type));
     result->bytes = NULL;
     result->description = int32_duplicator_description;
 
@@ -24,7 +24,7 @@ transform_ptr int32_duplicator_construct()
     return result;
 }
 
-static void int32_duplicator_destruct(transform_holder transform)
+static void int32_duplicator_destruct(transform_mv transform)
 {
     assert(transform != NULL);
     assert(*transform != NULL);
@@ -37,7 +37,7 @@ static void int32_duplicator_destruct(transform_holder transform)
     *transform = NULL;
 }
 
-static context_ptr int32_duplicator_function(transform_cptr transform, context_holder input)
+static context_hld int32_duplicator_function(transform_cref transform, context_mv input)
 {
     assert(input != NULL);
     assert(*input != NULL);
@@ -46,11 +46,11 @@ static context_ptr int32_duplicator_function(transform_cptr transform, context_h
     assert((*input)->transforms_size == 0);
     assert(transform->description == int32_duplicator_description);
 
-    datum_ptr datum = (*input)->data[0];
+    datum_hld datum = (*input)->data[0];
     (*input)->data[0] = NULL;
     context_destruct(input);
 
-    context_ptr result = context_construct(2, 0);
+    context_hld result = context_construct(2, 0);
     result->data[0] = datum;
     result->data[1] = datum_copy(datum);
 
@@ -59,7 +59,7 @@ static context_ptr int32_duplicator_function(transform_cptr transform, context_h
     return result;
 }
 
-transform_description_ptr int32_duplicator_register(transform_description_cptr head)
+transform_description_hld int32_duplicator_register(transform_description_cref head)
 {
     int32_duplicator_input = context_scheme("{\"int32\": 1}", "");
     int32_duplicator_output = context_scheme("{\"int32\": 1}, {\"int32\": 1}", "");

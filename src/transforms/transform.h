@@ -7,11 +7,11 @@ DEBUG(extern allocation_list allocated_transforms);
 
 MACRO_STRUCTURE_DEFINITION(transform) {
     void* bytes;
-    transform_description_ptr description;
+    transform_description_cref description;
 };
 
-transform_ptr transform_construct(transform_description_cptr description);
+transform_hld transform_construct(transform_description_cref description);
 
-void transform_destruct(transform_holder transform);
+void transform_destruct(transform_mv transform);
 
-context_ptr transform_function(transform_cptr transform, context_holder input);
+context_hld transform_function(transform_cref transform, context_mv input);

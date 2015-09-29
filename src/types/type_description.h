@@ -10,7 +10,7 @@ MACRO_STRUCTURE_DEFINITION(type_description)
 {
     char * scheme;
     uint32_t size;
-    type_description_cptr next;
+    type_description_cref next;
 };
 
-type_description_ptr types_descriptions();
+type_description_cref types_descriptions();

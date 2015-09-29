@@ -15,9 +15,11 @@ MACRO_STRUCTURE_DEFINITION(transmitter) {
     MACRO_VECTOR_DEFINITION(transforms_maps, id_map_type);
 };
 
-transmitter_ptr transmitter_construct(uint32_t data_size, uint32_t transforms_size);
+transmitter_hld transmitter_construct(uint32_t data_size, uint32_t transforms_size);
 
-void transmitter_destruct(transmitter_holder transmitter);
+void transmitter_destruct(transmitter_mv transmitter);
 
-void transmit(transmitter_cptr transmitter, context_ptr dst, context_ptr src);
+void transmit(transmitter_cref transmitter, context_ref dst, context_ref src);
+
+void transmit_copy(transmitter_cref transmitter, context_ref dst, context_ref src);
 

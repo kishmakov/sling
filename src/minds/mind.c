@@ -7,7 +7,7 @@
 
 DEBUG(allocation_list allocated_minds = NULL);
 
-mind_ptr mind_construct(mind_description_cptr description)
+mind_ptr mind_construct(mind_description_cref description)
 {
     assert(description != NULL); // description registred?
     assert(description->construct != NULL);
@@ -25,12 +25,12 @@ mind_ptr mind_construct(mind_description_cptr description)
     // return result;
 }
 
-void mind_destruct(mind_holder mind)
+void mind_destruct(mind_mv mind)
 {
     assert(mind != NULL);
     assert(*mind != NULL);
 
-    mind_description_cptr description = (*mind)->description;
+    mind_description_cref description = (*mind)->description;
 
     assert(description != NULL);
     assert(description->destruct != NULL);
@@ -46,12 +46,12 @@ void mind_destruct(mind_holder mind)
     // *mind = NULL;
 };
 
-// mind_ptr mind_copy(mind_cptr mind)
+// mind_ptr mind_copy(mind_cref mind)
 // {
 //     return mind_construct(mind->description, mind->bytes);
 // }
 
-uint32_t mind_function(mind_cptr mind, context_holder input)
+uint32_t mind_function(mind_cref mind, context_mv input)
 {
     assert(input != NULL);
     assert(*input != NULL);

@@ -7,15 +7,15 @@
 #include <assert.h>
 #include <stdlib.h>
 
-static transform_description_ptr int32_to_double_description = NULL;
+static transform_description_hld int32_to_double_description = NULL;
 
 static char* int32_to_double_input = NULL;
 static char* int32_to_double_output = NULL;
 static const char* int32_to_double_profile = "int32_to_double";
 
-transform_ptr int32_to_double_construct()
+transform_hld int32_to_double_construct()
 {
-    transform_ptr result = malloc(sizeof(transform_type));
+    transform_hld result = malloc(sizeof(transform_type));
     result->bytes = NULL;
     result->description = int32_to_double_description;
 
@@ -25,7 +25,7 @@ transform_ptr int32_to_double_construct()
     return result;
 }
 
-static void int32_to_double_destruct(transform_holder transform)
+static void int32_to_double_destruct(transform_mv transform)
 {
     assert(transform != NULL);
     assert(*transform != NULL);
@@ -38,7 +38,7 @@ static void int32_to_double_destruct(transform_holder transform)
     *transform = NULL;
 }
 
-static context_ptr int32_to_double_function(transform_cptr transform, context_holder input)
+static context_hld int32_to_double_function(transform_cref transform, context_mv input)
 {
     assert(input != NULL);
 
@@ -52,7 +52,7 @@ static context_ptr int32_to_double_function(transform_cptr transform, context_ho
     datum_destruct(&((*input)->data[0]));
     context_destruct(input);
 
-    context_ptr result = context_construct(1, 0);
+    context_hld result = context_construct(1, 0);
     result->data[0] = double_datum_construct((double) val);
 
     DLOG("%zu converted to %zu.", source, (size_t) result->data[0]);
@@ -60,7 +60,7 @@ static context_ptr int32_to_double_function(transform_cptr transform, context_ho
     return result;
 }
 
-transform_description_ptr int32_to_double_register(transform_description_cptr head)
+transform_description_hld int32_to_double_register(transform_description_cref head)
 {
     int32_to_double_input = context_scheme("{\"int32\": 1}", "");
     int32_to_double_output = context_scheme("{\"double\": 1}", "");

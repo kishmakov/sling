@@ -2,6 +2,6 @@
 
 #include "transforms/transform.h"
 
-transform_description_ptr int32_addition_register(transform_description_cptr head);
+transform_description_hld int32_addition_register(transform_description_cref head);
 
-transform_ptr int32_addition_construct();
+transform_hld int32_addition_construct();

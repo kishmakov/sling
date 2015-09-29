@@ -8,13 +8,13 @@
 void init_transforms_descriptions();
 
 struct transform_type;
-typedef struct transform_type* transform_ptr;
-typedef transform_ptr* transform_holder;
-typedef const struct transform_type* transform_cptr;
+typedef struct transform_type* transform_hld;
+typedef struct transform_type** transform_mv;
+typedef const struct transform_type* transform_cref;
 
 MACRO_STRUCTURE_DEFINITION(transform_description)
 {
-    transform_description_cptr next;
+    transform_description_cref next;
 
     const char * input_scheme;
     const char * output_scheme;
@@ -22,10 +22,10 @@ MACRO_STRUCTURE_DEFINITION(transform_description)
 
     // transform methods
 
-    transform_ptr (*construct)(void);
-    void (*destruct)(transform_holder transform);
-    context_ptr (*function)(transform_cptr transform, context_holder input);
+    transform_hld (*construct)(void);
+    void (*destruct)(transform_mv transform);
+    context_hld (*function)(transform_cref transform, context_mv input);
 };
 
-transform_description_ptr transforms_descriptions();
+transform_description_cref transforms_descriptions();
 

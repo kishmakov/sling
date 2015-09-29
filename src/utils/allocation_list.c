@@ -6,46 +6,59 @@
 #include <stdlib.h>
 #include <string.h>
 
-void allocation_list_insert(allocation_list* node_holder, const void * address)
+allocation_list allocation_list_insert(allocation_list_mv head, const void * address)
 {
     assert(address != NULL);
-    assert(node_holder != NULL);
+    assert(head != NULL);
 
-    allocation_list_node_ptr new_head = malloc(sizeof(allocation_list_node_type));
-    new_head->next = *node_holder;
+    allocation_list_node_hld new_head = malloc(sizeof(allocation_list_node_type));
+    new_head->next = *head;
     new_head->allocated_address = address;
-    *node_holder = new_head;
+    *head = NULL;
+
+    return new_head;
 }
 
-void allocation_list_remove(allocation_list* node_holder, const void* address)
+allocation_list allocation_list_remove(allocation_list_mv head, const void* address)
 {
     assert(address != NULL);
-    assert(node_holder != NULL);
-    assert(*node_holder != NULL);
+    assert(*head != NULL);
 
-    int count = 0;
+    allocation_list result = NULL;
 
-    for (; *node_holder != NULL; ) {
-        if (address != (*node_holder)->allocated_address) {
-            node_holder = &((*node_holder)->next);
-            continue;
-        }
+    if (*head == NULL)
+        return result;
 
-        allocation_list_node_ptr to_destruct = *node_holder;
-        *node_holder = (*node_holder)->next;
-        free(to_destruct);
-        count++;
+    if ((*head)->allocated_address == address) {
+        result = (*head)->next;
+        free(*head);
+        *head = NULL;
+        return result;
     }
 
-    assert(count == 1);
+    for (allocation_list_node_mv cur = head; *cur != NULL; cur = &((*cur)->next)) {
+        if (address != (*cur)->allocated_address)
+            continue;
+
+        allocation_list_node_hld to_destruct = *cur;
+        *cur = (*cur)->next;
+        free(to_destruct);
+        to_destruct = NULL;
+    }
+
+    result = *head;
+    *head = NULL;
+
+    return result;
+
 }
 
-void allocation_list_to_string(const allocation_list* node_holder, char* buffer, int max_size)
+void allocation_list_to_string(allocation_list_cref head, char* buffer, int max_size)
 {
     char local_buffer[20];
 
-    for (; *node_holder != NULL; node_holder = &((*node_holder)->next)) {
-        sprintf(local_buffer, " %zu", (size_t) (*node_holder)->allocated_address);
+    for (; head != NULL; head = head->next) {
+        sprintf(local_buffer, " %zu", (size_t) head->allocated_address);
         if (strlen(buffer) + strlen(local_buffer) >= max_size)
             return;
 

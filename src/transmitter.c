@@ -6,15 +6,15 @@
 #include <assert.h>
 #include <stdlib.h>
 
-transmitter_ptr transmitter_construct(uint32_t data_size, uint32_t transforms_size)
+transmitter_hld transmitter_construct(uint32_t data_size, uint32_t transforms_size)
 {
-    transmitter_ptr result = malloc(sizeof(transmitter_type));
+    transmitter_hld result = malloc(sizeof(transmitter_type));
     MACRO_VECTOR_ALLOCATE(result->data_maps, id_map_type, data_size);
     MACRO_VECTOR_ALLOCATE(result->transforms_maps, id_map_type, transforms_size);
     return result;
 }
 
-void transmitter_destruct(transmitter_holder transmitter)
+void transmitter_destruct(transmitter_mv transmitter)
 {
     free((*transmitter)->data_maps);
     free((*transmitter)->transforms_maps);
@@ -23,8 +23,8 @@ void transmitter_destruct(transmitter_holder transmitter)
 };
 
 #if __clang_major__ > 3 || (__clang_major__ == 3 && __clang_minor__ >= 5)
-static_assert(sizeof(void*) == sizeof(transform_ptr), "Required for pointer independent code.");
-static_assert(sizeof(void*) == sizeof(datum_ptr), "Required for pointer independent code.");
+static_assert(sizeof(void*) == sizeof(transform_hld), "Required for pointer independent code.");
+static_assert(sizeof(void*) == sizeof(datum_hld), "Required for pointer independent code.");
 #endif
 
 typedef void** void_ptr_array;
@@ -51,7 +51,7 @@ void transmit_pointes(
     }
 }
 
-void transmit(transmitter_cptr transmitter, context_ptr dst, context_ptr src)
+void transmit(transmitter_cref transmitter, context_ref dst, context_ref src)
 {
     transmit_pointes(
         transmitter->data_maps_size, transmitter->data_maps,

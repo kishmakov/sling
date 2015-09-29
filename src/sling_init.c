@@ -25,7 +25,7 @@ void sling_init(const char * logging_file_name)
 }
 
 
-void allocation_balance(allocation_list allocated_objects, const char * msg)
+void allocation_balance(allocation_list_cref allocated_objects, const char * msg)
 {
     static const size_t MAX_MESSAGE_SIZE = 500;
     static char buffer[MAX_MESSAGE_SIZE + 1];
@@ -34,7 +34,7 @@ void allocation_balance(allocation_list allocated_objects, const char * msg)
         return;
 
     sprintf(buffer, "Remaining %s  objects at addresses: ", msg);
-    allocation_list_to_string(&allocated_objects, buffer, MAX_MESSAGE_SIZE);
+    allocation_list_to_string(allocated_objects, buffer, MAX_MESSAGE_SIZE);
     LOG("%s", buffer);
 }
 
