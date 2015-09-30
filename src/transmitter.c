@@ -1,6 +1,8 @@
 #include "transmitter.h"
 
 #include "context.h"
+#include "transforms/transform.h"
+#include "types/datum.h"
 #include "utils/utils.h"
 
 #include <assert.h>
@@ -27,46 +29,71 @@ static_assert(sizeof(void*) == sizeof(transform_hld), "Required for pointer inde
 static_assert(sizeof(void*) == sizeof(datum_hld), "Required for pointer independent code.");
 #endif
 
-typedef void** void_ptr_array;
-
-void transmit_pointes(
-    uint32_t maps_size, const id_map_type* maps,
-    uint32_t dst_size, void_ptr_array* dst,
-    uint32_t src_size, void_ptr_array* src)
+id_map_type maximal_indices(uint32_t maps_size, const id_map_type* maps)
 {
-    uint32_t maxDstId = 0;
+    id_map_type result = { .from = 0, .to = 0};
 
-    for (int mapId = 0; mapId < maps_size; mapId++) {
-        assert(maps[mapId].from < src_size);
-        maxDstId = MACRO_MIN(maxDstId, maps[mapId].to);
+    for (uint32_t id = 0; id < maps_size; id++) {
+        result.from = MACRO_MAX(result.from, maps[id].from);
+        result.to   = MACRO_MAX(result.to,   maps[id].to);
     }
 
-    if (maxDstId > dst_size)
-        *dst = realloc(*dst, maxDstId + 1);
-
-    for (int mapId = 0; mapId < maps_size; mapId++) {
-        assert((*dst)[maps[mapId].to] == NULL);
-        (*dst)[maps[mapId].to] = (*src)[maps[mapId].from];
-        (*src)[maps[mapId].from] = NULL;
-    }
+    return result;
 }
 
 void transmit_move(transmitter_cref transmitter, context_ref dst, context_ref src)
 {
-    transmit_pointes(
-        transmitter->data_maps_size, transmitter->data_maps,
-        dst->data_size, (void_ptr_array*) &(dst->data),
-        src->data_size, (void_ptr_array*) &(src->data));
+    id_map_type data_indices = maximal_indices(transmitter->data_maps_size,
+        transmitter->data_maps);
 
-    transmit_pointes(
-        transmitter->transforms_maps_size, transmitter->transforms_maps,
-        dst->transforms_size, (void_ptr_array*) &(dst->transforms),
-        src->transforms_size, (void_ptr_array*) &(src->transforms));
+    assert(src->data_size > data_indices.from);
+    if (dst->data_size <= data_indices.to)
+        dst->data = realloc(dst->data, data_indices.to + 1);
+
+    for (uint32_t id = 0; id < transmitter->data_maps_size; id++) {
+        id_map_type map = transmitter->data_maps[id];
+        dst->data[map.to] = src->data[map.from];
+        src->data[map.from] = NULL;
+    }
+
+    id_map_type transforms_indices = maximal_indices(transmitter->transforms_maps_size,
+        transmitter->transforms_maps);
+
+    assert(src->transforms_size > transforms_indices.from);
+    if (dst->transforms_size <= transforms_indices.to)
+        dst->data = realloc(dst->data, transforms_indices.to + 1);
+
+    for (uint32_t id = 0; id < transmitter->transforms_maps_size; id++) {
+        id_map_type map = transmitter->transforms_maps[id];
+        dst->transforms[map.to] = src->transforms[map.from];
+        src->transforms[map.from] = NULL;
+    }
 }
 
 void transmit_copy(transmitter_cref transmitter, context_ref dst, context_ref src)
 {
-    (void) transmitter;
-    (void) dst;
-    (void) src;
+    id_map_type data_indices = maximal_indices(transmitter->data_maps_size,
+        transmitter->data_maps);
+
+    assert(src->data_size > data_indices.from);
+    if (dst->data_size <= data_indices.to)
+        dst->data = realloc(dst->data, data_indices.to + 1);
+
+    for (uint32_t id = 0; id < transmitter->data_maps_size; id++) {
+        id_map_type map = transmitter->data_maps[id];
+        dst->data[map.to] = datum_copy(src->data[map.from]);
+    }
+
+    id_map_type transforms_indices = maximal_indices(transmitter->transforms_maps_size,
+        transmitter->transforms_maps);
+
+    assert(src->transforms_size > transforms_indices.from);
+    if (dst->transforms_size <= transforms_indices.to)
+        dst->data = realloc(dst->data, transforms_indices.to + 1);
+
+    for (uint32_t id = 0; id < transmitter->transforms_maps_size; id++) {
+        id_map_type map = transmitter->transforms_maps[id];
+        transform_cref transform = (transform_cref) src->transforms[map.from];
+        dst->transforms[map.to] = (void*) transform->description->copy(transform);
+    }
 }

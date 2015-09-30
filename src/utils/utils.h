@@ -3,6 +3,7 @@
 #include <stdint.h>
 
 #define MACRO_MIN(x, y)  ((x) < (y) ? (x) : (y))
+#define MACRO_MAX(x, y)  ((x) > (y) ? (x) : (y))
 
 typedef void** out_param;
 
