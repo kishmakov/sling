@@ -33,7 +33,7 @@ struct Transmitter
     std::vector<IdMap> computationsMaps;
     std::vector<IdMap> dataMaps;
 
-    void transmit(ContextPtr donor, ContextPtr recepient) const;
+    void transmit_move(ContextPtr donor, ContextPtr recepient) const;
 };
 
 typedef std::unique_ptr<Transmitter> TransmitterUPtr;

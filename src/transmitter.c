@@ -51,7 +51,7 @@ void transmit_pointes(
     }
 }
 
-void transmit(transmitter_cref transmitter, context_ref dst, context_ref src)
+void transmit_move(transmitter_cref transmitter, context_ref dst, context_ref src)
 {
     transmit_pointes(
         transmitter->data_maps_size, transmitter->data_maps,
@@ -62,4 +62,11 @@ void transmit(transmitter_cref transmitter, context_ref dst, context_ref src)
         transmitter->transforms_maps_size, transmitter->transforms_maps,
         dst->transforms_size, (void_ptr_array*) &(dst->transforms),
         src->transforms_size, (void_ptr_array*) &(src->transforms));
+}
+
+void transmit_copy(transmitter_cref transmitter, context_ref dst, context_ref src)
+{
+    (void) transmitter;
+    (void) dst;
+    (void) src;
 }

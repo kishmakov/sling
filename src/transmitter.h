@@ -19,7 +19,7 @@ transmitter_hld transmitter_construct(uint32_t data_size, uint32_t transforms_si
 
 void transmitter_destruct(transmitter_mv transmitter);
 
-void transmit(transmitter_cref transmitter, context_ref dst, context_ref src);
+void transmit_move(transmitter_cref transmitter, context_ref dst, context_ref src);
 
 void transmit_copy(transmitter_cref transmitter, context_ref dst, context_ref src);
 
