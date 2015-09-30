@@ -25,6 +25,7 @@ type_name ## _description->input_scheme = &type_name ## _input_scheme; \
 type_name ## _description->output_scheme = &type_name ## _output_scheme; \
 type_name ## _description->profile = &type_name ## _profile; \
 type_name ## _description->construct = &type_name ## _construct; \
+type_name ## _description->copy = &type_name ## _copy; \
 type_name ## _description->destruct = &type_name ## _destruct; \
 type_name ## _description->function = &type_name ## _function
 

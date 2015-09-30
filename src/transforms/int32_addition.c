@@ -46,6 +46,20 @@ transform_hld int32_addition_construct()
     return result;
 }
 
+static transform_hld int32_addition_copy(transform_cref transform)
+{
+    (void) transform;
+
+    transform_hld result = malloc(sizeof(transform_type));
+    result->bytes = NULL;
+    result->description = int32_addition_description;
+
+    DEBUG(allocation_list_insert(&allocated_transforms, result));
+    DLOG("%s copied @ %zu.", int32_addition_profile(), (size_t) result);
+
+    return result;
+}
+
 static void int32_addition_destruct(transform_mv transform)
 {
     assert(transform != NULL);

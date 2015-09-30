@@ -46,6 +46,20 @@ transform_hld int32_duplicator_construct()
     return result;
 }
 
+static transform_hld int32_duplicator_copy(transform_cref transform)
+{
+    (void) transform;
+
+    transform_hld result = malloc(sizeof(transform_type));
+    result->bytes = NULL;
+    result->description = int32_duplicator_description;
+
+    DEBUG(allocation_list_insert(&allocated_transforms, result));
+    DLOG("%s copied @ %zu.", int32_duplicator_profile(), (size_t) result);
+
+    return result;
+}
+
 static void int32_duplicator_destruct(transform_mv transform)
 {
     assert(transform != NULL);
