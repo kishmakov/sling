@@ -16,15 +16,15 @@ void run_int32_addition_tests(void **state)
 {
     (void) state;
 
-    transform_ptr addition = int32_addition_construct();
+    transform_hld addition = int32_addition_construct();
 
     for (int i = 0; i + 1 < N; i++)
         for (int j = i + 1; j < N; j++) {
-            context_ptr input = context_construct(2, 0);
+            context_hld input = context_construct(2, 0);
             input->data[0] = int32_datum_construct(vs[i]);
             input->data[1] = int32_datum_construct(vs[j]);
 
-            context_ptr output = transform_function(addition, &input);
+            context_hld output = transform_function(addition, &input);
 
             assert_null(input);
             assert_int_equal(output->data_size, 1);
@@ -44,13 +44,13 @@ void run_int32_duplicator_tests(void **state)
 {
     (void) state;
 
-    transform_ptr duplicator = int32_duplicator_construct();
+    transform_hld duplicator = int32_duplicator_construct();
 
     for (int i = 0; i < N; i++) {
-        context_ptr input = context_construct(1, 0);
+        context_hld input = context_construct(1, 0);
         input->data[0] = int32_datum_construct(vs[i]);
 
-        context_ptr output = transform_function(duplicator, &input);
+        context_hld output = transform_function(duplicator, &input);
 
         assert_null(input);
         assert_int_equal(output->data_size, 2);
@@ -73,12 +73,12 @@ void run_int32_to_double_tests(void **state)
 {
     (void) state;
 
-    transform_ptr converter = int32_to_double_construct();
+    transform_hld converter = int32_to_double_construct();
 
     for (int i = 0; i < N; i++) {
-        context_ptr input = context_construct(1, 0);
+        context_hld input = context_construct(1, 0);
         input->data[0] = int32_datum_construct(vs[i]);
-        context_ptr output = transform_function(converter, &input);
+        context_hld output = transform_function(converter, &input);
         assert_null(input);
         assert_int_equal(output->data_size, 1);
 

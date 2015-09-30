@@ -4,29 +4,30 @@
 #include <stdlib.h>
 
 
-list list_insert(list_mv list, void* value)
+list_hld list_insert(list_node_mv head, void* src)
 {
-    assert(value != NULL);
+    assert(src != NULL);
     assert(head != NULL);
 
-    list_node_ptr new_head = malloc(sizeof(list_node_type));
+    list_node_hld new_head = malloc(sizeof(list_node_type));
     new_head->next = *head;
-    new_head->value = value;
-    *head = new_head;
+    new_head->value = src;
+
+    return new_head;
 }
 
-list list_pop_front(list_mv list, out_param value)
+list_hld list_pop_front(list_node_mv head, out_param dst)
 {
     assert(head != NULL);
 
     if (*head == NULL)
         return NULL;
 
-    void* result = (*head)->value;
-    list_node_ptr to_destruct = *head;
-    *head = (*head)->next;
+    *dst = (*head)->value;
+    list_hld next_head = (*head)->next;
 
-    free(to_destruct);
+    free(*head);
+    *head = NULL;
 
-    return result;
+    return next_head;
 }

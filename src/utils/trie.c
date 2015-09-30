@@ -4,18 +4,18 @@
 
 #include <stdlib.h>
 
-DEBUG(allocation_list_node_ptr allocated_trie_nodes = NULL);
+DEBUG(allocation_list allocated_trie_nodes = NULL);
 
-trie_node_ptr trie_node_construct(char code)
+trie_node_hld trie_node_construct(char code)
 {
-    trie_node_ptr result = malloc(sizeof(trie_node_type));
+    trie_node_hld result = malloc(sizeof(trie_node_type));
     result->ver = NULL;
     result->hor = NULL;
     result->value = NULL;
     result->count = 0;
     result->code = code;
 
-    DEBUG(allocation_list_insert(&allocated_trie_nodes, result));
+    DEBUG(allocated_trie_nodes = allocation_list_insert(&allocated_trie_nodes, result));
 
     return result;
 }
@@ -32,19 +32,27 @@ void trie_node_destruct(trie_node_mv node)
     *node = NULL;
 }
 
-void trie_insert(trie_mv node, const char* tag, void* value)
+trie_hld trie_insert(trie_node_mv node, const char* tag, void* value)
 {
     assert(tag != NULL);
     assert(*tag != 0);
     assert(node != NULL);
-    assert(trie_check(node, tag) == NULL);
+    assert(trie_check(*node, tag) == NULL);
+
+    trie_hld new_head = NULL;
+
+    if (*node != NULL)
+        new_head = *node;
 
     while (1) {
         while (*node != NULL && (*node)->code != *tag)
             node = &((*node)->hor);
 
-        if (*node == NULL)
+        if (*node == NULL) {
             *node = trie_node_construct(*tag);
+            if (new_head == NULL)
+                new_head = *node;
+        }
 
         (*node)->count++;
 
@@ -55,19 +63,23 @@ void trie_insert(trie_mv node, const char* tag, void* value)
 
         node = &((*node)->ver);
     }
+
+    return new_head;
 }
 
-void* trie_remove(trie_mv node, const char* tag)
+trie_hld trie_remove(trie_mv node, const char* tag, out_param dst)
 {
     assert(tag != NULL);
     assert(*tag != 0);
     assert(node != NULL);
 
-    void* result = trie_check(node, tag);
-    if (result == NULL)
-        return result;
+    trie_node_hld* ptr_to_head = node;
 
-    list removed_nodes = NULL;
+    *dst = trie_check(*node, tag);
+    if (*dst == NULL)
+        return *ptr_to_head;
+
+    list_hld removed_nodes = NULL;
 
     while (1) {
         while (*node != NULL && (*node)->code != *tag)
@@ -76,12 +88,12 @@ void* trie_remove(trie_mv node, const char* tag)
         assert((*node) != NULL);
 
         trie_node_mv next_ver = &((*node)->ver);
-        result = (*node)->value;
-        (*node)->value = *(++tag) == 0 ? NULL : result;
+        *dst = (*node)->value;
+        (*node)->value = *(++tag) == 0 ? NULL : *dst;
 
         if (--(*node)->count == 0) {
             assert((*node)->value == NULL || *tag == 0);
-            list_insert(&removed_nodes, *node);
+            removed_nodes = list_insert(&removed_nodes, *node);
             *node = (*node)->hor;
         }
 
@@ -91,7 +103,8 @@ void* trie_remove(trie_mv node, const char* tag)
     }
 
     while (removed_nodes != NULL) {
-        trie_node_ptr node = list_pop_front(&removed_nodes);
+        trie_node_hld node = NULL;
+        removed_nodes = list_pop_front(&removed_nodes, (void*) &node);
         node->value = NULL;
         node->ver = NULL;
         node->hor = NULL;
@@ -99,25 +112,24 @@ void* trie_remove(trie_mv node, const char* tag)
         assert(node == NULL);
     }
 
-    return result;
+    return *ptr_to_head;
 }
 
-void* trie_check(const trie* node, const char* tag)
+void* trie_check(trie_cref node, const char* tag)
 {
-    assert(node != NULL);
     assert(tag != NULL);
     assert(*tag != 0);
 
     while (1) {
-        while (*node != NULL && (*node)->code != *tag)
-            node = &((*node)->hor);
+        while (node != NULL && node->code != *tag)
+            node = node->hor;
 
-        if (*node == NULL)
+        if (node == NULL)
             return NULL;
 
         if (*(++tag) == 0)
-            return (*node)->value;
+            return node->value;
 
-        node = &((*node)->ver);
+        node = node->ver;
     }
 }

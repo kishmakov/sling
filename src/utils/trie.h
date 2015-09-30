@@ -5,7 +5,7 @@
 
 #include <stdint.h>
 
-DEBUG(extern allocation_list_node_hld allocated_trie_nodes);
+DEBUG(extern allocation_list allocated_trie_nodes);
 
 MACRO_STRUCTURE_DEFINITION(trie_node)
 {
@@ -23,6 +23,6 @@ typedef trie_node_mv trie_mv;
 trie_node_hld trie_node_construct(char code);
 void trie_node_destruct(trie_node_mv trie_node);
 
-void  trie_insert(trie_mv root, const char* tag, void* value);
-void* trie_remove(trie_mv root, const char* tag);
-void* trie_check(trie_cref root, const char* tag);
+trie_hld trie_insert(trie_mv root, const char* tag, void* src);
+trie_hld trie_remove(trie_mv root, const char* tag, out_param dst);
+void*    trie_check(trie_cref root, const char* tag);

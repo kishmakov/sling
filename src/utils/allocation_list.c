@@ -22,7 +22,7 @@ allocation_list allocation_list_insert(allocation_list_mv head, const void * add
 allocation_list allocation_list_remove(allocation_list_mv head, const void* address)
 {
     assert(address != NULL);
-    assert(*head != NULL);
+    assert(head != NULL);
 
     allocation_list result = NULL;
 

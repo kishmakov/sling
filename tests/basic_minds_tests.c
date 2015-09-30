@@ -14,11 +14,11 @@ void run_int32_compare_tests(void **state)
 {
     (void) state;
 
-    mind_ptr compare = int32_compare_construct();
+    mind_hld compare = int32_compare_construct();
 
     for (int i = 0; i  < N; i++)
         for (int j = 0; j < N; j++) {
-            context_ptr input = context_construct(2, 0);
+            context_hld input = context_construct(2, 0);
             input->data[0] = int32_datum_construct(vs[i]);
             input->data[1] = int32_datum_construct(vs[j]);
 
@@ -37,10 +37,10 @@ void run_int32_sign_tests(void **state)
 {
     (void) state;
 
-    mind_ptr sign = int32_sign_construct();
+    mind_hld sign = int32_sign_construct();
 
     for (int i = 0; i  < N; i++) {
-        context_ptr input = context_construct(1, 0);
+        context_hld input = context_construct(1, 0);
         input->data[0] = int32_datum_construct(vs[i]);
 
         uint32_t result_needed = 1 + (vs[i] > 0) - (vs[i] < 0);
