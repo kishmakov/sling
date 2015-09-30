@@ -9,9 +9,31 @@
 
 static transform_description_hld int32_to_double_description = NULL;
 
-static char* int32_to_double_input = NULL;
-static char* int32_to_double_output = NULL;
-static const char* int32_to_double_profile = "int32_to_double";
+const char* int32_to_double_input_scheme()
+{
+    static char* scheme = NULL;
+
+    if (!scheme)
+        scheme = context_scheme("{\"int32\": 1}", "");
+
+    return scheme;
+}
+
+const char* int32_to_double_output_scheme()
+{
+    static char* scheme = NULL;
+
+    if (!scheme)
+        scheme = context_scheme("{\"double\": 1}", "");
+
+    return scheme;
+}
+
+const char* int32_to_double_profile()
+{
+    static const char* profile = "int32_to_double";
+    return profile;
+}
 
 transform_hld int32_to_double_construct()
 {
@@ -20,7 +42,7 @@ transform_hld int32_to_double_construct()
     result->description = int32_to_double_description;
 
     DEBUG(allocation_list_insert(&allocated_transforms, result));
-    DLOG("%s constructed @ %zu.", int32_to_double_profile, (size_t) result);
+    DLOG("%s constructed @ %zu.", int32_to_double_profile(), (size_t) result);
 
     return result;
 }
@@ -32,7 +54,7 @@ static void int32_to_double_destruct(transform_mv transform)
     assert((*transform)->description == int32_to_double_description);
 
     DEBUG(allocation_list_remove(&allocated_transforms, *transform));
-    DLOG("%s destructed @ %zu.", int32_to_double_profile, (size_t) *transform);
+    DLOG("%s destructed @ %zu.", int32_to_double_profile(), (size_t) *transform);
 
     free(*transform);
     *transform = NULL;
@@ -62,9 +84,6 @@ static context_hld int32_to_double_function(transform_cref transform, context_mv
 
 transform_description_hld int32_to_double_register(transform_description_cref head)
 {
-    int32_to_double_input = context_scheme("{\"int32\": 1}", "");
-    int32_to_double_output = context_scheme("{\"double\": 1}", "");
-
     MACRO_TRANSFORM_INITIALIZER(int32_to_double);
 
     int32_to_double_description->next = head;

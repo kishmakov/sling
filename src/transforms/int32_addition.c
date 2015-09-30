@@ -8,9 +8,31 @@
 
 static transform_description_hld int32_addition_description = NULL;
 
-static char* int32_addition_input = NULL;
-static char* int32_addition_output = NULL;
-static const char* int32_addition_profile = "int32_add";
+const char* int32_addition_input_scheme()
+{
+    static char* scheme = NULL;
+
+    if (!scheme)
+        scheme = context_scheme("{\"int32\": 1}, {\"int32\": 1}", "");
+
+    return scheme;
+}
+
+const char* int32_addition_output_scheme()
+{
+    static char* scheme = NULL;
+
+    if (!scheme)
+        scheme = context_scheme("{\"int32\": 1}", "");
+
+    return scheme;
+}
+
+const char* int32_addition_profile()
+{
+    static const char* profile = "int32_add";
+    return profile;
+}
 
 transform_hld int32_addition_construct()
 {
@@ -19,7 +41,7 @@ transform_hld int32_addition_construct()
     result->description = int32_addition_description;
 
     DEBUG(allocation_list_insert(&allocated_transforms, result));
-    DLOG("%s constructed @ %zu.", int32_addition_profile, (size_t) result);
+    DLOG("%s constructed @ %zu.", int32_addition_profile(), (size_t) result);
 
     return result;
 }
@@ -31,7 +53,7 @@ static void int32_addition_destruct(transform_mv transform)
     assert((*transform)->description == int32_addition_description);
 
     DEBUG(allocation_list_remove(&allocated_transforms, *transform));
-    DLOG("%s destructed @ %zu.", int32_addition_profile, (size_t) *transform);
+    DLOG("%s destructed @ %zu.", int32_addition_profile(), (size_t) *transform);
 
     free(*transform);
     *transform = NULL;
@@ -59,9 +81,6 @@ static context_hld int32_addition_function(transform_cref transform, context_mv 
 
 transform_description_hld int32_addition_register(transform_description_cref head)
 {
-    int32_addition_input = context_scheme("{\"int32\": 1}, {\"int32\": 1}", "");
-    int32_addition_output = context_scheme("{\"int32\": 1}", "");
-
     MACRO_TRANSFORM_INITIALIZER(int32_addition);
 
     int32_addition_description->next = head;
