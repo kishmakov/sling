@@ -1,4 +1,4 @@
-# Code Convention
+# Code Conventions
 
 ## Ownership
 
@@ -13,19 +13,19 @@ typedef struct type_name_type        type_name_type;
 // type short name for malloc usage
 
 typedef struct type_name_type*       type_name_hld;
-// object holder;
-// usage: either member description or local variable
+// object owning holder;
+// usage: member description or local variable or return value
 
 typedef struct type_name_type*       type_name_ref;
-// modifing reference;
-// usage: parameter specification only; ownership is not transferred
+// non-owning modifing reference;
+// usage: parameter specification or return value
 
 typedef struct const type_name_type* type_name_cref;
-// non-modifing reference;
-// usage: parameter specification only; ownership is not transferred
+// non-owning constant reference;
+// usage: parameter specification or return value
 
 typedef struct type_name_ptr**       type_name_mv;
-// ownership transferring reference;
+// object owning holder;
 // usage: parameter specification only
 ```
 
