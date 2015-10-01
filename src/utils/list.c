@@ -4,7 +4,7 @@
 #include <stdlib.h>
 
 
-list_hld list_insert(list_node_mv head, void* src)
+void list_insert(list_node_io head, void* src)
 {
     assert(src != NULL);
     assert(head != NULL);
@@ -13,21 +13,21 @@ list_hld list_insert(list_node_mv head, void* src)
     new_head->next = *head;
     new_head->value = src;
 
-    return new_head;
+    *head = new_head;
 }
 
-list_hld list_pop_front(list_node_mv head, out_param dst)
+void* list_pop_front(list_node_io head)
 {
     assert(head != NULL);
 
     if (*head == NULL)
         return NULL;
 
-    *dst = (*head)->value;
-    list_hld next_head = (*head)->next;
+    void* result = (*head)->value;
+    list_node_hld next_head = (*head)->next;
 
     free(*head);
-    *head = NULL;
+    *head = next_head;
 
-    return next_head;
+    return result;
 }

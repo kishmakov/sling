@@ -6,7 +6,7 @@
 #include "utils/utils.h"
 
 MACRO_STRUCTURE_DEFINITION(minded_transform_impl) {
-    list_mv states;
+    list_hld states;
 
     state_cref start;
     state_cref finish;

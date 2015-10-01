@@ -10,8 +10,8 @@ MACRO_STRUCTURE_DEFINITION(list_node)
 };
 
 typedef list_node_hld list_hld;
-typedef list_node_mv list_mv;
+typedef list_node_io list_io;
 
-list_hld list_insert(list_mv list, void* src);
-list_hld list_pop_front(list_mv list, out_param dst);
+void  list_insert(list_io list, void* src);
+void* list_pop_front(list_io list);
 
