@@ -76,7 +76,7 @@ void* trie_remove(trie_node_io node, const char* tag)
 
         assert((*node) != NULL);
 
-        trie_node_mv next_ver = &((*node)->ver);
+        trie_node_hld* next_ver = &((*node)->ver);
         result = (*node)->value;
         (*node)->value = *(++tag) == 0 ? NULL : result;
 
@@ -93,9 +93,9 @@ void* trie_remove(trie_node_io node, const char* tag)
 
     while (removed_nodes != NULL) {
         trie_node_hld to_remove = list_pop_front(&removed_nodes);
-        to_remove->value = NULL;
         to_remove->ver = NULL;
         to_remove->hor = NULL;
+        assert(to_remove->value == NULL);
         trie_node_destruct(&to_remove);
         assert(to_remove == NULL);
     }
@@ -109,12 +109,8 @@ void* trie_check(trie_cref node, const char* tag)
     assert(*tag != 0);
 
     while (1) {
-        while (node != NULL && node->code != *tag) {
-            printf("%zu -v-> %zu, -h-> %zu\n", (size_t) node, (size_t) node->ver, (size_t) node->hor);
+        while (node != NULL && node->code != *tag)
             node = node->hor;
-        }
-
-        printf("----\n");
 
         if (node == NULL)
             return NULL;

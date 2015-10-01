@@ -15,7 +15,7 @@ static void trie_test_1(void)
         trie_insert(&test_trie, strings[i], &v[i]);
 
     for (int i = 0; i < 4; i++)
-        assert_ptr_equal(&v[i], trie_check(&test_trie, strings[i]));
+        assert_ptr_equal(&v[i], trie_check(test_trie, strings[i]));
 
     assert_ptr_equal(&v[0], trie_remove(&test_trie, strings[0]));
     assert_null(trie_remove(&test_trie, strings[0]));
@@ -25,7 +25,7 @@ static void trie_test_1(void)
     void* vv[] = {NULL, &v[1], &v[2], NULL};
 
     for (int i = 0; i < 4; i++)
-        assert_ptr_equal(vv[i], trie_check(&test_trie, strings[i]));
+        assert_ptr_equal(vv[i], trie_check(test_trie, strings[i]));
 
     assert_ptr_equal(&v[1], trie_remove(&test_trie, strings[1]));
     assert_null(trie_remove(&test_trie, strings[1]));
@@ -83,7 +83,7 @@ static void trie_test_2(void)
         void* ptr = count[i % NUM] == 0 ? NULL : &v[i % NUM];
 
         if (action == 0) { // check
-            assert_ptr_equal(trie_check(&test_trie, string), ptr);
+            assert_ptr_equal(trie_check(test_trie, string), ptr);
         } else if (action == 1 && count[i % NUM] == 0) { // add
             count[i % NUM] = 1;
             trie_insert(&test_trie, string, &v[i % NUM]);

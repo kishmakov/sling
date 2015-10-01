@@ -21,7 +21,7 @@ TST_OBJ_FILES = $(strip $(patsubst %.c, $(OBJ_DIR)/%.o, $(subst /,_,$(TST_SRC_FI
 # options
 # CC ?= gcc-4.8
 CC ?= clang-3.5
-COMMON_CFLAGS = -O0 -g -fPIC -std=c11 $(WARNING_FLAGS)
+COMMON_CFLAGS = -O0 -g -fPIC -std=c11 -Wall $(WARNING_FLAGS)
 # COMMON_CFLAGS += -D NDEBUG
 CFLAGS = $(COMMON_CFLAGS) $(addprefix -I, $(INCLUDES)) -Werror
 TST_CFLAGS = $(COMMON_CFLAGS) $(addprefix -I, $(TST_INCLUDES))
