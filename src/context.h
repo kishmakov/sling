@@ -5,7 +5,7 @@
 
 #include <stdint.h>
 
-DEBUG(extern allocation_list allocated_contexts);
+DEBUG(extern allocation_list_hld allocated_contexts);
 
 struct transform_type;
 typedef struct transform_type* transform_hld;

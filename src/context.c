@@ -7,7 +7,7 @@
 #include <assert.h>
 #include <stdlib.h>
 
-DEBUG(allocation_list allocated_contexts = NULL);
+DEBUG(allocation_list_hld allocated_contexts = NULL);
 
 context_hld context_construct(uint32_t data_size, uint32_t transforms_size)
 {

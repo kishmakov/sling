@@ -5,7 +5,7 @@
 
 #include <stdint.h>
 
-DEBUG(extern allocation_list allocated_trie_nodes);
+DEBUG(extern allocation_list_hld allocated_trie_nodes);
 
 MACRO_STRUCTURE_DEFINITION(trie_node)
 {

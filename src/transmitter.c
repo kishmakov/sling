@@ -8,16 +8,21 @@
 #include <assert.h>
 #include <stdlib.h>
 
+DEBUG(allocation_list_hld allocated_transmitters = NULL);
+
 transmitter_hld transmitter_construct(uint32_t data_size, uint32_t transforms_size)
 {
     transmitter_hld result = malloc(sizeof(transmitter_type));
     MACRO_VECTOR_ALLOCATE(result->data_maps, id_map_type, data_size);
     MACRO_VECTOR_ALLOCATE(result->transforms_maps, id_map_type, transforms_size);
+    DEBUG(allocation_list_insert(&allocated_transmitters, result));
+
     return result;
 }
 
 void transmitter_destruct(transmitter_mv transmitter)
 {
+    DEBUG(allocation_list_remove(&allocated_transmitters, *transmitter));
     free((*transmitter)->data_maps);
     free((*transmitter)->transforms_maps);
     free(*transmitter);
@@ -31,7 +36,9 @@ static_assert(sizeof(void*) == sizeof(datum_hld), "Required for pointer independ
 
 id_map_type maximal_indices(uint32_t maps_size, const id_map_type* maps)
 {
-    id_map_type result = { .from = 0, .to = 0};
+    assert(maps != NULL);
+
+    id_map_type result = {.from = 0, .to = 0};
 
     for (uint32_t id = 0; id < maps_size; id++) {
         result.from = MACRO_MAX(result.from, maps[id].from);
@@ -43,6 +50,10 @@ id_map_type maximal_indices(uint32_t maps_size, const id_map_type* maps)
 
 void transmit_move(transmitter_cref transmitter, context_ref dst, context_ref src)
 {
+    assert(transmitter != NULL);
+    assert(dst != NULL);
+    assert(src != NULL);
+
     id_map_type data_indices = maximal_indices(transmitter->data_maps_size,
         transmitter->data_maps);
 
@@ -61,7 +72,7 @@ void transmit_move(transmitter_cref transmitter, context_ref dst, context_ref sr
 
     assert(src->transforms_size > transforms_indices.from);
     if (dst->transforms_size <= transforms_indices.to)
-        dst->data = realloc(dst->data, transforms_indices.to + 1);
+        dst->transforms = realloc(dst->transforms, transforms_indices.to + 1);
 
     for (uint32_t id = 0; id < transmitter->transforms_maps_size; id++) {
         id_map_type map = transmitter->transforms_maps[id];
@@ -89,7 +100,7 @@ void transmit_copy(transmitter_cref transmitter, context_ref dst, context_ref sr
 
     assert(src->transforms_size > transforms_indices.from);
     if (dst->transforms_size <= transforms_indices.to)
-        dst->data = realloc(dst->data, transforms_indices.to + 1);
+        dst->transforms = realloc(dst->transforms, transforms_indices.to + 1);
 
     for (uint32_t id = 0; id < transmitter->transforms_maps_size; id++) {
         id_map_type map = transmitter->transforms_maps[id];

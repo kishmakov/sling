@@ -4,7 +4,7 @@
 #include "transmitter.h"
 #include "utils/utils.h"
 
-DEBUG(extern allocation_list allocated_states);
+DEBUG(extern allocation_list_hld allocated_states);
 
 
 MACRO_STRUCTURE_DEFINITION(state) {

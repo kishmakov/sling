@@ -3,6 +3,7 @@
 #include "basic_minds_tests.h"
 #include "basic_transforms_tests.h"
 #include "trie_tests.h"
+#include "transmitter_tests.h"
 
 #include "sling_init.h"
 
@@ -13,6 +14,7 @@ int main(int argc, char ** argv)
     sling_init(argc >= 2 ? argv[1] : NULL);
 
     const struct CMUnitTest tests[] = {
+        cmocka_unit_test(run_transmitter_tests),
         cmocka_unit_test(run_trie_tests),
 
         // basic_transforms_tests

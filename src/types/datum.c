@@ -6,7 +6,7 @@
 #include <memory.h>
 #include <stdlib.h>
 
-DEBUG(allocation_list allocated_data = NULL);
+DEBUG(allocation_list_hld allocated_data = NULL);
 
 datum_hld datum_construct(type_description_cref description, const void* src)
 {

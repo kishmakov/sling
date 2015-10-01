@@ -5,6 +5,7 @@
 #include "minds/mind_description.h"
 #include "transforms/transform.h"
 #include "transforms/transform_description.h"
+#include "transmitter.h"
 #include "types/datum.h"
 #include "types/type_description.h"
 #include "utils/diagnostics.h"
@@ -47,6 +48,7 @@ void sling_fini()
     allocation_balance(allocated_contexts, "context");
     allocation_balance(allocated_minds, "minds");
     allocation_balance(allocated_transforms, "transfrom");
+    allocation_balance(allocated_transmitters, "transmitter");
     allocation_balance(allocated_trie_nodes, "trie_node");
 #endif
 }

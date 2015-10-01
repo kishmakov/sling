@@ -5,6 +5,8 @@
 
 #include <stdint.h>
 
+DEBUG(extern allocation_list_hld allocated_transmitters);
+
 typedef struct {
     uint32_t from;
     uint32_t to;

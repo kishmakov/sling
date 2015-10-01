@@ -4,7 +4,7 @@
 #include "utils/diagnostics.h"
 #include "utils/utils.h"
 
-DEBUG(extern allocation_list allocated_data);
+DEBUG(extern allocation_list_hld allocated_data);
 
 MACRO_STRUCTURE_DEFINITION(datum)
 {

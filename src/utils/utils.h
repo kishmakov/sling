@@ -14,6 +14,7 @@ typedef struct type_name ## _type*       type_name ## _hld; \
 typedef struct type_name ## _type*       type_name ## _ref; \
 typedef const struct type_name ## _type* type_name ## _cref; \
 typedef struct type_name ## _type**      type_name ## _mv; \
+typedef struct type_name ## _type**      type_name ## _io; \
 struct type_name ## _type
 
 #define MACRO_VECTOR_DEFINITION(name, type_name) \

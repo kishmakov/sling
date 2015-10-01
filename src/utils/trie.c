@@ -4,7 +4,7 @@
 
 #include <stdlib.h>
 
-DEBUG(allocation_list allocated_trie_nodes = NULL);
+DEBUG(allocation_list_hld allocated_trie_nodes = NULL);
 
 trie_node_hld trie_node_construct(char code)
 {
@@ -15,7 +15,7 @@ trie_node_hld trie_node_construct(char code)
     result->count = 0;
     result->code = code;
 
-    DEBUG(allocated_trie_nodes = allocation_list_insert(&allocated_trie_nodes, result));
+    DEBUG(allocation_list_insert(&allocated_trie_nodes, result));
 
     return result;
 }

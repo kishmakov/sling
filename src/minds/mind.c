@@ -5,7 +5,7 @@
 #include <memory.h>
 #include <stdlib.h>
 
-DEBUG(allocation_list allocated_minds = NULL);
+DEBUG(allocation_list_hld allocated_minds = NULL);
 
 mind_ptr mind_construct(mind_description_cref description)
 {

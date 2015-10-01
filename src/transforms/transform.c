@@ -3,7 +3,7 @@
 #include <assert.h>
 #include <stdlib.h>
 
-DEBUG(allocation_list allocated_transforms = NULL);
+DEBUG(allocation_list_hld allocated_transforms = NULL);
 
 transform_hld transform_construct(transform_description_cref description)
 {
