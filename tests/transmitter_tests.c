@@ -17,6 +17,7 @@ static void trie_move_test(void)
     context_destruct(&c1_dst); assert_null(c1_dst);
     transmitter_destruct(&t1); assert_null(t1);
 
+
     // char* strings[] = {"abacaba", "aba", "abba", "baba"};
     // int v[] = {1, 2, 3, 4};
 

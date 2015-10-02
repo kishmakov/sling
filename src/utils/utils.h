@@ -17,10 +17,6 @@ typedef struct type_name ## _type**      type_name ## _mv; \
 typedef struct type_name ## _type**      type_name ## _io; \
 struct type_name ## _type
 
-#define MACRO_VECTOR_DEFINITION(name, type_name) \
-uint32_t name ## _size; \
-type_name* name
-
 #define MACRO_TRANSFORM_INITIALIZER(type_name) \
 type_name ## _description = malloc(sizeof(transform_description_type)); \
 type_name ## _description->input_scheme = &type_name ## _input_scheme; \
@@ -40,9 +36,19 @@ type_name ## _description->construct = &type_name ## _construct; \
 type_name ## _description->destruct = &type_name ## _destruct; \
 type_name ## _description->function = &type_name ## _function
 
+#define MACRO_VECTOR_DEFINITION(name, type_name) \
+uint32_t name ## _size; \
+type_name* name
+
 #define MACRO_VECTOR_ALLOCATE(name, type_name, requested_size) \
 name ## _size = requested_size; \
 name = requested_size > 0 ? malloc(sizeof(type_name) * requested_size) : NULL
+
+#define MACRO_VECTOR_RESIZE(name, type_name, new_size) \
+if (name ## _size < new_size) { \
+    name ## _size = new_size; \
+    name = realloc(name, new_size); \
+}
 
 #define MACRO_STRINGIFY(value) #value
 #define MACRO_QUOTE(value) MACRO_STRINGIFY(value)

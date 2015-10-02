@@ -58,8 +58,7 @@ void transmit_move(transmitter_cref transmitter, context_ref dst, context_ref sr
         transmitter->data_maps);
 
     assert(src->data_size > data_indices.from);
-    if (dst->data_size <= data_indices.to)
-        dst->data = realloc(dst->data, data_indices.to + 1);
+    MACRO_VECTOR_RESIZE(dst->data, id_map_type, data_indices.to + 1);
 
     for (uint32_t id = 0; id < transmitter->data_maps_size; id++) {
         id_map_type map = transmitter->data_maps[id];
@@ -71,8 +70,7 @@ void transmit_move(transmitter_cref transmitter, context_ref dst, context_ref sr
         transmitter->transforms_maps);
 
     assert(src->transforms_size > transforms_indices.from);
-    if (dst->transforms_size <= transforms_indices.to)
-        dst->transforms = realloc(dst->transforms, transforms_indices.to + 1);
+    MACRO_VECTOR_RESIZE(dst->transforms, id_map_type, transforms_indices.to + 1);
 
     for (uint32_t id = 0; id < transmitter->transforms_maps_size; id++) {
         id_map_type map = transmitter->transforms_maps[id];
@@ -87,8 +85,7 @@ void transmit_copy(transmitter_cref transmitter, context_ref dst, context_ref sr
         transmitter->data_maps);
 
     assert(src->data_size > data_indices.from);
-    if (dst->data_size <= data_indices.to)
-        dst->data = realloc(dst->data, data_indices.to + 1);
+    MACRO_VECTOR_RESIZE(dst->data, id_map_type, data_indices.to + 1);
 
     for (uint32_t id = 0; id < transmitter->data_maps_size; id++) {
         id_map_type map = transmitter->data_maps[id];
@@ -99,8 +96,7 @@ void transmit_copy(transmitter_cref transmitter, context_ref dst, context_ref sr
         transmitter->transforms_maps);
 
     assert(src->transforms_size > transforms_indices.from);
-    if (dst->transforms_size <= transforms_indices.to)
-        dst->transforms = realloc(dst->transforms, transforms_indices.to + 1);
+    MACRO_VECTOR_RESIZE(dst->transforms, id_map_type, transforms_indices.to + 1);
 
     for (uint32_t id = 0; id < transmitter->transforms_maps_size; id++) {
         id_map_type map = transmitter->transforms_maps[id];
