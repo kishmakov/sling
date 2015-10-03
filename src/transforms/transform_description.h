@@ -23,9 +23,9 @@ MACRO_STRUCTURE_DEFINITION(transform_description)
     void (*destruct)(transform_mv transform);
     context_hld (*function)(transform_cref transform, context_mv input);
 
-    const char* (*input_scheme)(void);
-    const char* (*output_scheme)(void);
-    const char* (*profile)(void);
+    const char* (*input_scheme)(transform_cref transform);
+    const char* (*output_scheme)(transform_cref transform);
+    const char* (*profile)(transform_cref transform);
 };
 
 transform_description_cref transforms_descriptions();

@@ -18,6 +18,7 @@ int main(int argc, char ** argv)
         // basic_transforms_tests
         cmocka_unit_test(run_int32_addition_tests),
         cmocka_unit_test(run_int32_duplicator_tests),
+        cmocka_unit_test(run_int32_mult_by_tests),
         cmocka_unit_test(run_int32_to_double_tests),
 
         // basic_minds_tests

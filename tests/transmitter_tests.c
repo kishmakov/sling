@@ -93,7 +93,7 @@ static void trie_copy_test(void)
     assert_int_equal(c1_dst->data_size, 1);
     assert_int_equal(c1_dst->transforms_size, 1);
     assert_int_equal(int32_datum_extract(c1_src->data[0]), 1);
-    assert_string_equal(c1_src->transforms[0]->description->profile(), "int32_x2");
+    assert_string_equal(c1_src->transforms[0]->description->profile(NULL), "int32_dupl");
 
     datum_destruct(&(c1_dst->data[0]));
     datum_destruct(&(c1_src->data[0]));
@@ -131,14 +131,14 @@ static void trie_copy_test(void)
     assert_int_equal(int32_datum_extract(c2_src->data[1]), 2);
     assert_int_equal(int32_datum_extract(c2_src->data[2]), 3);
     assert_int_equal(int32_datum_extract(c2_src->data[3]), 4);
-    assert_string_equal(c2_src->transforms[0]->description->profile(), "int32_add");
-    assert_string_equal(c2_src->transforms[1]->description->profile(), "int32_to_double");
-    assert_string_equal(c2_src->transforms[2]->description->profile(), "int32_x2");
+    assert_string_equal(c2_src->transforms[0]->description->profile(NULL), "int32_add");
+    assert_string_equal(c2_src->transforms[1]->description->profile(NULL), "int32_to_double");
+    assert_string_equal(c2_src->transforms[2]->description->profile(NULL), "int32_dupl");
 
     assert_int_equal(int32_datum_extract(c2_dst->data[0]), 3);
     assert_ptr_equal(int32_datum_extract(c2_dst->data[1]), 2);
-    assert_string_equal(c2_dst->transforms[0]->description->profile(), "int32_to_double");
-    assert_string_equal(c2_dst->transforms[1]->description->profile(), "int32_x2");
+    assert_string_equal(c2_dst->transforms[0]->description->profile(NULL), "int32_to_double");
+    assert_string_equal(c2_dst->transforms[1]->description->profile(NULL), "int32_dupl");
 
     datum_destruct(&(c2_dst->data[0]));
     datum_destruct(&(c2_dst->data[1]));

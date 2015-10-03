@@ -9,8 +9,9 @@
 
 static transform_description_hld int32_to_double_description = NULL;
 
-const char* int32_to_double_input_scheme()
+const char* int32_to_double_input_scheme(transform_cref transform)
 {
+    (void) transform;
     static char* scheme = NULL;
 
     if (!scheme)
@@ -19,8 +20,9 @@ const char* int32_to_double_input_scheme()
     return scheme;
 }
 
-const char* int32_to_double_output_scheme()
+const char* int32_to_double_output_scheme(transform_cref transform)
 {
+    (void) transform;
     static char* scheme = NULL;
 
     if (!scheme)
@@ -29,8 +31,9 @@ const char* int32_to_double_output_scheme()
     return scheme;
 }
 
-const char* int32_to_double_profile()
+const char* int32_to_double_profile(transform_cref transform)
 {
+    (void) transform;
     static const char* profile = "int32_to_double";
     return profile;
 }
@@ -42,21 +45,20 @@ transform_hld int32_to_double_construct(void* seed)
     result->description = int32_to_double_description;
 
     DEBUG(allocation_list_insert(&allocated_transforms, result));
-    DLOG("%s constructed @ %zu.", int32_to_double_profile(), (size_t) result);
+    DLOG("%s constructed @ %zu.", int32_to_double_profile(result), (size_t) result);
 
     return result;
 }
 
 static transform_hld int32_to_double_copy(transform_cref transform)
 {
-    (void) transform;
-
+    assert(transform != NULL);
     transform_hld result = malloc(sizeof(transform_type));
-    result->bytes = NULL;
+    result->bytes = transform->bytes;
     result->description = int32_to_double_description;
 
     DEBUG(allocation_list_insert(&allocated_transforms, result));
-    DLOG("%s copied @ %zu.", int32_to_double_profile(), (size_t) result);
+    DLOG("%s copied @ %zu.", int32_to_double_profile(transform), (size_t) result);
 
     return result;
 }
@@ -68,7 +70,7 @@ static void int32_to_double_destruct(transform_mv transform)
     assert((*transform)->description == int32_to_double_description);
 
     DEBUG(allocation_list_remove(&allocated_transforms, *transform));
-    DLOG("%s destructed @ %zu.", int32_to_double_profile(), (size_t) *transform);
+    DLOG("%s destructed @ %zu.", int32_to_double_profile(*transform), (size_t) *transform);
 
     free(*transform);
     *transform = NULL;

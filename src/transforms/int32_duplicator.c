@@ -8,8 +8,9 @@
 
 static transform_description_hld int32_duplicator_description = NULL;
 
-const char* int32_duplicator_input_scheme()
+const char* int32_duplicator_input_scheme(transform_cref transform)
 {
+    (void) transform;
     static char* scheme = NULL;
 
     if (!scheme)
@@ -18,8 +19,9 @@ const char* int32_duplicator_input_scheme()
     return scheme;
 }
 
-const char* int32_duplicator_output_scheme()
+const char* int32_duplicator_output_scheme(transform_cref transform)
 {
+    (void) transform;
     static char* scheme = NULL;
 
     if (!scheme)
@@ -28,9 +30,10 @@ const char* int32_duplicator_output_scheme()
     return scheme;
 }
 
-const char* int32_duplicator_profile()
+const char* int32_duplicator_profile(transform_cref transform)
 {
-    static const char* profile = "int32_x2";
+    (void) transform;
+    static const char* profile = "int32_dupl";
     return profile;
 }
 
@@ -41,7 +44,7 @@ transform_hld int32_duplicator_construct(void* seed)
     result->description = int32_duplicator_description;
 
     DEBUG(allocation_list_insert(&allocated_transforms, result));
-    DLOG("%s constructed @ %zu.", int32_duplicator_profile(), (size_t) result);
+    DLOG("%s constructed @ %zu.", int32_duplicator_profile(result), (size_t) result);
 
     return result;
 }
@@ -55,7 +58,7 @@ static transform_hld int32_duplicator_copy(transform_cref transform)
     result->description = int32_duplicator_description;
 
     DEBUG(allocation_list_insert(&allocated_transforms, result));
-    DLOG("%s copied @ %zu.", int32_duplicator_profile(), (size_t) result);
+    DLOG("%s copied @ %zu.", int32_duplicator_profile(transform), (size_t) result);
 
     return result;
 }
@@ -67,7 +70,7 @@ static void int32_duplicator_destruct(transform_mv transform)
     assert((*transform)->description == int32_duplicator_description);
 
     DEBUG(allocation_list_remove(&allocated_transforms, *transform));
-    DLOG("%s destructed @ %zu.", int32_duplicator_profile(), (size_t) *transform);
+    DLOG("%s destructed @ %zu.", int32_duplicator_profile(*transform), (size_t) *transform);
 
     free(*transform);
     *transform = NULL;
