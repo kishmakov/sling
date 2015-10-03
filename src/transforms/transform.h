@@ -10,7 +10,7 @@ MACRO_STRUCTURE_DEFINITION(transform) {
     transform_description_cref description;
 };
 
-transform_hld transform_construct(transform_description_cref description);
+transform_hld transform_construct(transform_description_cref description, void* seed);
 
 void transform_destruct(transform_mv transform);
 

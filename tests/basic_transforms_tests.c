@@ -16,7 +16,7 @@ void run_int32_addition_tests(void **state)
 {
     (void) state;
 
-    transform_hld addition = int32_addition_construct();
+    transform_hld addition = int32_addition_construct(NULL);
 
     for (int i = 0; i + 1 < N; i++)
         for (int j = i + 1; j < N; j++) {
@@ -44,7 +44,7 @@ void run_int32_duplicator_tests(void **state)
 {
     (void) state;
 
-    transform_hld duplicator = int32_duplicator_construct();
+    transform_hld duplicator = int32_duplicator_construct(NULL);
 
     for (int i = 0; i < N; i++) {
         context_hld input = context_construct(1, 0);
@@ -73,7 +73,7 @@ void run_int32_to_double_tests(void **state)
 {
     (void) state;
 
-    transform_hld converter = int32_to_double_construct();
+    transform_hld converter = int32_to_double_construct(NULL);
 
     for (int i = 0; i < N; i++) {
         context_hld input = context_construct(1, 0);

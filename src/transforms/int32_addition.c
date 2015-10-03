@@ -34,10 +34,10 @@ const char* int32_addition_profile()
     return profile;
 }
 
-transform_hld int32_addition_construct()
+transform_hld int32_addition_construct(void* seed)
 {
     transform_hld result = malloc(sizeof(transform_type));
-    result->bytes = NULL;
+    result->bytes = seed;
     result->description = int32_addition_description;
 
     DEBUG(allocation_list_insert(&allocated_transforms, result));

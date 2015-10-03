@@ -82,7 +82,7 @@ static void trie_copy_test(void)
     context_hld c1_src = context_construct(2, 1);
     c1_src->data[0] = int32_datum_construct(1);
     c1_src->data[1] = int32_datum_construct(2);
-    c1_src->transforms[0] = int32_duplicator_construct();
+    c1_src->transforms[0] = int32_duplicator_construct(NULL);
     context_hld c1_dst = context_construct(0, 0);
     transmitter_hld t1 = transmitter_construct(1, 1);
     t1->data_maps[0] = (id_map_type) {.from=0, .to=0};
@@ -112,9 +112,9 @@ static void trie_copy_test(void)
     c2_src->data[1] = int32_datum_construct(2);
     c2_src->data[2] = int32_datum_construct(3);
     c2_src->data[3] = int32_datum_construct(4);
-    c2_src->transforms[0] = int32_addition_construct();
-    c2_src->transforms[1] = int32_to_double_construct();
-    c2_src->transforms[2] = int32_duplicator_construct();
+    c2_src->transforms[0] = int32_addition_construct(NULL);
+    c2_src->transforms[1] = int32_to_double_construct(NULL);
+    c2_src->transforms[2] = int32_duplicator_construct(NULL);
     context_hld c2_dst = context_construct(0, 0);
     transmitter_hld t2 = transmitter_construct(2, 2);
     t2->data_maps[0] = (id_map_type) {.from=1, .to=1};

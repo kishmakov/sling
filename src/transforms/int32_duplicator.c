@@ -34,10 +34,10 @@ const char* int32_duplicator_profile()
     return profile;
 }
 
-transform_hld int32_duplicator_construct()
+transform_hld int32_duplicator_construct(void* seed)
 {
     transform_hld result = malloc(sizeof(transform_type));
-    result->bytes = NULL;
+    result->bytes = seed;
     result->description = int32_duplicator_description;
 
     DEBUG(allocation_list_insert(&allocated_transforms, result));

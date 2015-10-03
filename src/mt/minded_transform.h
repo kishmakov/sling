@@ -15,4 +15,6 @@ MACRO_STRUCTURE_DEFINITION(minded_transform_impl) {
     trie_hld transforms;
 };
 
-context_hld minded_transform_function(transform_cref transform, context_mv context);
+transform_hld minded_transform_construct(void* minded_transform_impl);
+
+transform_description_hld minded_transform_register(transform_description_cref head);
