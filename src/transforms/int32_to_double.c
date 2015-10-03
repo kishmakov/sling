@@ -98,10 +98,10 @@ static context_hld int32_to_double_function(transform_cref transform, context_mv
     return result;
 }
 
-transform_description_hld int32_to_double_register(transform_description_cref head)
+void int32_to_double_register(transform_description_io head)
 {
     MACRO_TRANSFORM_INITIALIZER(int32_to_double);
 
-    int32_to_double_description->next = head;
-    return int32_to_double_description;
+    int32_to_double_description->next = *head;
+    *head = int32_to_double_description;
 }

@@ -111,10 +111,10 @@ static context_hld int32_mult_by_function(transform_cref transform, context_mv i
     return result;
 }
 
-transform_description_hld int32_mult_by_register(transform_description_cref head)
+void int32_mult_by_register(transform_description_io head)
 {
     MACRO_TRANSFORM_INITIALIZER(int32_mult_by);
 
-    int32_mult_by_description->next = head;
-    return int32_mult_by_description;
+    int32_mult_by_description->next = *head;
+    *head = int32_mult_by_description;
 }

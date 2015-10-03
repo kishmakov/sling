@@ -96,10 +96,10 @@ static context_hld int32_addition_function(transform_cref transform, context_mv 
     return result;
 }
 
-transform_description_hld int32_addition_register(transform_description_cref head)
+void int32_addition_register(transform_description_io head)
 {
     MACRO_TRANSFORM_INITIALIZER(int32_addition);
 
-    int32_addition_description->next = head;
-    return int32_addition_description;
+    int32_addition_description->next = *head;
+    *head = int32_addition_description;
 }
