@@ -28,25 +28,27 @@
 //     *transform = NULL;
 // }
 
-// static context_hld minded_transform_function(transform_cref transform, context_mv context)
-// {
-//     assert(transform != NULL);
-//     assert(transform->bytes != NULL);
+context_hld minded_transform_function(transform_cref transform, context_mv context)
+{
+    assert(transform != NULL);
+    assert(transform->bytes != NULL);
 
-//     assert(context != NULL);
-//     assert(*context != NULL);
+    assert(context != NULL);
+    assert(*context != NULL);
 
-//     minded_transform_impl_cref mt = (minded_transform_impl_cref) transform->bytes;
-//     context_hld mind_context = context_construct(0, 0);
+    minded_transform_impl_cref mt = (minded_transform_impl_cref) transform->bytes;
+    context_hld mind_context = context_construct(0, 0);
 
-//     for (state_cref state = mt->start; state != mt->finish; ) {
-//         transmit_copy(state->download, mind_context, *context);
-//         mind_cref mind = (mind_cref) trie_check(mt->minds, state->mind_profile);
-//         uint32_t decision = mind_function(mind, &mind_context);
-//     }
+    for (state_cref state = mt->start; state != mt->finish; ) {
+        transmit_copy(state->download, mind_context, *context);
+        mind_cref mind = (mind_cref) trie_check(mt->minds, state->mind_profile);
+        uint32_t next_id = mind_function(mind, &mind_context);
+        assert(next_id < state->next_states_size);
+        state = state->next_states[next_id];
+    }
 
-//     context_hld result = *context;
-//     *context = NULL;
+    context_hld result = *context;
+    *context = NULL;
 
-//     return result;
-// }
+    return result;
+}

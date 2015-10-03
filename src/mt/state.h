@@ -15,6 +15,7 @@ typedef struct  {
 
 MACRO_STRUCTURE_DEFINITION(state) {
     MACRO_VECTOR_DEFINITION(steps, state_step_type);
+    MACRO_VECTOR_DEFINITION(next_states, state_cref);
 
     transmitter_hld download;
     const char* mind_profile;
