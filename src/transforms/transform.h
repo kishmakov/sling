@@ -12,6 +12,8 @@ MACRO_STRUCTURE_DEFINITION(transform) {
 
 transform_hld transform_construct(transform_description_cref description, void* seed);
 
+transform_hld transform_copy(transform_cref transform);
+
 void transform_destruct(transform_mv transform);
 
 context_hld transform_function(transform_cref transform, context_mv input);

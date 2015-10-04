@@ -12,6 +12,15 @@ transform_hld transform_construct(transform_description_cref description, void* 
     return description->construct(seed);
 }
 
+transform_hld transform_copy(transform_cref transform)
+{
+    assert(transform != NULL);
+    assert(transform->description != NULL);
+    assert(transform->description->copy != NULL);
+
+    return transform->description->copy(transform);
+}
+
 void transform_destruct(transform_mv transform)
 {
     assert(transform != NULL);

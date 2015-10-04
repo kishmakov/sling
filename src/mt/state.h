@@ -23,3 +23,4 @@ MACRO_STRUCTURE_DEFINITION(state) {
     const char* mind_profile;
 };
 
+state_hld state_copy(state_cref state);

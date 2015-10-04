@@ -11,8 +11,9 @@
 
 static transform_description_hld minded_transform_description = NULL;
 
-const char* minded_transform_input_scheme()
+const char* minded_transform_input_scheme(transform_cref transform)
 {
+    (void) transform;
     static char* scheme = NULL;
 
     if (!scheme)
@@ -21,8 +22,9 @@ const char* minded_transform_input_scheme()
     return scheme;
 }
 
-const char* minded_transform_output_scheme()
+const char* minded_transform_output_scheme(transform_cref transform)
 {
+    (void) transform;
     static char* scheme = NULL;
 
     if (!scheme)
@@ -31,8 +33,9 @@ const char* minded_transform_output_scheme()
     return scheme;
 }
 
-const char* minded_transform_profile()
+const char* minded_transform_profile(transform_cref transform)
 {
+    (void) transform;
     static const char* profile = "FixMe";
     return profile;
 }
@@ -48,9 +51,16 @@ transform_hld minded_transform_construct(void* minded_transform_impl)
 
 static transform_hld minded_transform_copy(transform_cref transform)
 {
+    assert(transform != NULL);
     assert(transform->description == minded_transform_description);
     transform_hld result = malloc(sizeof(transform_type));
-    result->bytes = transform->bytes; // FixMe
+    result->bytes = malloc(sizeof(minded_transform_impl_type));
+
+    minded_transform_impl_cref src_impl = (minded_transform_impl_cref) transform->bytes;
+    minded_transform_impl_ref  dst_impl = (minded_transform_impl_ref)  result->bytes;
+
+    MACRO_VECTOR_ALLOCATE(dst_impl->states, state_hld, src_impl->states_size);
+
     result->description = minded_transform_description;
 
     return result;
@@ -78,11 +88,16 @@ static context_hld minded_transform_function(transform_cref transform, context_m
 
     for (state_cref state = mt->start; state != mt->finish; ) {
         // mind decision
-        context_hld mind_context = context_construct(0, 0);
-        transmit_copy(state->download, mind_context, *context);
-        mind_cref mind = trie_check(mt->minds, state->mind_profile);
-        uint32_t next_id = mind_function(mind, &mind_context);
-        context_destruct(&mind_context);
+        uint32_t next_id = 0;
+        if (state->mind_profile != NULL) {
+            mind_cref mind = trie_check(mt->minds, state->mind_profile);
+            context_hld mind_context = context_construct(0, 0);
+            transmit_copy(state->download, mind_context, *context);
+            next_id = mind_function(mind, &mind_context);
+            context_destruct(&mind_context);
+        } else {
+            assert(state->steps_size == 1);
+        }
         // computation
         assert(next_id < state->steps_size);
         state_step_type* step = &(state->steps[next_id]);
@@ -102,10 +117,10 @@ static context_hld minded_transform_function(transform_cref transform, context_m
     return result;
 }
 
-transform_description_hld minded_transform_register(transform_description_cref head)
+void minded_transform_register(transform_description_io head)
 {
     MACRO_TRANSFORM_INITIALIZER(minded_transform);
 
-    minded_transform_description->next = head;
-    return minded_transform_description;
+    minded_transform_description->next = *head;
+    *head = minded_transform_description;
 }
