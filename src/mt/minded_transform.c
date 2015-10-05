@@ -60,6 +60,7 @@ static transform_hld minded_transform_copy(transform_cref transform)
     minded_transform_impl_ref  dst_impl = (minded_transform_impl_ref)  result->bytes;
 
     MACRO_VECTOR_ALLOCATE(dst_impl->states, state_hld, src_impl->states_size);
+    // FixMe
 
     result->description = minded_transform_description;
 
