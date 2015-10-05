@@ -3,6 +3,7 @@
 #include "mt/minded_transform.h"
 #include "transforms/int32_addition.h"
 #include "transforms/int32_duplicator.h"
+#include "transforms/int32_gen.h"
 #include "transforms/int32_mult_by.h"
 #include "transforms/int32_to_double.h"
 
@@ -22,6 +23,7 @@ void init_transforms_descriptions()
 
     int32_addition_register(&transforms_descriptions_head);
     int32_duplicator_register(&transforms_descriptions_head);
+    int32_gen_register(&transforms_descriptions_head);
     int32_mult_by_register(&transforms_descriptions_head);
     int32_to_double_register(&transforms_descriptions_head);
     minded_transform_register(&transforms_descriptions_head);

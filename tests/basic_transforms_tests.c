@@ -95,11 +95,10 @@ void run_int32_to_double_tests(void **state)
 
 void run_int32_mult_by_tests(void **state)
 {
-    static const int32_t nums[] = {-173741823, -1023, 0, 1023, 173741823};
-    static const int32_t mults[] = {-10, -2, 2, 4, 13};
-
     (void) state;
 
+    static const int32_t nums[] = {-173741823, -1023, 0, 1023, 173741823};
+    static const int32_t mults[] = {-10, -2, 2, 4, 13};
 
     for (int i = 0; i < sizeof(mults) / 4; i++) {
         transform_hld mult_by = int32_mult_by_construct((void*) &mults[i]);
@@ -121,6 +120,28 @@ void run_int32_mult_by_tests(void **state)
         transform_destruct(&mult_by);
         assert_null(mult_by);
     }
+}
 
+void run_int32_gen_tests(void **state)
+{
+    (void) state;
 
+    static const int32_t nums[] = {-173741823, -1023, -239, -1, 0, 1, 2, 239, 1023, 173741823};
+
+    for (int i = 0; i < sizeof(nums) / 4; i++) {
+        transform_hld gen = int32_gen_construct((void*) &nums[i]);
+        context_hld input = context_construct(0, 0);
+        context_hld output = transform_function(gen, &input);
+
+        assert_null(input);
+        assert_int_equal(output->data_size, 1);
+
+        int32_t vres = int32_datum_extract(output->data[0]);
+        datum_destruct(&(output->data[0]));
+        context_destruct(&output);
+
+        assert_int_equal(nums[i], vres);
+        transform_destruct(&gen);
+        assert_null(gen);
+    }
 }
