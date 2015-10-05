@@ -50,6 +50,10 @@ if (name ## _size < new_size) { \
     name = realloc(name, new_size); \
 }
 
+#define MACRO_STRING_COPY(dst, src) \
+dst = malloc(strlen(src)); \
+strcpy((char*) dst, src)
+
 #define MACRO_STRINGIFY(value) #value
 #define MACRO_QUOTE(value) MACRO_STRINGIFY(value)
 
