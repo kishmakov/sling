@@ -19,6 +19,8 @@ MACRO_STRUCTURE_DEFINITION(transmitter) {
 
 transmitter_hld transmitter_construct(uint32_t data_size, uint32_t transforms_size);
 
+transmitter_hld transmitter_copy(transmitter_cref transmitter);
+
 void transmitter_destruct(transmitter_mv transmitter);
 
 void transmit_move(transmitter_cref transmitter, context_ref dst, context_ref src);

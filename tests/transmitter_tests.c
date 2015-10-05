@@ -9,7 +9,7 @@
 #include "transmitter.h"
 #include "types/int32.h"
 
-static void trie_move_test(void)
+static void transmitter_move_test(void)
 {
     // 1
 
@@ -75,7 +75,7 @@ static void trie_move_test(void)
     transmitter_destruct(&t2); assert_null(t2);
 }
 
-static void trie_copy_test(void)
+static void transmitter_copy_test(void)
 {
     // 1
 
@@ -158,10 +158,40 @@ static void trie_copy_test(void)
     transmitter_destruct(&t2); assert_null(t2);
 }
 
+static void transmitter_dupl_test(void)
+{
+    transmitter_hld src = transmitter_construct(2, 3);
+    src->data_maps[0] = (id_map_type) {.from=1, .to=1};
+    src->data_maps[1] = (id_map_type) {.from=2, .to=0};
+    src->transforms_maps[0] = (id_map_type) {.from=2, .to=1};
+    src->transforms_maps[1] = (id_map_type) {.from=1, .to=0};
+    src->transforms_maps[2] = (id_map_type) {.from=3, .to=2};
+
+    transmitter_hld dst = transmitter_copy(src);
+
+    assert_int_equal(src->data_maps_size, dst->data_maps_size);
+    assert_int_equal(src->transforms_maps_size, dst->transforms_maps_size);
+
+    for (int id = 0; id < src->data_maps_size; id++) {
+        assert_int_equal(src->data_maps[id].from, dst->data_maps[id].from);
+        assert_int_equal(src->data_maps[id].to, dst->data_maps[id].to);
+    }
+
+    for (int id = 0; id < src->transforms_maps_size; id++) {
+        assert_int_equal(src->transforms_maps[id].from, dst->transforms_maps[id].from);
+        assert_int_equal(src->transforms_maps[id].to, dst->transforms_maps[id].to);
+    }
+
+    transmitter_destruct(&src); assert_null(src);
+    transmitter_destruct(&dst); assert_null(dst);
+}
+
+
 void run_transmitter_tests(void **state)
 {
     (void) state;
 
-    trie_move_test();
-    trie_copy_test();
+    transmitter_move_test();
+    transmitter_copy_test();
+    transmitter_dupl_test();
 }
