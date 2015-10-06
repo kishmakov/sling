@@ -8,7 +8,7 @@
 
 static transform_description_hld int32_multiplication_description = NULL;
 
-const char* int32_multiplication_input_scheme(transform_cref transform)
+static const char* int32_multiplication_input_scheme(transform_cref transform)
 {
     (void) transform;
     static char* scheme = NULL;
@@ -19,7 +19,7 @@ const char* int32_multiplication_input_scheme(transform_cref transform)
     return scheme;
 }
 
-const char* int32_multiplication_output_scheme(transform_cref transform)
+static const char* int32_multiplication_output_scheme(transform_cref transform)
 {
     (void) transform;
     static char* scheme = NULL;
@@ -30,17 +30,19 @@ const char* int32_multiplication_output_scheme(transform_cref transform)
     return scheme;
 }
 
-const char* int32_multiplication_profile(transform_cref transform)
+static const char* int32_multiplication_profile(transform_cref transform)
 {
     (void) transform;
     static const char* profile = "int32_mult";
     return profile;
 }
 
-transform_hld int32_multiplication_construct(void* seed)
+static transform_hld int32_multiplication_construct(void_mv internal_data)
 {
+    *internal_data = NULL;
+
     transform_hld result = malloc(sizeof(transform_type));
-    result->bytes = seed;
+    result->internal_data = NULL;
     result->description = int32_multiplication_description;
 
     DEBUG(allocation_list_insert(&allocated_transforms, result));
@@ -54,7 +56,7 @@ static transform_hld int32_multiplication_copy(transform_cref transform)
     (void) transform;
 
     transform_hld result = malloc(sizeof(transform_type));
-    result->bytes = NULL;
+    result->internal_data = NULL;
     result->description = int32_multiplication_description;
 
     DEBUG(allocation_list_insert(&allocated_transforms, result));
@@ -102,4 +104,10 @@ void int32_multiplication_register(transform_description_io head)
 
     int32_multiplication_description->next = *head;
     *head = int32_multiplication_description;
+}
+
+transform_hld build_int32_multiplication()
+{
+    void * dummy = NULL;
+    return int32_multiplication_construct(&dummy);
 }

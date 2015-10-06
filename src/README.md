@@ -47,7 +47,6 @@ Descriptional element contains next functions (see [the source code]
 (https://github.com/kishmakov/sling/blob/master/src/transforms/transform_description.h) for full
 description)
 
-
 ```c
 transform_hld (*construct)(void_mv internal_data);
 // constructor like function; it is supposed to accept ownership of provided
@@ -63,3 +62,6 @@ void (*destruct)(transform_mv transform);
 context_hld (*function)(transform_cref transform, context_mv input);
 // TODO: annotate me
 ```
+
+These functions are supposed to be hidden in corresponding ```*.c``` files. In order to construct
+transform element functions of the form ```build_transform(...)``` are used.

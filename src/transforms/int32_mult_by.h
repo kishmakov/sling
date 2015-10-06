@@ -4,4 +4,4 @@
 
 void int32_mult_by_register(transform_description_io head);
 
-transform_hld int32_mult_by_construct(void* seed);
+transform_hld build_int32_mult_by(int32_t val);

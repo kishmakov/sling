@@ -4,4 +4,4 @@
 
 void int32_duplicator_register(transform_description_io head);
 
-transform_hld int32_duplicator_construct(void* seed);
+transform_hld build_int32_duplicator();

@@ -9,7 +9,7 @@
 
 static transform_description_hld int32_to_double_description = NULL;
 
-const char* int32_to_double_input_scheme(transform_cref transform)
+static const char* int32_to_double_input_scheme(transform_cref transform)
 {
     (void) transform;
     static char* scheme = NULL;
@@ -20,7 +20,7 @@ const char* int32_to_double_input_scheme(transform_cref transform)
     return scheme;
 }
 
-const char* int32_to_double_output_scheme(transform_cref transform)
+static const char* int32_to_double_output_scheme(transform_cref transform)
 {
     (void) transform;
     static char* scheme = NULL;
@@ -31,17 +31,19 @@ const char* int32_to_double_output_scheme(transform_cref transform)
     return scheme;
 }
 
-const char* int32_to_double_profile(transform_cref transform)
+static const char* int32_to_double_profile(transform_cref transform)
 {
     (void) transform;
     static const char* profile = "int32_to_double";
     return profile;
 }
 
-transform_hld int32_to_double_construct(void* seed)
+static transform_hld int32_to_double_construct(void_mv internal_data)
 {
+    *internal_data = NULL;
+
     transform_hld result = malloc(sizeof(transform_type));
-    result->bytes = seed;
+    result->internal_data = NULL;
     result->description = int32_to_double_description;
 
     DEBUG(allocation_list_insert(&allocated_transforms, result));
@@ -54,7 +56,7 @@ static transform_hld int32_to_double_copy(transform_cref transform)
 {
     assert(transform != NULL);
     transform_hld result = malloc(sizeof(transform_type));
-    result->bytes = transform->bytes;
+    result->internal_data = transform->internal_data;
     result->description = int32_to_double_description;
 
     DEBUG(allocation_list_insert(&allocated_transforms, result));
@@ -104,4 +106,10 @@ void int32_to_double_register(transform_description_io head)
 
     int32_to_double_description->next = *head;
     *head = int32_to_double_description;
+}
+
+transform_hld build_int32_to_double()
+{
+    void * dummy = NULL;
+    return int32_to_double_construct(&dummy);
 }

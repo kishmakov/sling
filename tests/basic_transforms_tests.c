@@ -18,7 +18,7 @@ void run_int32_addition_tests(void **state)
 {
     (void) state;
 
-    transform_hld addition = int32_addition_construct(NULL);
+    transform_hld addition = build_int32_addition();
 
     for (int i = 0; i + 1 < N; i++)
         for (int j = i + 1; j < N; j++) {
@@ -46,7 +46,7 @@ void run_int32_multiplication_tests(void **state)
 {
     (void) state;
 
-    transform_hld mult = int32_multiplication_construct(NULL);
+    transform_hld mult = build_int32_multiplication();
 
     static const int32_t nums[] = {-13737, -1023, -239, -2, -1, 0, 1, 2, 239, 1023, 13737};
 
@@ -77,7 +77,7 @@ void run_int32_duplicator_tests(void **state)
 {
     (void) state;
 
-    transform_hld duplicator = int32_duplicator_construct(NULL);
+    transform_hld duplicator = build_int32_duplicator();
 
     for (int i = 0; i < N; i++) {
         context_hld input = context_construct(1, 0);
@@ -106,7 +106,7 @@ void run_int32_to_double_tests(void **state)
 {
     (void) state;
 
-    transform_hld converter = int32_to_double_construct(NULL);
+    transform_hld converter = build_int32_to_double();
 
     for (int i = 0; i < N; i++) {
         context_hld input = context_construct(1, 0);
@@ -133,7 +133,7 @@ void run_int32_mult_by_tests(void **state)
     static const int32_t mults[] = {-10, -2, 2, 4, 13};
 
     for (int i = 0; i < sizeof(mults) / 4; i++) {
-        transform_hld mult_by = int32_mult_by_construct((void*) &mults[i]);
+        transform_hld mult_by = build_int32_mult_by(mults[i]);
         for (int j = 0; j < sizeof(nums) / 4; j++) {
             context_hld input = context_construct(1, 0);
             input->data[0] = int32_datum_construct(nums[j]);
@@ -161,7 +161,7 @@ void run_int32_gen_tests(void **state)
     static const int32_t nums[] = {-173741823, -1023, -239, -1, 0, 1, 2, 239, 1023, 173741823};
 
     for (int i = 0; i < sizeof(nums) / 4; i++) {
-        transform_hld gen = int32_gen_construct((void*) &nums[i]);
+        transform_hld gen = build_int32_gen(nums[i]);
         context_hld input = context_construct(0, 0);
         context_hld output = transform_function(gen, &input);
 

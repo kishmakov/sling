@@ -4,4 +4,4 @@
 
 void int32_to_double_register(transform_description_io head);
 
-transform_hld int32_to_double_construct(void* seed);
+transform_hld build_int32_to_double();

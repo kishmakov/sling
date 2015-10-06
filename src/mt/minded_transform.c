@@ -11,7 +11,7 @@
 
 static transform_description_hld minded_transform_description = NULL;
 
-const char* minded_transform_input_scheme(transform_cref transform)
+static const char* minded_transform_input_scheme(transform_cref transform)
 {
     (void) transform;
     static char* scheme = NULL;
@@ -22,7 +22,7 @@ const char* minded_transform_input_scheme(transform_cref transform)
     return scheme;
 }
 
-const char* minded_transform_output_scheme(transform_cref transform)
+static const char* minded_transform_output_scheme(transform_cref transform)
 {
     (void) transform;
     static char* scheme = NULL;
@@ -33,19 +33,20 @@ const char* minded_transform_output_scheme(transform_cref transform)
     return scheme;
 }
 
-const char* minded_transform_profile(transform_cref transform)
+static const char* minded_transform_profile(transform_cref transform)
 {
     (void) transform;
     static const char* profile = "FixMe";
     return profile;
 }
 
-transform_hld minded_transform_construct(void* minded_transform_impl)
+static transform_hld minded_transform_construct(void_mv minded_transform_impl)
 {
     transform_hld result = malloc(sizeof(transform_type));
-    result->bytes = minded_transform_impl;
+    result->internal_data = *minded_transform_impl;
     result->description = minded_transform_description;
 
+    *minded_transform_impl = NULL;
     return result;
 }
 
@@ -54,10 +55,10 @@ static transform_hld minded_transform_copy(transform_cref transform)
     assert(transform != NULL);
     assert(transform->description == minded_transform_description);
     transform_hld result = malloc(sizeof(transform_type));
-    result->bytes = malloc(sizeof(minded_transform_impl_type));
+    result->internal_data = malloc(sizeof(minded_transform_impl_type));
 
-    minded_transform_impl_cref src_impl = (minded_transform_impl_cref) transform->bytes;
-    minded_transform_impl_ref  dst_impl = (minded_transform_impl_ref)  result->bytes;
+    minded_transform_impl_cref src_impl = (minded_transform_impl_cref) transform->internal_data;
+    minded_transform_impl_ref  dst_impl = (minded_transform_impl_ref)  result->internal_data;
 
     MACRO_VECTOR_ALLOCATE(dst_impl->states, state_hld, src_impl->states_size);
     // FixMe
@@ -80,12 +81,12 @@ static void minded_transform_destruct(transform_mv transform)
 static context_hld minded_transform_function(transform_cref transform, context_mv context)
 {
     assert(transform != NULL);
-    assert(transform->bytes != NULL);
+    assert(transform->internal_data != NULL);
 
     assert(context != NULL);
     assert(*context != NULL);
 
-    minded_transform_impl_cref mt = (minded_transform_impl_cref) transform->bytes;
+    minded_transform_impl_cref mt = (minded_transform_impl_cref) transform->internal_data;
 
     for (state_cref state = mt->start; state != mt->finish; ) {
         // mind decision
@@ -124,4 +125,9 @@ void minded_transform_register(transform_description_io head)
 
     minded_transform_description->next = *head;
     *head = minded_transform_description;
+}
+
+transform_hld build_minded_transform(minded_transform_impl_mv impl)
+{
+    return minded_transform_construct((void_mv) impl);
 }

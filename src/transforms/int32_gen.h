@@ -4,4 +4,4 @@
 
 void int32_gen_register(transform_description_io head);
 
-transform_hld int32_gen_construct(void* seed);
+transform_hld build_int32_gen(int32_t val);

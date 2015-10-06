@@ -30,18 +30,17 @@ static transform_hld construct_discriminant_classifier()
     MACRO_VECTOR_ALLOCATE(impl->states, state_hld, 10);
 
     trie_insert(&(impl->minds), "int32_sign", int32_sign_construct());
-    trie_insert(&(impl->transforms), "int32_dupl", int32_duplicator_construct(NULL));
+    trie_insert(&(impl->transforms), "int32_dupl", build_int32_duplicator());
 
 
-    return minded_transform_construct(impl);
+    return build_minded_transform(&impl);
 }
 
 void run_discriminant_tests(void **state)
 {
     (void) state;
 
-    static const int32_t nums[] = {-1023, -239, -2, -1, 1, 2, 239, 1023, 173741823};
-    // static const int32_t nums[] = {-1023, -239, -2, -1, 0, 1, 2, 239, 1023, 173741823};
+    static const int32_t nums[] = {-1023, -239, -2, -1, 0, 1, 2, 239, 1023, 173741823};
 
     transform_hld classifier = construct_discriminant_classifier();
 

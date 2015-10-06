@@ -11,7 +11,7 @@
 
 static transform_description_hld int32_mult_by_description = NULL;
 
-const char* int32_mult_by_input_scheme(transform_cref transform)
+static const char* int32_mult_by_input_scheme(transform_cref transform)
 {
     (void) transform;
     static char* scheme = NULL;
@@ -22,7 +22,7 @@ const char* int32_mult_by_input_scheme(transform_cref transform)
     return scheme;
 }
 
-const char* int32_mult_by_output_scheme(transform_cref transform)
+static const char* int32_mult_by_output_scheme(transform_cref transform)
 {
     (void) transform;
     static char* scheme = NULL;
@@ -33,12 +33,12 @@ const char* int32_mult_by_output_scheme(transform_cref transform)
     return scheme;
 }
 
-const char* int32_mult_by_profile(transform_cref transform)
+static const char* int32_mult_by_profile(transform_cref transform)
 {
     assert(transform != NULL);
     assert(transform->description == int32_mult_by_description);
     int32_t val;
-    memcpy((void*) &val, transform->bytes, 4);
+    memcpy((void*) &val, transform->internal_data, 4);
 
     static char profile[20];
     memset(profile, 0, sizeof(profile));
@@ -46,10 +46,11 @@ const char* int32_mult_by_profile(transform_cref transform)
     return profile;
 }
 
-transform_hld int32_mult_by_construct(void* seed)
+static transform_hld int32_mult_by_construct(void_mv internal_data)
 {
     transform_hld result = malloc(sizeof(transform_type));
-    result->bytes = seed;
+    result->internal_data = *internal_data;
+    *internal_data = NULL;
     result->description = int32_mult_by_description;
     DEBUG(allocation_list_insert(&allocated_transforms, result));
     DLOG("%s constructed @ %zu.", int32_mult_by_profile(result), (size_t) result);
@@ -63,7 +64,7 @@ static transform_hld int32_mult_by_copy(transform_cref transform)
     assert(transform->description == int32_mult_by_description);
 
     transform_hld result = malloc(sizeof(transform_type));
-    memcpy(result->bytes, transform->bytes, 4);
+    memcpy(result->internal_data, transform->internal_data, 4);
     result->description = int32_mult_by_description;
 
     DEBUG(allocation_list_insert(&allocated_transforms, result));
@@ -81,6 +82,7 @@ static void int32_mult_by_destruct(transform_mv transform)
     DEBUG(allocation_list_remove(&allocated_transforms, *transform));
     DLOG("%s destructed @ %zu.", int32_mult_by_profile(*transform), (size_t) *transform);
 
+    free((*transform)->internal_data);
     free(*transform);
     *transform = NULL;
 }
@@ -98,7 +100,7 @@ static context_hld int32_mult_by_function(transform_cref transform, context_mv i
     int32_t val = int32_datum_extract((*input)->data[0]);
 
     int32_t mult;
-    memcpy((void*) &mult, transform->bytes, 4);
+    memcpy((void*) &mult, transform->internal_data, 4);
 
     datum_destruct(&((*input)->data[0]));
     context_destruct(input);
@@ -117,4 +119,11 @@ void int32_mult_by_register(transform_description_io head)
 
     int32_mult_by_description->next = *head;
     *head = int32_mult_by_description;
+}
+
+transform_hld build_int32_mult_by(int32_t val)
+{
+    void_hld internal_data = malloc(4);
+    memcpy(internal_data, &val, 4);
+    return int32_mult_by_construct(&internal_data);
 }

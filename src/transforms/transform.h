@@ -6,7 +6,7 @@
 DEBUG(extern allocation_list_hld allocated_transforms);
 
 MACRO_STRUCTURE_DEFINITION(transform) {
-    void* bytes;
+    void* internal_data;
     transform_description_cref description;
 };
 
