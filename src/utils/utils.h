@@ -5,7 +5,8 @@
 #define MACRO_MIN(x, y)  ((x) < (y) ? (x) : (y))
 #define MACRO_MAX(x, y)  ((x) > (y) ? (x) : (y))
 
-typedef void** out_param;
+typedef void** void_mv;
+typedef void* void_hld;
 
 #define MACRO_STRUCTURE_DEFINITION(type_name) \
 struct type_name ## _type; \

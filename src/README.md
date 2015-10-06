@@ -38,3 +38,28 @@ typedef struct type_name_ptr**       type_name_io;
 ```
 
 All type usages are supposed to stick to these guidelines.
+
+## Transforms
+
+Each transform element has a pointer to its description of type ```transform_description_type```.
+
+Descriptional element contains next functions (see [the source code]
+(https://github.com/kishmakov/sling/blob/master/src/transforms/transform_description.h) for full
+description)
+
+
+```c
+transform_hld (*construct)(void_mv internal_data);
+// constructor like function; it is supposed to accept ownership of provided
+// auxiliary internal_data and nullify pointer upon completion
+
+transform_hld (*copy)(transform_cref transform);
+// copy-constructor like function; it must take care about proper copying of
+// internal data
+
+void (*destruct)(transform_mv transform);
+// TODO: annotate me
+
+context_hld (*function)(transform_cref transform, context_mv input);
+// TODO: annotate me
+```
