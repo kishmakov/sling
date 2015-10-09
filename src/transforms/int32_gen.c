@@ -82,6 +82,7 @@ static void int32_gen_destruct(transform_mv transform)
     DEBUG(allocation_list_remove(&allocated_transforms, *transform));
     DLOG("%s destructed @ %zu.", int32_gen_profile(*transform), (size_t) *transform);
 
+    free((*transform)->internal_data);
     free(*transform);
     *transform = NULL;
 }
