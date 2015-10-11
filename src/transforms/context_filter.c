@@ -1,6 +1,7 @@
 #include "transforms/context_filter.h"
 
 #include "transforms/transform.h"
+#include "transmitter.h"
 #include "types/double.h"
 #include "types/int32.h"
 #include "utils/log.h"
@@ -86,18 +87,17 @@ static void context_filter_destruct(transform_mv transform)
     DEBUG(allocation_list_remove(&allocated_transforms, *transform));
     DLOG("%s destructed @ %zu.", context_filter_profile(*transform), (size_t) *transform);
 
-    transmitter_destruct((transmitter_mv) ((*transform)->internal_data));
+    transmitter_destruct((transmitter_mv) &((*transform)->internal_data));
     free(*transform);
     *transform = NULL;
 }
 
 static context_hld context_filter_function(transform_cref transform, context_mv input)
 {
-    assert(input != NULL);
-
-    assert((*input)->data_size == 1);
-    assert((*input)->transforms_size == 0);
+    assert(transform != NULL);
     assert(transform->description == context_filter_description);
+
+    assert(input != NULL);
 
     transmitter_cref transmitter = (transmitter_cref) transform->internal_data;
     context_hld output = context_construct(0, 0);
@@ -124,7 +124,12 @@ void context_filter_register(transform_description_io head)
     *head = context_filter_description;
 }
 
-transform_hld build_context_filter(transmitter_mv transmitter)
+transform_hld build_context_filter(
+    uint32_t data_size,       uint32_t data[][2],
+    uint32_t transforms_size, uint32_t transforms[][2])
 {
-    return context_filter_construct((void_mv) transmitter);
+    transmitter_hld transmitter =
+        transmitter_construct(data_size, data, transforms_size, transforms);
+
+    return context_filter_construct((void_mv) &transmitter);
 }

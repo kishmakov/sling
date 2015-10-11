@@ -1,5 +1,6 @@
 #pragma once
 
+#include <memory.h>
 #include <stdint.h>
 
 #define MACRO_MIN(x, y)  ((x) < (y) ? (x) : (y))
@@ -47,8 +48,9 @@ name = requested_size > 0 ? malloc(sizeof(type_name) * requested_size) : NULL
 
 #define MACRO_VECTOR_RESIZE(name, type_name, new_size) \
 if (name ## _size < new_size) { \
-    name ## _size = new_size; \
     name = realloc(name, new_size); \
+    memset(name + name ## _size, 0, new_size - name ## _size); \
+    name ## _size = new_size; \
 }
 
 #define MACRO_STRING_COPY(dst, src) \

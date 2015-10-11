@@ -89,11 +89,13 @@ static void int32_gen_destruct(transform_mv transform)
 
 static context_hld int32_gen_function(transform_cref transform, context_mv input)
 {
-    assert(input != NULL);
+    assert(transform != NULL);
+    assert(transform->description == int32_gen_description);
 
+    assert(input != NULL);
     assert((*input)->data_size == 0);
     assert((*input)->transforms_size == 0);
-    assert(transform->description == int32_gen_description);
+
     context_destruct(input);
 
     int32_t val;

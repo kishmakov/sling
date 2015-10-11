@@ -1,6 +1,7 @@
 #include "transforms/transform_description.h"
 
 #include "mt/minded_transform.h"
+#include "transforms/context_filter.h"
 #include "transforms/int32_addition.h"
 #include "transforms/int32_duplicator.h"
 #include "transforms/int32_gen.h"
@@ -22,6 +23,7 @@ void init_transforms_descriptions()
 {
     assert(transforms_descriptions_head == NULL);
 
+    context_filter_register(&transforms_descriptions_head);
     int32_addition_register(&transforms_descriptions_head);
     int32_duplicator_register(&transforms_descriptions_head);
     int32_gen_register(&transforms_descriptions_head);

@@ -89,11 +89,12 @@ static void int32_mult_by_destruct(transform_mv transform)
 
 static context_hld int32_mult_by_function(transform_cref transform, context_mv input)
 {
-    assert(input != NULL);
+    assert(transform != NULL);
+    assert(transform->description == int32_mult_by_description);
 
+    assert(input != NULL);
     assert((*input)->data_size == 1);
     assert((*input)->transforms_size == 0);
-    assert(transform->description == int32_mult_by_description);
 
     DEBUG(size_t source = (size_t) (*input)->data[0]);
 

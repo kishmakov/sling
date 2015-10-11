@@ -2,6 +2,7 @@
 
 #include "basic_minds_tests.h"
 #include "basic_transforms_tests.h"
+#include "context_filter_tests.h"
 #include "minded_transforms_tests.h"
 #include "transmitter_tests.h"
 #include "trie_tests.h"
@@ -17,6 +18,7 @@ int main(int argc, char ** argv)
         cmocka_unit_test(run_trie_tests),
 
         // basic_transforms_tests
+        cmocka_unit_test(run_context_filter_tests),
         cmocka_unit_test(run_int32_addition_tests),
         cmocka_unit_test(run_int32_duplicator_tests),
         cmocka_unit_test(run_int32_gen_tests),
