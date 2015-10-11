@@ -39,6 +39,21 @@ typedef struct type_name_ptr**       type_name_io;
 
 All type usages are supposed to stick to these guidelines.
 
+## Function Naming
+
+Some structure types are combined into categories like data types or transforms types. Those
+categories simulate C++-like inheritance from common ancestor interface. Every type inside a
+category is supposed to have a constructor which would be named with ```_constructor``` suffix
+and follows common ancestor specification. For instance, all transforms are supposed to have
+a constructor function of type
+```c
+transform_hld (*construct)(void_mv internal_data);
+```
+The policy here is constructor accepting ownership of already constructed internal representation.
+Every type must have only one such a constructor. But it could also have a number of handy
+constructing function with it names starting from ```build_``` prefix. These functions also
+construct corresponding object but not necessary follows specification of ancestor interface.
+
 ## Transforms
 
 Each transform element has a pointer to its description of type ```transform_description_type```.
