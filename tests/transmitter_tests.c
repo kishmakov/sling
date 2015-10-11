@@ -15,9 +15,10 @@ static void transmitter_move_test(void)
 
     context_hld c1_src = context_construct(2, 1);
     context_hld c1_dst = context_construct(0, 0);
-    transmitter_hld t1 = transmitter_construct(1, 1);
-    t1->data_maps[0] = (id_map_type) {.from=0, .to=0};
-    t1->transforms_maps[0] = (id_map_type) {.from=0, .to=0};
+
+    uint32_t data1[][2] = {{0, 0}};
+    uint32_t transforms1[][2] = {{0, 0}};
+    transmitter_hld t1 = MACRO_BUILD_TRANSMITTER(data1, transforms1);
 
     transmit_move(t1, c1_dst, c1_src);
 
@@ -41,11 +42,10 @@ static void transmitter_move_test(void)
     c2_src->transforms[1] = (void*) 6;
     c2_src->transforms[2] = (void*) 7;
     context_hld c2_dst = context_construct(0, 0);
-    transmitter_hld t2 = transmitter_construct(2, 2);
-    t2->data_maps[0] = (id_map_type) {.from=1, .to=1};
-    t2->data_maps[1] = (id_map_type) {.from=2, .to=0};
-    t2->transforms_maps[0] = (id_map_type) {.from=2, .to=1};
-    t2->transforms_maps[1] = (id_map_type) {.from=1, .to=0};
+
+    uint32_t data2[][2] = {{1, 1}, {2, 0}};
+    uint32_t transforms2[][2] = {{2, 1}, {1, 0}};
+    transmitter_hld t2 = MACRO_BUILD_TRANSMITTER(data2, transforms2);
 
     transmit_move(t2, c2_dst, c2_src);
 
@@ -84,9 +84,9 @@ static void transmitter_copy_test(void)
     c1_src->data[1] = int32_datum_construct(2);
     c1_src->transforms[0] = build_int32_duplicator();
     context_hld c1_dst = context_construct(0, 0);
-    transmitter_hld t1 = transmitter_construct(1, 1);
-    t1->data_maps[0] = (id_map_type) {.from=0, .to=0};
-    t1->transforms_maps[0] = (id_map_type) {.from=0, .to=0};
+    uint32_t data1[][2] = {{0, 0}};
+    uint32_t transforms1[][2] = {{0, 0}};
+    transmitter_hld t1 = MACRO_BUILD_TRANSMITTER(data1, transforms1);
 
     transmit_copy(t1, c1_dst, c1_src);
 
@@ -116,11 +116,10 @@ static void transmitter_copy_test(void)
     c2_src->transforms[1] = build_int32_to_double();
     c2_src->transforms[2] = build_int32_duplicator();
     context_hld c2_dst = context_construct(0, 0);
-    transmitter_hld t2 = transmitter_construct(2, 2);
-    t2->data_maps[0] = (id_map_type) {.from=1, .to=1};
-    t2->data_maps[1] = (id_map_type) {.from=2, .to=0};
-    t2->transforms_maps[0] = (id_map_type) {.from=2, .to=1};
-    t2->transforms_maps[1] = (id_map_type) {.from=1, .to=0};
+
+    uint32_t data2[][2] = {{1, 1}, {2, 0}};
+    uint32_t transforms2[][2] = {{2, 1}, {1, 0}};
+    transmitter_hld t2 = MACRO_BUILD_TRANSMITTER(data2, transforms2);
 
     transmit_copy(t2, c2_dst, c2_src);
 
@@ -160,12 +159,9 @@ static void transmitter_copy_test(void)
 
 static void transmitter_dupl_test(void)
 {
-    transmitter_hld src = transmitter_construct(2, 3);
-    src->data_maps[0] = (id_map_type) {.from=1, .to=1};
-    src->data_maps[1] = (id_map_type) {.from=2, .to=0};
-    src->transforms_maps[0] = (id_map_type) {.from=2, .to=1};
-    src->transforms_maps[1] = (id_map_type) {.from=1, .to=0};
-    src->transforms_maps[2] = (id_map_type) {.from=3, .to=2};
+    uint32_t data[][2] = {{1, 1}, {2, 0}};
+    uint32_t transforms[][2] = {{2, 1}, {1, 0}, {3, 2}};
+    transmitter_hld src = MACRO_BUILD_TRANSMITTER(data, transforms);
 
     transmitter_hld dst = transmitter_copy(src);
 

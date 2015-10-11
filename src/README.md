@@ -42,13 +42,14 @@ All type usages are supposed to stick to these guidelines.
 ## Function Naming
 
 Some structure types are combined into categories such as *data types* or *transforms types*. Those
-categories simulate C++-like inheritance from common ancestor interface. Every type inside such a
+categories simulate OOP-like inheritance from common ancestor interface. Every type inside such a
 category is supposed to have a constructor which would be named with ```_construct``` suffix and
 would follow common ancestor specification. For instance, all transforms types are supposed to have
-a constructor function of the type
+a constructor function of the type:
 ```c
 transform_hld (*construct)(void_mv internal_data);
 ```
+
 The policy here is that constructor accepts ownership of already constructed internal
 representation object. Every type must have only one such a constructor. But it could also have a
 number of handy constructing function with it names starting with ```build_``` prefix. These

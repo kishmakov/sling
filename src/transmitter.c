@@ -10,14 +10,22 @@
 
 DEBUG(allocation_list_hld allocated_transmitters = NULL);
 
-transmitter_hld transmitter_construct(uint32_t data_size, uint32_t transforms_size)
+transmitter_hld transmitter_construct(
+    uint32_t data_size,       uint32_t data[][2],
+    uint32_t transforms_size, uint32_t transforms[][2])
 {
-    transmitter_hld result = malloc(sizeof(transmitter_type));
-    MACRO_VECTOR_ALLOCATE(result->data_maps, id_map_type, data_size);
-    MACRO_VECTOR_ALLOCATE(result->transforms_maps, id_map_type, transforms_size);
-    DEBUG(allocation_list_insert(&allocated_transmitters, result));
+    transmitter_hld res = malloc(sizeof(transmitter_type));
+    MACRO_VECTOR_ALLOCATE(res->data_maps, id_map_type, data_size);
+    MACRO_VECTOR_ALLOCATE(res->transforms_maps, id_map_type, transforms_size);
+    DEBUG(allocation_list_insert(&allocated_transmitters, res));
 
-    return result;
+    for (uint32_t id = 0; id < data_size; id++)
+        res->data_maps[id] = (id_map_type) {.from=data[id][0], .to=data[id][1]};
+
+    for (uint32_t id = 0; id < transforms_size; id++)
+        res->transforms_maps[id] = (id_map_type) {.from=transforms[id][0], .to=transforms[id][1]};
+
+    return res;
 }
 
 transmitter_hld transmitter_copy(transmitter_cref transmitter)
