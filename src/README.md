@@ -41,18 +41,20 @@ All type usages are supposed to stick to these guidelines.
 
 ## Function Naming
 
-Some structure types are combined into categories like data types or transforms types. Those
-categories simulate C++-like inheritance from common ancestor interface. Every type inside a
-category is supposed to have a constructor which would be named with ```_constructor``` suffix
-and follows common ancestor specification. For instance, all transforms are supposed to have
-a constructor function of type
+Some structure types are combined into categories such as *data types* or *transforms types*. Those
+categories simulate C++-like inheritance from common ancestor interface. Every type inside such a
+category is supposed to have a constructor which would be named with ```_construct``` suffix and
+would follow common ancestor specification. For instance, all transforms types are supposed to have
+a constructor function of the type
 ```c
 transform_hld (*construct)(void_mv internal_data);
 ```
-The policy here is constructor accepting ownership of already constructed internal representation.
-Every type must have only one such a constructor. But it could also have a number of handy
-constructing function with it names starting from ```build_``` prefix. These functions also
-construct corresponding object but not necessary follows specification of ancestor interface.
+The policy here is that constructor accepts ownership of already constructed internal
+representation object. Every type must have only one such a constructor. But it could also have a
+number of handy constructing function with it names starting with ```build_``` prefix. These
+functions construct corresponding object as well but not necessary follow specification of ancestor
+interface. Main idea behind such a separation is to divide conveniently parametrised constructor
+from one that follows policy.
 
 ## Transforms
 
