@@ -42,12 +42,10 @@ static const char* context_filter_profile(transform_cref transform)
 
     static const size_t MAX_MESSAGE_SIZE = 500;
     static char profile[MAX_MESSAGE_SIZE];
-    sprintf(profile, "%s", "context_filter");
-
-    int32_t val;
-    memcpy((void*) &val, transform->internal_data, 4);
 
     memset(profile, 0, sizeof(profile));
+    sprintf(profile, "%s", "context_filter");
+
     return profile;
 }
 
@@ -99,9 +97,8 @@ static context_hld context_filter_function(transform_cref transform, context_mv 
 
     assert(input != NULL);
 
-    transmitter_cref transmitter = (transmitter_cref) transform->internal_data;
     context_hld output = context_construct(0, 0);
-    transmit_move(transmitter, output, *input);
+    transmit_move((transmitter_cref) transform->internal_data, output, *input);
 
     for (uint32_t id = 0; id < (*input)->data_size; id++)
         if ((*input)->data[id] != 0)

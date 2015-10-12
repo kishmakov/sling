@@ -60,15 +60,15 @@ static_assert(sizeof(void*) == sizeof(transform_hld), "Required for pointer inde
 static_assert(sizeof(void*) == sizeof(datum_hld), "Required for pointer independent code.");
 #endif
 
-id_map_type maximal_indices(uint32_t maps_size, const id_map_type* maps)
+static id_map_type indices_bounds(uint32_t maps_size, const id_map_type* maps)
 {
-    assert(maps != NULL);
+    assert(maps_size == 0 ^ maps != NULL);
 
     id_map_type result = {.from = 0, .to = 0};
 
     for (uint32_t id = 0; id < maps_size; id++) {
-        result.from = MACRO_MAX(result.from, maps[id].from);
-        result.to   = MACRO_MAX(result.to,   maps[id].to);
+        result.from = MACRO_MAX(result.from + 1, maps[id].from);
+        result.to   = MACRO_MAX(result.to + 1,   maps[id].to);
     }
 
     return result;
@@ -80,11 +80,11 @@ void transmit_move(transmitter_cref transmitter, context_ref dst, context_ref sr
     assert(dst != NULL);
     assert(src != NULL);
 
-    id_map_type data_indices = maximal_indices(transmitter->data_maps_size,
+    id_map_type data_indices = indices_bounds(transmitter->data_maps_size,
         transmitter->data_maps);
 
-    assert(src->data_size > data_indices.from);
-    MACRO_VECTOR_RESIZE(dst->data, id_map_type, data_indices.to + 1);
+    assert(src->data_size >= data_indices.from);
+    MACRO_VECTOR_RESIZE(dst->data, datum_hld, data_indices.to);
 
     for (uint32_t id = 0; id < transmitter->data_maps_size; id++) {
         id_map_type map = transmitter->data_maps[id];
@@ -92,11 +92,11 @@ void transmit_move(transmitter_cref transmitter, context_ref dst, context_ref sr
         src->data[map.from] = NULL;
     }
 
-    id_map_type transforms_indices = maximal_indices(transmitter->transforms_maps_size,
+    id_map_type transforms_indices = indices_bounds(transmitter->transforms_maps_size,
         transmitter->transforms_maps);
 
-    assert(src->transforms_size > transforms_indices.from);
-    MACRO_VECTOR_RESIZE(dst->transforms, id_map_type, transforms_indices.to + 1);
+    assert(src->transforms_size >= transforms_indices.from);
+    MACRO_VECTOR_RESIZE(dst->transforms, transform_hld, transforms_indices.to);
 
     for (uint32_t id = 0; id < transmitter->transforms_maps_size; id++) {
         id_map_type map = transmitter->transforms_maps[id];
@@ -108,22 +108,22 @@ void transmit_move(transmitter_cref transmitter, context_ref dst, context_ref sr
 void transmit_copy(transmitter_cref transmitter, context_ref dst, context_ref src)
 {
     assert(transmitter != NULL);
-    id_map_type data_indices = maximal_indices(transmitter->data_maps_size,
+    id_map_type data_indices = indices_bounds(transmitter->data_maps_size,
         transmitter->data_maps);
 
-    assert(src->data_size > data_indices.from);
-    MACRO_VECTOR_RESIZE(dst->data, id_map_type, data_indices.to + 1);
+    assert(src->data_size >= data_indices.from);
+    MACRO_VECTOR_RESIZE(dst->data, id_map_type, data_indices.to);
 
     for (uint32_t id = 0; id < transmitter->data_maps_size; id++) {
         id_map_type map = transmitter->data_maps[id];
         dst->data[map.to] = datum_copy(src->data[map.from]);
     }
 
-    id_map_type transforms_indices = maximal_indices(transmitter->transforms_maps_size,
+    id_map_type transforms_indices = indices_bounds(transmitter->transforms_maps_size,
         transmitter->transforms_maps);
 
-    assert(src->transforms_size > transforms_indices.from);
-    MACRO_VECTOR_RESIZE(dst->transforms, id_map_type, transforms_indices.to + 1);
+    assert(src->transforms_size >= transforms_indices.from);
+    MACRO_VECTOR_RESIZE(dst->transforms, id_map_type, transforms_indices.to);
 
     for (uint32_t id = 0; id < transmitter->transforms_maps_size; id++) {
         id_map_type map = transmitter->transforms_maps[id];

@@ -31,7 +31,7 @@ int main(int argc, char ** argv)
         cmocka_unit_test(run_int32_sign_tests),
 
         // minded_transforms_tests
-        // cmocka_unit_test(run_discriminant_tests),
+        cmocka_unit_test(run_discriminant_tests),
     };
 
     int rv = cmocka_run_group_tests(tests, NULL, NULL);

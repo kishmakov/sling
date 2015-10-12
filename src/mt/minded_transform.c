@@ -107,8 +107,8 @@ static context_hld minded_transform_function(transform_cref transform, context_m
         context_hld in_context = context_construct(0, 0);
         transmit_move(step->download, in_context, *context);
         context_hld out_context = transform_function(transform, &in_context);
+        assert(in_context == NULL);
         transmit_move(step->upload, *context, out_context);
-        context_destruct(&in_context);
         context_destruct(&out_context);
         state = step->next_state;
     }

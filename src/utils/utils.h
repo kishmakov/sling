@@ -2,6 +2,7 @@
 
 #include <memory.h>
 #include <stdint.h>
+#include <stdio.h>
 
 #define MACRO_MIN(x, y)  ((x) < (y) ? (x) : (y))
 #define MACRO_MAX(x, y)  ((x) > (y) ? (x) : (y))
@@ -47,9 +48,9 @@ name ## _size = requested_size; \
 name = requested_size > 0 ? malloc(sizeof(type_name) * requested_size) : NULL
 
 #define MACRO_VECTOR_RESIZE(name, type_name, new_size) \
-if (name ## _size < new_size) { \
-    name = realloc(name, new_size); \
-    memset(name + name ## _size, 0, new_size - name ## _size); \
+if (name ## _size < (new_size)) { \
+    name = realloc(name, sizeof(type_name) * (new_size)); \
+    memset(name + name ## _size, 0, sizeof(type_name) * (new_size - name ## _size)); \
     name ## _size = new_size; \
 }
 
