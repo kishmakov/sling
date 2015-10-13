@@ -20,10 +20,10 @@ transmitter_hld transmitter_construct(
     DEBUG(allocation_list_insert(&allocated_transmitters, res));
 
     for (uint32_t id = 0; id < data_size; id++)
-        res->data_maps[id] = (id_map_type) {.from=data[id][0], .to=data[id][1]};
+        res->data_maps[id] = (id_map_type) {.to=data[id][0], .from=data[id][1]};
 
     for (uint32_t id = 0; id < transforms_size; id++)
-        res->transforms_maps[id] = (id_map_type) {.from=transforms[id][0], .to=transforms[id][1]};
+        res->transforms_maps[id] = (id_map_type) {.to=transforms[id][0], .from=transforms[id][1]};
 
     return res;
 }
@@ -62,13 +62,13 @@ static_assert(sizeof(void*) == sizeof(datum_hld), "Required for pointer independ
 
 static id_map_type indices_bounds(uint32_t maps_size, const id_map_type* maps)
 {
-    assert(maps_size == 0 ^ maps != NULL);
+    assert((maps_size == 0) ^ (maps != NULL));
 
-    id_map_type result = {.from = 0, .to = 0};
+    id_map_type result = {.to = 0, .from = 0};
 
     for (uint32_t id = 0; id < maps_size; id++) {
-        result.from = MACRO_MAX(result.from + 1, maps[id].from);
         result.to   = MACRO_MAX(result.to + 1,   maps[id].to);
+        result.from = MACRO_MAX(result.from + 1, maps[id].from);
     }
 
     return result;

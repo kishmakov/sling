@@ -39,6 +39,7 @@ clean:
 	@rm -rf $(OBJ_DIR)
 	@rm -f $(UNIT_TESTS_BINARY)
 	@rm -f sling
+	@rm -f *.log
 
 # Internal Targets
 ##################

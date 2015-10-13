@@ -20,7 +20,7 @@ datum_hld datum_construct(type_description_cref description, const void* src)
         memcpy(result->bytes, src, description->size);
 
     DEBUG(allocation_list_insert(&allocated_data, result));
-    DLOG("%s constructed @ %zu.", description->scheme, (size_t) result);
+    DLOG("%s constructed @ %zx.", description->scheme, (size_t) result);
 
     return result;
 }
@@ -35,7 +35,7 @@ void datum_destruct(datum_mv datum)
     assert(description != NULL);
 
     DEBUG(allocation_list_remove(&allocated_data, *datum));
-    DLOG("%s destructed @ %zu.", description->scheme, (size_t) *datum);
+    DLOG("%s destructed @ %zx.", description->scheme, (size_t) *datum);
 
     free((*datum)->bytes);
     free(*datum);

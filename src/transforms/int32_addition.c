@@ -46,7 +46,7 @@ static transform_hld int32_addition_construct(void_mv internal_data)
     result->description = int32_addition_description;
 
     DEBUG(allocation_list_insert(&allocated_transforms, result));
-    DLOG("%s constructed @ %zu.", int32_addition_profile(result), (size_t) result);
+    DLOG("%s constructed @ %zx.", int32_addition_profile(result), (size_t) result);
 
     return result;
 }
@@ -60,7 +60,7 @@ static transform_hld int32_addition_copy(transform_cref transform)
     result->description = int32_addition_description;
 
     DEBUG(allocation_list_insert(&allocated_transforms, result));
-    DLOG("%s copied @ %zu.", int32_addition_profile(transform), (size_t) result);
+    DLOG("%s copied @ %zx.", int32_addition_profile(transform), (size_t) result);
 
     return result;
 }
@@ -72,7 +72,7 @@ static void int32_addition_destruct(transform_mv transform)
     assert((*transform)->description == int32_addition_description);
 
     DEBUG(allocation_list_remove(&allocated_transforms, *transform));
-    DLOG("%s destructed @ %zu.", int32_addition_profile(*transform), (size_t) *transform);
+    DLOG("%s destructed @ %zx.", int32_addition_profile(*transform), (size_t) *transform);
 
     free(*transform);
     *transform = NULL;

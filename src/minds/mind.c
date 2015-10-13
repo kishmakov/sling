@@ -20,7 +20,7 @@ mind_ptr mind_construct(mind_description_cref description)
     //     memcpy(result->bytes, src, description->size);
 
     // DEBUG(allocation_list_insert(&allocated_minds, result));
-    // LOG("mind constructd @ %zu.", (size_t) result);
+    // LOG("mind constructd @ %zx.", (size_t) result);
 
     // return result;
 }
@@ -39,7 +39,7 @@ void mind_destruct(mind_mv mind)
 
 
     // DEBUG(allocation_list_remove(&allocated_minds, *mind));
-    // LOG("mind destructd @ %zu.", (size_t) *mind);
+    // LOG("mind destructd @ %zx.", (size_t) *mind);
 
     // free((*mind)->bytes);
     // free(*mind);

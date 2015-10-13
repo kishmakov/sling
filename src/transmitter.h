@@ -8,8 +8,8 @@
 DEBUG(extern allocation_list_hld allocated_transmitters);
 
 typedef struct {
-    uint32_t from;
     uint32_t to;
+    uint32_t from;
 } id_map_type;
 
 MACRO_STRUCTURE_DEFINITION(transmitter) {

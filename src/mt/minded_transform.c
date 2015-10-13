@@ -96,20 +96,26 @@ static context_hld minded_transform_function(transform_cref transform, context_m
             context_hld mind_context = context_construct(0, 0);
             transmit_copy(state->download, mind_context, *context);
             next_id = mind_function(mind, &mind_context);
-            context_destruct(&mind_context);
+            assert(mind_context == NULL);
         } else {
+            assert(state->download == NULL);
             assert(state->steps_size == 1);
         }
         // computation
         assert(next_id < state->steps_size);
         state_step_type* step = &(state->steps[next_id]);
-        transform_cref transform = trie_check(mt->transforms, step->transform_profile);
-        context_hld in_context = context_construct(0, 0);
-        transmit_move(step->download, in_context, *context);
-        context_hld out_context = transform_function(transform, &in_context);
-        assert(in_context == NULL);
-        transmit_move(step->upload, *context, out_context);
-        context_destruct(&out_context);
+
+        if (step->transform_profile != NULL) {
+            transform_cref transform = trie_check(mt->transforms, step->transform_profile);
+            context_hld in_context = context_construct(0, 0);
+            assert(step->download != NULL);
+            transmit_move(step->download, in_context, *context);
+            context_hld out_context = transform_function(transform, &in_context);
+            assert(in_context == NULL);
+            transmit_move(step->upload, *context, out_context);
+            context_destruct(&out_context);
+        }
+
         state = step->next_state;
     }
 

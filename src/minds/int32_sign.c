@@ -21,7 +21,7 @@ mind_hld int32_sign_construct()
     result->description = int32_sign_description;
 
     DEBUG(allocation_list_insert(&allocated_minds, result));
-    DLOG("%s constructed @ %zu.", int32_sign_profile, (size_t) result);
+    DLOG("%s constructed @ %zx.", int32_sign_profile, (size_t) result);
 
     return result;
 }
@@ -33,7 +33,7 @@ static void int32_sign_destruct(mind_mv mind)
     assert((*mind)->description == int32_sign_description);
 
     DEBUG(allocation_list_remove(&allocated_minds, *mind));
-    DLOG("%s destructed @ %zu.", int32_sign_profile, (size_t) *mind);
+    DLOG("%s destructed @ %zx.", int32_sign_profile, (size_t) *mind);
 
     free(*mind);
     *mind = NULL;

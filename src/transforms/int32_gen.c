@@ -53,7 +53,7 @@ static transform_hld int32_gen_construct(void_mv internal_data)
     *internal_data = NULL;
     result->description = int32_gen_description;
     DEBUG(allocation_list_insert(&allocated_transforms, result));
-    DLOG("%s constructed @ %zu.", int32_gen_profile(result), (size_t) result);
+    DLOG("%s constructed @ %zx.", int32_gen_profile(result), (size_t) result);
 
     return result;
 }
@@ -68,7 +68,7 @@ static transform_hld int32_gen_copy(transform_cref transform)
     result->description = int32_gen_description;
 
     DEBUG(allocation_list_insert(&allocated_transforms, result));
-    DLOG("%s copied @ %zu.", int32_gen_profile(transform), (size_t) result);
+    DLOG("%s copied @ %zx.", int32_gen_profile(transform), (size_t) result);
 
     return result;
 }
@@ -80,7 +80,7 @@ static void int32_gen_destruct(transform_mv transform)
     assert((*transform)->description == int32_gen_description);
 
     DEBUG(allocation_list_remove(&allocated_transforms, *transform));
-    DLOG("%s destructed @ %zu.", int32_gen_profile(*transform), (size_t) *transform);
+    DLOG("%s destructed @ %zx.", int32_gen_profile(*transform), (size_t) *transform);
 
     free((*transform)->internal_data);
     free(*transform);
@@ -104,7 +104,7 @@ static context_hld int32_gen_function(transform_cref transform, context_mv input
     context_hld result = context_construct(1, 0);
     result->data[0] = int32_datum_construct(val);
 
-    DLOG("%zu generated out of %d.", (size_t) result, val);
+    DLOG("%zx generated out of %d.", (size_t) result, val);
 
     return result;
 }

@@ -43,8 +43,8 @@ static void transmitter_move_test(void)
     c2_src->transforms[2] = (void*) 7;
     context_hld c2_dst = context_construct(0, 0);
 
-    uint32_t data2[][2] = {{1, 1}, {2, 0}};
-    uint32_t transforms2[][2] = {{2, 1}, {1, 0}};
+    uint32_t data2[][2] = {{1, 1}, {0, 2}};
+    uint32_t transforms2[][2] = {{1, 2}, {0, 1}};
     transmitter_hld t2 = MACRO_BUILD_TRANSMITTER(data2, transforms2);
 
     transmit_move(t2, c2_dst, c2_src);
@@ -117,8 +117,8 @@ static void transmitter_copy_test(void)
     c2_src->transforms[2] = build_int32_duplicator();
     context_hld c2_dst = context_construct(0, 0);
 
-    uint32_t data2[][2] = {{1, 1}, {2, 0}};
-    uint32_t transforms2[][2] = {{2, 1}, {1, 0}};
+    uint32_t data2[][2] = {{1, 1}, {0, 2}};
+    uint32_t transforms2[][2] = {{1, 2}, {0, 1}};
     transmitter_hld t2 = MACRO_BUILD_TRANSMITTER(data2, transforms2);
 
     transmit_copy(t2, c2_dst, c2_src);
@@ -159,8 +159,8 @@ static void transmitter_copy_test(void)
 
 static void transmitter_dupl_test(void)
 {
-    uint32_t data[][2] = {{1, 1}, {2, 0}};
-    uint32_t transforms[][2] = {{2, 1}, {1, 0}, {3, 2}};
+    uint32_t data[][2] = {{1, 1}, {0, 2}};
+    uint32_t transforms[][2] = {{1, 2}, {0, 1}, {2, 3}};
     transmitter_hld src = MACRO_BUILD_TRANSMITTER(data, transforms);
 
     transmitter_hld dst = transmitter_copy(src);

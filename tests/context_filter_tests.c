@@ -23,8 +23,8 @@ void run_context_filter_tests(void **state)
     input->transforms[3] = build_int32_gen(8);
     input->transforms[4] = build_int32_gen(9);
 
-    uint32_t data[][2] = {{1, 1}, {3, 0}};
-    uint32_t transforms[][2] = {{3, 2}, {1, 1}};
+    uint32_t data[][2] = {{1, 1}, {0, 3}};
+    uint32_t transforms[][2] = {{2, 3}, {1, 1}};
 
     transform_hld filter_pre = MACRO_BUILD_CONTEXT_FILTER(data, transforms);
     transform_hld filter = transform_copy(filter_pre);

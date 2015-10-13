@@ -26,7 +26,7 @@ void allocation_list_remove(allocation_list_io head, const void* address)
         return;
 
     if ((*head)->allocated_address == address) {
-        allocation_list_node_hld new_head = (*head)->next;
+        allocation_list_node_ref new_head = (*head)->next;
         free(*head);
         *head = new_head;
         return;
@@ -47,7 +47,7 @@ void allocation_list_to_string(allocation_list_cref head, char* buffer, int max_
     char local_buffer[20];
 
     for (; head != NULL; head = head->next) {
-        sprintf(local_buffer, " %zu", (size_t) head->allocated_address);
+        sprintf(local_buffer, " %zx", (size_t) head->allocated_address);
         if (strlen(buffer) + strlen(local_buffer) >= max_size)
             return;
 

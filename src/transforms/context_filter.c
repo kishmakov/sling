@@ -56,7 +56,7 @@ static transform_hld context_filter_construct(void_mv transmitter)
     *transmitter = NULL;
     result->description = context_filter_description;
     DEBUG(allocation_list_insert(&allocated_transforms, result));
-    DLOG("%s constructed @ %zu.", context_filter_profile(result), (size_t) result);
+    DLOG("%s constructed @ %zx.", context_filter_profile(result), (size_t) result);
 
     return result;
 }
@@ -71,7 +71,7 @@ static transform_hld context_filter_copy(transform_cref transform)
     result->description = context_filter_description;
 
     DEBUG(allocation_list_insert(&allocated_transforms, result));
-    DLOG("%s copied @ %zu.", context_filter_profile(transform), (size_t) result);
+    DLOG("%s copied @ %zx.", context_filter_profile(transform), (size_t) result);
 
     return result;
 }
@@ -83,7 +83,7 @@ static void context_filter_destruct(transform_mv transform)
     assert((*transform)->description == context_filter_description);
 
     DEBUG(allocation_list_remove(&allocated_transforms, *transform));
-    DLOG("%s destructed @ %zu.", context_filter_profile(*transform), (size_t) *transform);
+    DLOG("%s destructed @ %zx.", context_filter_profile(*transform), (size_t) *transform);
 
     transmitter_destruct((transmitter_mv) &((*transform)->internal_data));
     free(*transform);
@@ -108,7 +108,7 @@ static context_hld context_filter_function(transform_cref transform, context_mv 
         if ((*input)->transforms[id] != 0)
             transform_destruct(&((*input)->transforms[id]));
 
-    DLOG("%s filtered %zu -> %zu.", context_filter_profile(transform), (size_t) *input, (size_t) output);
+    DLOG("%s filtered %zx -> %zx.", context_filter_profile(transform), (size_t) *input, (size_t) output);
     context_destruct(input);
     return output;
 }

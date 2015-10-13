@@ -16,7 +16,12 @@ context_hld context_construct(uint32_t data_size, uint32_t transforms_size)
     MACRO_VECTOR_ALLOCATE(result->transforms, transform_hld, transforms_size);
 
     DEBUG(allocation_list_insert(&allocated_contexts, result));
-    DLOG("context constructed @ %zu.", (size_t) result);
+    DLOG("context constructed @ %zx.", (size_t) result);
+
+    // printf("after insertion:");
+    // for (allocation_list_cref cur = allocated_contexts; cur != NULL; cur = cur->next)
+    //     printf(" -> %zx", (size_t) cur);
+    // printf("\n");
 
     return result;
 }
@@ -26,8 +31,13 @@ void context_destruct(context_mv context)
     assert(context != NULL);
     assert(*context != NULL);
 
+    // printf("prior removal:");
+    // for (allocation_list_cref cur = allocated_contexts; cur != NULL; cur = cur->next)
+    //     printf(" -> %zx", (size_t) cur);
+    // printf("\n");
+
     DEBUG(allocation_list_remove(&allocated_contexts, *context));
-    DLOG("context destructed @ %zu.", (size_t) *context);
+    DLOG("context destructed @ %zx.", (size_t) *context);
 
 #if DEBUG_MODE
     for (int id = 0; id < (*context)->data_size; id++)

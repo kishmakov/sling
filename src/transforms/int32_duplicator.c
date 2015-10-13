@@ -46,7 +46,7 @@ static transform_hld int32_duplicator_construct(void_mv seed)
     result->description = int32_duplicator_description;
 
     DEBUG(allocation_list_insert(&allocated_transforms, result));
-    DLOG("%s constructed @ %zu.", int32_duplicator_profile(result), (size_t) result);
+    DLOG("%s constructed @ %zx.", int32_duplicator_profile(result), (size_t) result);
 
     return result;
 }
@@ -60,7 +60,7 @@ static transform_hld int32_duplicator_copy(transform_cref transform)
     result->description = int32_duplicator_description;
 
     DEBUG(allocation_list_insert(&allocated_transforms, result));
-    DLOG("%s copied @ %zu.", int32_duplicator_profile(transform), (size_t) result);
+    DLOG("%s copied @ %zx.", int32_duplicator_profile(transform), (size_t) result);
 
     return result;
 }
@@ -72,7 +72,7 @@ static void int32_duplicator_destruct(transform_mv transform)
     assert((*transform)->description == int32_duplicator_description);
 
     DEBUG(allocation_list_remove(&allocated_transforms, *transform));
-    DLOG("%s destructed @ %zu.", int32_duplicator_profile(*transform), (size_t) *transform);
+    DLOG("%s destructed @ %zx.", int32_duplicator_profile(*transform), (size_t) *transform);
 
     free(*transform);
     *transform = NULL;
@@ -95,7 +95,7 @@ static context_hld int32_duplicator_function(transform_cref transform, context_m
     result->data[0] = datum;
     result->data[1] = datum_copy(datum);
 
-    DLOG("forked %zu from %zu.", (size_t) result->data[1], (size_t) datum);
+    DLOG("forked %zx from %zx.", (size_t) result->data[1], (size_t) datum);
 
     return result;
 }

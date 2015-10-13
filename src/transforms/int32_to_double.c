@@ -47,7 +47,7 @@ static transform_hld int32_to_double_construct(void_mv internal_data)
     result->description = int32_to_double_description;
 
     DEBUG(allocation_list_insert(&allocated_transforms, result));
-    DLOG("%s constructed @ %zu.", int32_to_double_profile(result), (size_t) result);
+    DLOG("%s constructed @ %zx.", int32_to_double_profile(result), (size_t) result);
 
     return result;
 }
@@ -60,7 +60,7 @@ static transform_hld int32_to_double_copy(transform_cref transform)
     result->description = int32_to_double_description;
 
     DEBUG(allocation_list_insert(&allocated_transforms, result));
-    DLOG("%s copied @ %zu.", int32_to_double_profile(transform), (size_t) result);
+    DLOG("%s copied @ %zx.", int32_to_double_profile(transform), (size_t) result);
 
     return result;
 }
@@ -72,7 +72,7 @@ static void int32_to_double_destruct(transform_mv transform)
     assert((*transform)->description == int32_to_double_description);
 
     DEBUG(allocation_list_remove(&allocated_transforms, *transform));
-    DLOG("%s destructed @ %zu.", int32_to_double_profile(*transform), (size_t) *transform);
+    DLOG("%s destructed @ %zx.", int32_to_double_profile(*transform), (size_t) *transform);
 
     free(*transform);
     *transform = NULL;
@@ -95,7 +95,7 @@ static context_hld int32_to_double_function(transform_cref transform, context_mv
     context_hld result = context_construct(1, 0);
     result->data[0] = double_datum_construct((double) val);
 
-    DLOG("%zu converted to %zu.", source, (size_t) result->data[0]);
+    DLOG("%zx converted to %zx.", source, (size_t) result->data[0]);
 
     return result;
 }
