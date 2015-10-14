@@ -67,8 +67,8 @@ static id_map_type indices_bounds(uint32_t maps_size, const id_map_type* maps)
     id_map_type result = {.to = 0, .from = 0};
 
     for (uint32_t id = 0; id < maps_size; id++) {
-        result.to   = MACRO_MAX(result.to + 1,   maps[id].to);
-        result.from = MACRO_MAX(result.from + 1, maps[id].from);
+        result.to   = MACRO_MAX(result.to,   maps[id].to + 1);
+        result.from = MACRO_MAX(result.from, maps[id].from + 1);
     }
 
     return result;

@@ -72,7 +72,7 @@ static transform_hld construct_discriminant_classifier()
         uint32_t chk_data[][2] = {{0, 0}};
         uint32_t chk_transforms[][2] = {};
         state->download = MACRO_BUILD_TRANSMITTER(chk_data, chk_transforms);
-        MACRO_STRING_COPY(state->mind_profile, "int32_sign");
+        state->mind_profile = "int32_sign";
         MACRO_VECTOR_ALLOCATE(state->steps, state_step_type, 3);
 
         uint32_t down_data0[][2] = {{0, 1}};
@@ -80,7 +80,7 @@ static transform_hld construct_discriminant_classifier()
         uint32_t up_data0[][2] = {{1, 0}, {3, 1}};
         uint32_t up_transforms0[][2] = {};
 
-        MACRO_STRING_COPY(state->steps[0].transform_profile, "int32_dupl");
+        state->steps[0].transform_profile = "int32_dupl";
         state->steps[0].download = MACRO_BUILD_TRANSMITTER(down_data0, down_transforms0);
         state->steps[0].upload = MACRO_BUILD_TRANSMITTER(up_data0, up_transforms0);
         state->steps[0].next_state = impl->states[7];
@@ -95,7 +95,7 @@ static transform_hld construct_discriminant_classifier()
         uint32_t up_data2[][2] = {{1, 0}, {3, 1}};
         uint32_t up_transforms2[][2] = {};
 
-        MACRO_STRING_COPY(state->steps[2].transform_profile, "int32_dupl");
+        state->steps[2].transform_profile = "int32_dupl";
         state->steps[2].download = MACRO_BUILD_TRANSMITTER(down_data2, down_transforms2);
         state->steps[2].upload = MACRO_BUILD_TRANSMITTER(up_data2, up_transforms2);
         state->steps[2].next_state = impl->states[7];
@@ -114,7 +114,7 @@ static transform_hld construct_discriminant_classifier()
         uint32_t chk_data[][2] = {{0, 1}};
         uint32_t chk_transforms[][2] = {};
         state->download = MACRO_BUILD_TRANSMITTER(chk_data, chk_transforms);
-        MACRO_STRING_COPY(state->mind_profile, "int32_sign");
+        state->mind_profile = "int32_sign";
         MACRO_VECTOR_ALLOCATE(state->steps, state_step_type, 3);
 
         uint32_t down_data0[][2] = {{0, 0}, {1, 1}, {2, 2}};
@@ -122,7 +122,7 @@ static transform_hld construct_discriminant_classifier()
         uint32_t up_data0[][2] = {};
         uint32_t up_transforms0[][2] = {};
 
-        MACRO_STRING_COPY(state->steps[0].transform_profile, "context_filter");
+        state->steps[0].transform_profile = "context_filter";
         state->steps[0].download = MACRO_BUILD_TRANSMITTER(down_data0, down_transforms0);
         state->steps[0].upload = MACRO_BUILD_TRANSMITTER(up_data0, up_transforms0);
         state->steps[0].next_state = impl->states[3];
@@ -132,7 +132,7 @@ static transform_hld construct_discriminant_classifier()
         uint32_t up_data1[][2] = {};
         uint32_t up_transforms1[][2] = {};
 
-        MACRO_STRING_COPY(state->steps[1].transform_profile, "context_filter");
+        state->steps[1].transform_profile = "context_filter";
         state->steps[1].download = MACRO_BUILD_TRANSMITTER(down_data1, down_transforms1);
         state->steps[1].upload = MACRO_BUILD_TRANSMITTER(up_data1, up_transforms1);
         state->steps[1].next_state = impl->states[4];
@@ -142,7 +142,7 @@ static transform_hld construct_discriminant_classifier()
         uint32_t up_data2[][2] = {};
         uint32_t up_transforms2[][2] = {};
 
-        MACRO_STRING_COPY(state->steps[2].transform_profile, "context_filter");
+        state->steps[2].transform_profile = "context_filter";
         state->steps[2].download = MACRO_BUILD_TRANSMITTER(down_data2, down_transforms2);
         state->steps[2].upload = MACRO_BUILD_TRANSMITTER(up_data2, up_transforms2);
         state->steps[2].next_state = impl->states[3];
@@ -160,7 +160,7 @@ static transform_hld construct_discriminant_classifier()
         uint32_t down_transforms[][2] = {};
         uint32_t up_data[][2] = {{0, 0}};
         uint32_t up_transforms[][2] = {};
-        MACRO_STRING_COPY(state->steps[0].transform_profile, "int32_gen_1");
+        state->steps[0].transform_profile = "int32_gen_1";
         state->steps[0].download = MACRO_BUILD_TRANSMITTER(down_data, down_transforms);
         state->steps[0].upload = MACRO_BUILD_TRANSMITTER(up_data, up_transforms);
         state->steps[0].next_state = impl->states[1];
@@ -178,7 +178,7 @@ static transform_hld construct_discriminant_classifier()
         uint32_t down_transforms[][2] = {};
         uint32_t up_data[][2] = {{0, 0}};
         uint32_t up_transforms[][2] = {};
-        MACRO_STRING_COPY(state->steps[0].transform_profile, "int32_gen_-1");
+        state->steps[0].transform_profile = "int32_gen_-1";
         state->steps[0].download = MACRO_BUILD_TRANSMITTER(down_data, down_transforms);
         state->steps[0].upload = MACRO_BUILD_TRANSMITTER(up_data, up_transforms);
         state->steps[0].next_state = impl->states[1];
@@ -196,7 +196,7 @@ static transform_hld construct_discriminant_classifier()
         uint32_t down_transforms[][2] = {};
         uint32_t up_data[][2] = {{0, 0}};
         uint32_t up_transforms[][2] = {};
-        MACRO_STRING_COPY(state->steps[0].transform_profile, "int32_gen_0");
+        state->steps[0].transform_profile = "int32_gen_0";
         state->steps[0].download = MACRO_BUILD_TRANSMITTER(down_data, down_transforms);
         state->steps[0].upload = MACRO_BUILD_TRANSMITTER(up_data, up_transforms);
         state->steps[0].next_state = impl->states[1];
@@ -214,7 +214,7 @@ static transform_hld construct_discriminant_classifier()
         uint32_t down_transforms[][2] = {};
         uint32_t up_data[][2] = {{0, 0}};
         uint32_t up_transforms[][2] = {};
-        MACRO_STRING_COPY(state->steps[0].transform_profile, "int32_gen_2");
+        state->steps[0].transform_profile = "int32_gen_2";
         state->steps[0].download = MACRO_BUILD_TRANSMITTER(down_data, down_transforms);
         state->steps[0].upload = MACRO_BUILD_TRANSMITTER(up_data, up_transforms);
         state->steps[0].next_state = impl->states[1];
@@ -232,7 +232,7 @@ static transform_hld construct_discriminant_classifier()
         uint32_t down_transforms[][2] = {};
         uint32_t up_data[][2] = {{1, 0}};
         uint32_t up_transforms[][2] = {};
-        MACRO_STRING_COPY(state->steps[0].transform_profile, "int32_mult");
+        state->steps[0].transform_profile = "int32_mult";
         state->steps[0].download = MACRO_BUILD_TRANSMITTER(down_data, down_transforms);
         state->steps[0].upload = MACRO_BUILD_TRANSMITTER(up_data, up_transforms);
         state->steps[0].next_state = impl->states[8];
@@ -250,7 +250,7 @@ static transform_hld construct_discriminant_classifier()
         uint32_t down_transforms[][2] = {};
         uint32_t up_data[][2] = {{0, 0}};
         uint32_t up_transforms[][2] = {};
-        MACRO_STRING_COPY(state->steps[0].transform_profile, "int32_mult");
+        state->steps[0].transform_profile = "int32_mult";
         state->steps[0].download = MACRO_BUILD_TRANSMITTER(down_data, down_transforms);
         state->steps[0].upload = MACRO_BUILD_TRANSMITTER(up_data, up_transforms);
         state->steps[0].next_state = impl->states[9];
@@ -268,7 +268,7 @@ static transform_hld construct_discriminant_classifier()
         uint32_t down_transforms[][2] = {};
         uint32_t up_data[][2] = {{0, 0}};
         uint32_t up_transforms[][2] = {};
-        MACRO_STRING_COPY(state->steps[0].transform_profile, "int32_mult_by_-4");
+        state->steps[0].transform_profile = "int32_mult_by_-4";
         state->steps[0].download = MACRO_BUILD_TRANSMITTER(down_data, down_transforms);
         state->steps[0].upload = MACRO_BUILD_TRANSMITTER(up_data, up_transforms);
         state->steps[0].next_state = impl->states[10];
@@ -286,7 +286,7 @@ static transform_hld construct_discriminant_classifier()
         uint32_t down_transforms[][2] = {};
         uint32_t up_data[][2] = {{0, 0}};
         uint32_t up_transforms[][2] = {};
-        MACRO_STRING_COPY(state->steps[0].transform_profile, "int32_add");
+        state->steps[0].transform_profile = "int32_add";
         state->steps[0].download = MACRO_BUILD_TRANSMITTER(down_data, down_transforms);
         state->steps[0].upload = MACRO_BUILD_TRANSMITTER(up_data, up_transforms);
         state->steps[0].next_state = impl->states[11];
@@ -298,7 +298,7 @@ static transform_hld construct_discriminant_classifier()
         uint32_t chk_data[][2] = {{0, 0}};
         uint32_t chk_transforms[][2] = {};
         state->download = MACRO_BUILD_TRANSMITTER(chk_data, chk_transforms);
-        MACRO_STRING_COPY(state->mind_profile, "int32_sign");
+        state->mind_profile = "int32_sign";
         MACRO_VECTOR_ALLOCATE(state->steps, state_step_type, 3);
 
         uint32_t down_data0[][2] = {{0, 0}};
@@ -306,7 +306,7 @@ static transform_hld construct_discriminant_classifier()
         uint32_t up_data0[][2] = {};
         uint32_t up_transforms0[][2] = {};
 
-        MACRO_STRING_COPY(state->steps[0].transform_profile, "context_filter");
+        state->steps[0].transform_profile = "context_filter";
         state->steps[0].download = MACRO_BUILD_TRANSMITTER(down_data0, down_transforms0);
         state->steps[0].upload = MACRO_BUILD_TRANSMITTER(up_data0, up_transforms0);
         state->steps[0].next_state = impl->states[5];
@@ -316,7 +316,7 @@ static transform_hld construct_discriminant_classifier()
         uint32_t up_data1[][2] = {};
         uint32_t up_transforms1[][2] = {};
 
-        MACRO_STRING_COPY(state->steps[1].transform_profile, "context_filter");
+        state->steps[1].transform_profile = "context_filter";
         state->steps[1].download = MACRO_BUILD_TRANSMITTER(down_data1, down_transforms1);
         state->steps[1].upload = MACRO_BUILD_TRANSMITTER(up_data1, up_transforms1);
         state->steps[1].next_state = impl->states[3];
@@ -326,7 +326,7 @@ static transform_hld construct_discriminant_classifier()
         uint32_t up_data2[][2] = {};
         uint32_t up_transforms2[][2] = {};
 
-        MACRO_STRING_COPY(state->steps[2].transform_profile, "context_filter");
+        state->steps[2].transform_profile = "context_filter";
         state->steps[2].download = MACRO_BUILD_TRANSMITTER(down_data2, down_transforms2);
         state->steps[2].upload = MACRO_BUILD_TRANSMITTER(up_data2, up_transforms2);
         state->steps[2].next_state = impl->states[6];
