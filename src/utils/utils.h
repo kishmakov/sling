@@ -45,7 +45,9 @@ type_name* name
 
 #define MACRO_VECTOR_ALLOCATE(name, type_name, requested_size) \
 name ## _size = requested_size; \
-name = requested_size > 0 ? malloc(sizeof(type_name) * requested_size) : NULL
+name = requested_size > 0 ? malloc(sizeof(type_name) * requested_size) : NULL; \
+if (requested_size > 0) \
+    memset(name, 0, sizeof(type_name) * requested_size)
 
 #define MACRO_VECTOR_RESIZE(name, type_name, new_size) \
 if (name ## _size < (new_size)) { \
