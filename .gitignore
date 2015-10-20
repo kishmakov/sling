@@ -2,5 +2,7 @@
 *~
 *.sublime-*
 .gitignore
+obj
+lib
 sling
 unit-tests
