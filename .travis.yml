@@ -1,12 +1,7 @@
+sudo: false
+
 language: c
 
 compiler: clang
 
 script: make && make test
-
-before_install:
-  # cmocka
-  - wget http://ftp.ru.debian.org/debian/pool/main/c/cmocka/libcmocka0_1.0.1-2_amd64.deb
-  - wget http://ftp.ru.debian.org/debian/pool/main/c/cmocka/libcmocka-dev_1.0.1-2_amd64.deb
-  - sudo dpkg -i libcmocka0_1.0.1-2_amd64.deb
-  - sudo dpkg -i libcmocka-dev_1.0.1-2_amd64.deb
