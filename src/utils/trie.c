@@ -82,8 +82,9 @@ void* trie_remove(trie_node_io node, const char* tag)
 
         if (--(*node)->count == 0) {
             assert((*node)->value == NULL || *tag == 0);
-            list_insert(&removed_nodes, *node);
+            void_hld backup = (void_hld) *node;
             *node = (*node)->hor;
+            list_insert(&removed_nodes, &backup);
         }
 
         node = next_ver;
@@ -92,7 +93,7 @@ void* trie_remove(trie_node_io node, const char* tag)
     }
 
     while (removed_nodes != NULL) {
-        trie_node_hld to_remove = list_pop_front(&removed_nodes);
+        trie_node_hld to_remove = (trie_node_hld) list_pop_front(&removed_nodes);
         to_remove->ver = NULL;
         to_remove->hor = NULL;
         assert(to_remove->value == NULL);

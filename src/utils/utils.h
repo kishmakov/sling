@@ -9,6 +9,8 @@
 
 typedef void** void_mv;
 typedef void* void_hld;
+typedef void* void_cref;
+typedef void* void_ref;
 
 #define MACRO_STRUCTURE_DEFINITION(type_name) \
 struct type_name ## _type; \
