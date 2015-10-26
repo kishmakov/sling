@@ -45,7 +45,7 @@ void list_append(list_node_io dst, list_node_mv addition)
     list_node_hld* cur = dst;
 
     while (*cur != NULL)
-        cur = &(*cur->next);
+        cur = &((*cur)->next);
 
     *cur = *addition;
     *addition = NULL;

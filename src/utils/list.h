@@ -11,6 +11,7 @@ MACRO_STRUCTURE_DEFINITION(list_node)
 
 typedef list_node_hld list_hld;
 typedef list_node_io list_io;
+typedef list_node_mv list_mv;
 
 void     list_insert(list_io list, void_mv src);
 void_hld list_pop_front(list_io list);
