@@ -88,7 +88,7 @@ static inline double ptr_to_double(void_cref ptr)
 static inline void_hld int32_to_ptr(int32_t val)
 {
     void_hld result = malloc(sizeof(int32_t));
-    memcpy(result, (void*) &val, sizeof(double));
+    memcpy(result, (void*) &val, sizeof(int32_t));
     return result;
 }
 
@@ -96,5 +96,19 @@ static inline int32_t ptr_to_int32(void_cref ptr)
 {
     int32_t result;
     memcpy((void*) &result, ptr, sizeof(int32_t));
+    return result;
+}
+
+static inline void_hld uint32_to_ptr(uint32_t val)
+{
+    void_hld result = malloc(sizeof(uint32_t));
+    memcpy(result, (void*) &val, sizeof(uint32_t));
+    return result;
+}
+
+static inline uint32_t ptr_to_uint32(void_cref ptr)
+{
+    uint32_t result;
+    memcpy((void*) &result, ptr, sizeof(uint32_t));
     return result;
 }
