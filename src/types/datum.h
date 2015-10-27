@@ -8,15 +8,13 @@ DEBUG(extern allocation_list_hld allocated_data);
 
 MACRO_STRUCTURE_DEFINITION(datum)
 {
-    void* bytes;
+    void_hld bytes;
     type_description_cref description;
 };
 
-datum_hld datum_construct(type_description_cref description, const void* src);
-
-void datum_destruct(datum_mv datum);
-
+datum_hld datum_construct(type_description_cref description, void_mv src);
+void      datum_destruct(datum_mv datum);
 datum_hld datum_copy(datum_cref datum);
 
-void datum_extract_value(datum_cref datum, void* dst);
+void_hld datum_extract_value(datum_cref datum);
 

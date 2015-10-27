@@ -3,6 +3,7 @@
 #include <memory.h>
 #include <stdint.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 #define MACRO_MIN(x, y)  ((x) < (y) ? (x) : (y))
 #define MACRO_MAX(x, y)  ((x) > (y) ? (x) : (y))
@@ -67,3 +68,33 @@ strcpy((char*) dst, src)
 
 char* context_scheme(const char* data, const char* transforms);
 char* decision_scheme(const char* alternatives[], const uint32_t alternatives_number);
+
+// correspondence between objects and pointers to its representation
+
+static inline void_hld double_to_ptr(double val)
+{
+    void_hld result = malloc(sizeof(double));
+    memcpy(result, (void*) &val, sizeof(double));
+    return result;
+}
+
+static inline double ptr_to_double(void_cref ptr)
+{
+    double result;
+    memcpy((void*) &result, ptr, sizeof(double));
+    return result;
+}
+
+static inline void_hld int32_to_ptr(int32_t val)
+{
+    void_hld result = malloc(sizeof(int32_t));
+    memcpy(result, (void*) &val, sizeof(double));
+    return result;
+}
+
+static inline int32_t ptr_to_int32(void_cref ptr)
+{
+    int32_t result;
+    memcpy((void*) &result, ptr, sizeof(int32_t));
+    return result;
+}

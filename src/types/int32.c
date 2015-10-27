@@ -19,14 +19,12 @@ type_description_hld int32_type_register(type_description_cref head)
 
 datum_hld int32_datum_construct(int32_t value)
 {
-    return datum_construct(int32_type_description, (const void*) &value);
+    void_hld bytes = int32_to_ptr(value);
+    return datum_construct(int32_type_description, &bytes);
 }
 
 int32_t int32_datum_extract(datum_cref datum)
 {
     assert(datum->description == int32_type_description);
-
-    int32_t result;
-    datum_extract_value(datum, &result);
-    return result;
+    return ptr_to_int32(datum->bytes);
 }

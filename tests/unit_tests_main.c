@@ -3,6 +3,7 @@
 #include "basic_minds_tests.h"
 #include "basic_transforms_tests.h"
 #include "context_filter_tests.h"
+#include "hash_map_tests.h"
 #include "minded_transforms_tests.h"
 #include "transmitter_tests.h"
 #include "trie_tests.h"
@@ -15,6 +16,7 @@ int main(int argc, char ** argv)
 
     const struct CMUnitTest tests[] = {
         cmocka_unit_test(run_transmitter_tests),
+        cmocka_unit_test(run_hash_map_tests),
         cmocka_unit_test(run_trie_tests),
 
         // basic_transforms_tests

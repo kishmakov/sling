@@ -1,7 +1,6 @@
 #include "types/double.h"
 
 #include <assert.h>
-#include <stdlib.h>
 
 static type_description_hld double_type_description = NULL;
 
@@ -19,14 +18,12 @@ type_description_hld double_type_register(type_description_cref head)
 
 datum_hld double_datum_construct(double value)
 {
-    return datum_construct(double_type_description, (const void*) &value);
+    void_hld bytes = double_to_ptr(value);
+    return datum_construct(double_type_description, &bytes);
 }
 
 double double_datum_extract(datum_cref datum)
 {
     assert(datum->description == double_type_description);
-
-    double result;
-    datum_extract_value(datum, &result);
-    return result;
+    return ptr_to_double(datum->bytes);
 }

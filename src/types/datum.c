@@ -8,16 +8,15 @@
 
 DEBUG(allocation_list_hld allocated_data = NULL);
 
-datum_hld datum_construct(type_description_cref description, const void* src)
+datum_hld datum_construct(type_description_cref description, void_mv src)
 {
     assert(description != NULL); // description registred?
     assert(description->size > 0); // data types must contain something
 
     datum_hld result = malloc(sizeof(datum_type));
     result->description = description;
-    result->bytes = malloc(description->size);
-    if (src != NULL)
-        memcpy(result->bytes, src, description->size);
+    result->bytes = *src;
+    *src = NULL;
 
     DEBUG(allocation_list_insert(&allocated_data, result));
     DLOG("%s constructed @ %zx.", description->scheme, (size_t) result);
@@ -44,10 +43,14 @@ void datum_destruct(datum_mv datum)
 
 datum_hld datum_copy(datum_cref datum)
 {
-    return datum_construct(datum->description, datum->bytes);
+    void_hld bytes = malloc(datum->description->size);
+    memcpy(bytes, datum->bytes, datum->description->size);
+    return datum_construct(datum->description, &bytes);
 }
 
-void datum_extract_value(datum_cref datum, void* dst)
+void_hld datum_extract_value(datum_cref datum)
 {
-    memcpy(dst, datum->bytes, datum->description->size);
+    void_hld bytes = malloc(datum->description->size);
+    memcpy(bytes, datum->bytes, datum->description->size);
+    return bytes;
 }
