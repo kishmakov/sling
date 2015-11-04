@@ -112,3 +112,17 @@ static inline uint32_t ptr_to_uint32(void_cref ptr)
     memcpy((void*) &result, ptr, sizeof(uint32_t));
     return result;
 }
+
+static inline void_hld voidp_to_ptr(void* val)
+{
+    void_hld result = malloc(sizeof(void*));
+    memcpy(result, (void*) &val, sizeof(void*));
+    return result;
+}
+
+static inline void* ptr_to_voidp(void_cref ptr)
+{
+    void* result;
+    memcpy((void*) &result, ptr, sizeof(void*));
+    return result;
+}

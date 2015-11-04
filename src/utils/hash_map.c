@@ -5,7 +5,7 @@
 
 static const double load_factor = 0.75;
 
-hash_map_hld hash_map_construct(
+hm_hld hm_construct(
     uint32_t size,
     int (*equals)(void_cref, void_cref),
     uint64_t (*hash)(void_cref))
@@ -13,7 +13,7 @@ hash_map_hld hash_map_construct(
     assert(equals != NULL);
     assert(hash != NULL);
 
-    hash_map_hld result = malloc(sizeof(hash_map_type));
+    hm_hld result = malloc(sizeof(hm_type));
 
     size = MACRO_MAX(size, 8);
 
@@ -28,7 +28,24 @@ hash_map_hld hash_map_construct(
     return result;
 }
 
-static void hash_map_resize(hash_map_ref map, uint32_t new_size)
+void hm_destuct(hm_mv map_ptr)
+{
+    hm_ref map = *map_ptr;
+
+    for (uint32_t id = 0; id < map->baskets_size; id++) {
+        while (map->baskets[id] != NULL) {
+            hm_node_hld node = (hm_node_hld) list_pop_front(&map->baskets[id]);
+            free(node->key);
+            free(node->value);
+            free(node);
+        }
+    }
+    free(map->baskets);
+    free(*map_ptr);
+    *map_ptr = NULL;
+}
+
+static void hm_resize(hm_ref map, uint32_t new_size)
 {
     list_hld elements = NULL;
 
@@ -44,8 +61,8 @@ static void hash_map_resize(hash_map_ref map, uint32_t new_size)
     map->inserted = 0;
 
     while (elements != NULL) {
-        hash_map_node_hld node = (hash_map_node_hld) list_pop_front(&elements);
-        hash_map_insert(map, &(node->key), &(node->value));
+        hm_node_hld node = (hm_node_hld) list_pop_front(&elements);
+        hm_insert(map, &(node->key), &(node->value));
         assert(node->key == NULL && node->value == NULL);
         free(node);
         node = NULL;
@@ -60,7 +77,7 @@ static void_hld basket_remove(
     assert(list != NULL && key != NULL && equals != NULL);
 
     for (list_node_hld* cur = list; *cur != NULL; cur = &((*cur)->next)) {
-        hash_map_node_hld node = (hash_map_node_hld) (*cur)->value;
+        hm_node_hld node = (hm_node_hld) (*cur)->value;
         if (!equals(key, node->key))
             continue;
 
@@ -87,7 +104,7 @@ static void_cref basket_lookup(
     assert(key != NULL && equals != NULL);
 
     for (list_node_cref cur = list; cur != NULL; cur = cur->next) {
-        hash_map_node_hld node = (hash_map_node_hld) cur->value;
+        hm_node_hld node = (hm_node_hld) cur->value;
         if (equals(key, node->key))
             return node->value;
     }
@@ -95,19 +112,19 @@ static void_cref basket_lookup(
     return NULL;
 }
 
-void hash_map_insert(hash_map_ref map, void_mv key, void_mv value)
+void hm_insert(hm_ref map, void_mv key, void_mv value)
 {
     assert(map != NULL);
     assert(key != NULL && *key != NULL);
     assert(value != NULL && *value != NULL);
 
     if (map->inserted >= map->threshold)
-        hash_map_resize(map, 2 * map->baskets_size);
+        hm_resize(map, 2 * map->baskets_size);
 
     uint32_t basket_num = map->hash(*key) % map->baskets_size;
     assert(NULL == basket_remove(&(map->baskets[basket_num]), *key, map->equals));
 
-    hash_map_node_hld node = malloc(sizeof(hash_map_node_type));
+    hm_node_hld node = malloc(sizeof(hm_node_type));
     node->key = *key;
     *key = NULL;
     node->value = *value;
@@ -117,7 +134,7 @@ void hash_map_insert(hash_map_ref map, void_mv key, void_mv value)
     assert(node == NULL);
 }
 
-void_hld hash_map_remove(hash_map_ref map, void_cref key)
+void_hld hm_remove(hm_ref map, void_cref key)
 {
     assert(map != NULL);
     assert(key != NULL);
@@ -129,7 +146,7 @@ void_hld hash_map_remove(hash_map_ref map, void_cref key)
     return basket_remove(&(map->baskets[basket_num]), key, map->equals);
 }
 
-void_cref hash_map_lookup(hash_map_cref map, void_cref key)
+void_cref hm_lookup(hm_cref map, void_cref key)
 {
     assert(map != NULL);
     assert(key != NULL);
@@ -141,7 +158,7 @@ void_cref hash_map_lookup(hash_map_cref map, void_cref key)
     return basket_lookup(map->baskets[basket_num], key, map->equals);
 }
 
-// specifications
+// uint32_t -> uint32_t specification
 
 const uint32_t HM_UINT32_UINT32_NIL = 0xFFFFFFFFu;
 
@@ -155,27 +172,27 @@ static uint64_t hash_uint32(void_cref key)
     return (uint64_t) ptr_to_uint32(key);
 }
 
-hash_map_hld hm_uint32_uint32_construct(uint32_t size)
+hm_hld hm_uint32_uint32_construct(uint32_t size)
 {
-    return hash_map_construct(size, &equals_uint32, &hash_uint32);
+    return hm_construct(size, &equals_uint32, &hash_uint32);
 }
 
-void hm_uint32_uint32_insert(hash_map_ref map, uint32_t key, uint32_t value)
+void hm_uint32_uint32_insert(hm_ref map, uint32_t key, uint32_t value)
 {
     assert(map != NULL);
 
     void_hld key_ptr = uint32_to_ptr(key);
     void_hld value_ptr = uint32_to_ptr(value);
-    hash_map_insert(map, &key_ptr, &value_ptr);
+    hm_insert(map, &key_ptr, &value_ptr);
     assert(key_ptr == NULL && value_ptr == NULL);
 }
 
-uint32_t hm_uint32_uint32_remove(hash_map_ref map, uint32_t key)
+uint32_t hm_uint32_uint32_remove(hm_ref map, uint32_t key)
 {
     assert(map != NULL);
 
     void_hld key_ptr = uint32_to_ptr(key);
-    void_hld result_ptr = hash_map_remove(map, key_ptr);
+    void_hld result_ptr = hm_remove(map, key_ptr);
     free(key_ptr);
 
     if (result_ptr != NULL) {
@@ -187,13 +204,19 @@ uint32_t hm_uint32_uint32_remove(hash_map_ref map, uint32_t key)
     return HM_UINT32_UINT32_NIL;
 }
 
-uint32_t hm_uint32_uint32_lookup(hash_map_cref map, uint32_t key)
+uint32_t hm_uint32_uint32_lookup(hm_cref map, uint32_t key)
 {
     assert(map != NULL);
 
     void_hld key_ptr = uint32_to_ptr(key);
-    void_cref result_ptr = hash_map_lookup(map, key_ptr);
+    void_cref result_ptr = hm_lookup(map, key_ptr);
     free(key_ptr);
 
     return result_ptr != NULL ? ptr_to_uint32(result_ptr) : HM_UINT32_UINT32_NIL;
 }
+
+// void* -> uint32_t specification
+
+// void     hm_voidp_uint32_insert(hm_ref map, void* key, uint32_t value);
+// uint32_t hm_voidp_uint32_remove(hm_ref map, void* key);
+// uint32_t hm_voidp_uint32_lookup(hm_cref map, void* key);

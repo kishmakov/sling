@@ -25,11 +25,23 @@ TST_OBJ_FILES = $(strip $(patsubst %.c, $(OBJ_DIR)/%.o, $(subst /,_,$(TST_SRC_FI
 # options
 # CC ?= gcc-4.8
 CC ?= clang-3.5
-COMMON_CFLAGS = -O0 -g -fPIC -std=c11 -Wall $(WARNING_FLAGS)
-# COMMON_CFLAGS += -D NDEBUG
-CFLAGS = $(COMMON_CFLAGS) $(addprefix -I, $(INCLUDES)) -Werror
-TST_CFLAGS = $(COMMON_CFLAGS) $(addprefix -I, $(TST_INCLUDES))
+COMMON_CFLAGS = -O0 -g -fPIC -std=c11 -Wall $(addprefix -I, $(INCLUDES))
+
+CFLAGS = $(COMMON_CFLAGS) -Werror
 LFLAGS = -pthread -L$(LIB_DIR)
+
+# debug
+
+# COMMON_CFLAGS += -D NDEBUG
+
+# CFLAGS += -fsanitize=address
+# LFLAGS += -fsanitize=address
+
+# CFLAGS += -fsanitize=memory
+# LFLAGS += -fsanitize=memory
+
+
+TST_CFLAGS = $(CFLAGS) $(addprefix -I, $(TST_INCLUDES))
 TST_LFLAGS = $(LFLAGS) -lcmocka
 
 # Main Targets
@@ -52,7 +64,7 @@ clean:
 # Includes
 ##########
 
-include $(3RD_DIR)/cmocka.mk	
+include $(3RD_DIR)/cmocka.mk
 
 # Internal Targets
 ##################
@@ -94,4 +106,5 @@ link-test:
 	$(CC) $(TST_LFLAGS) -o $(UNIT_TESTS_BINARY) $(TST_OBJ_FILES) $(OBJ_FILES)
 
 run-unit-test:
+	export ASAN_OPTIONS='detect_leaks=1 symbolize=1'
 	LD_PRELOAD=$(LIB_DIR)/$(CMOCKA_LIB) ./$(UNIT_TESTS_BINARY)

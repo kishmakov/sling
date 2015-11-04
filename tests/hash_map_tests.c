@@ -13,7 +13,7 @@ void run_hash_map_tests(void **state)
     int count[COUNT_NUM];
     memset(count, 0, sizeof(count));
 
-    hash_map_hld map = hm_uint32_uint32_construct(0);
+    hm_hld map = hm_uint32_uint32_construct(0);
 
     for (uint32_t i = 0; i < 100000; i++) {
         uint32_t action = i % 3;
