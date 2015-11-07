@@ -34,6 +34,8 @@ LFLAGS = -pthread -L$(LIB_DIR)
 
 # COMMON_CFLAGS += -D NDEBUG
 
+# export ASAN_SYMBOLIZER_PATH=/usr/bin/llvm-symbolizer-3.6
+# export ASAN_OPTIONS='detect_leaks=1 symbolize=1'
 # CFLAGS += -fsanitize=address
 # LFLAGS += -fsanitize=address
 
@@ -106,5 +108,4 @@ link-test:
 	$(CC) $(TST_LFLAGS) -o $(UNIT_TESTS_BINARY) $(TST_OBJ_FILES) $(OBJ_FILES)
 
 run-unit-test:
-	export ASAN_OPTIONS='detect_leaks=1 symbolize=1'
 	LD_PRELOAD=$(LIB_DIR)/$(CMOCKA_LIB) ./$(UNIT_TESTS_BINARY)

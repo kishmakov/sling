@@ -6,11 +6,11 @@
 DEBUG(extern allocation_list_hld allocated_transforms);
 
 MACRO_STRUCTURE_DEFINITION(transform) {
-    void* internal_data;
+    void_hld internal_data;
     transform_description_cref description;
 };
 
-transform_hld transform_construct(transform_description_cref description, void* seed);
+transform_hld transform_construct(transform_description_cref description, void_mv data);
 
 transform_hld transform_copy(transform_cref transform);
 

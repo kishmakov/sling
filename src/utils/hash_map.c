@@ -28,7 +28,7 @@ hm_hld hm_construct(
     return result;
 }
 
-void hm_destuct(hm_mv map_ptr)
+void hm_destruct(hm_mv map_ptr)
 {
     hm_ref map = *map_ptr;
 

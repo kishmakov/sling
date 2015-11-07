@@ -26,7 +26,7 @@ hm_hld hm_construct(
     int (*equals)(void_cref, void_cref),
     uint64_t (*hash)(void_cref));
 
-void hm_destuct(hm_mv map);
+void hm_destruct(hm_mv map);
 
 void      hm_insert(hm_ref map, void_mv key, void_mv value);
 void_hld  hm_remove(hm_ref map, void_cref key);

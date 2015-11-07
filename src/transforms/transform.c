@@ -5,11 +5,11 @@
 
 DEBUG(allocation_list_hld allocated_transforms = NULL);
 
-transform_hld transform_construct(transform_description_cref description, void* seed)
+transform_hld transform_construct(transform_description_cref description, void_mv data)
 {
     assert(description != NULL); // description registred?
     assert(description->construct != NULL);
-    return description->construct(seed);
+    return description->construct(data);
 }
 
 transform_hld transform_copy(transform_cref transform)

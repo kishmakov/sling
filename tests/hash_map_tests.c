@@ -34,4 +34,6 @@ void run_hash_map_tests(void **state)
         }
     }
 
+    hm_destruct(&map);
+    assert_null(map);
 }
