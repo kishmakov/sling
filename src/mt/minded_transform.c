@@ -68,14 +68,25 @@ static transform_hld minded_transform_copy(transform_cref transform)
     return result;
 }
 
-static void minded_transform_destruct(transform_mv transform)
+static void minded_transform_destruct(transform_mv transform_ptr)
 {
-    assert(transform != NULL);
-    assert(*transform != NULL);
-    assert((*transform)->description == minded_transform_description);
 
-    free(*transform); // FixMe: remove impl
-    *transform = NULL;
+    assert(transform_ptr != NULL);
+    assert(*transform_ptr != NULL);
+    assert((*transform_ptr)->description == minded_transform_description);
+
+    minded_transform_impl_ref impl = (minded_transform_impl_ref) (*transform_ptr)->internal_data;
+
+    trie_destruct(&(impl->minds));
+    assert(impl->minds == NULL);
+
+    trie_destruct(&(impl->transforms));
+    assert(impl->transforms == NULL);
+
+    free(impl->states);
+    free(impl);
+
+    *transform_ptr = NULL;
 }
 
 static context_hld minded_transform_function(transform_cref transform, context_mv context)

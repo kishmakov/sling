@@ -11,18 +11,23 @@ MACRO_STRUCTURE_DEFINITION(trie_node)
 {
     trie_node_hld ver; // vertical adjacent
     trie_node_hld hor; // next vertex at this level
-    void* value;
+    void_hld value;
     uint32_t count;
     char code;
 };
 
-typedef trie_node_hld trie_hld;
-typedef trie_node_cref trie_cref;
-typedef trie_node_io trie_io;
+MACRO_STRUCTURE_DEFINITION(trie)
+{
+    trie_node_hld root;
+    uint32_t size;
+};
+
+trie_hld trie_construct();
+void     trie_destruct(trie_mv trie_ptr);
 
 trie_node_hld trie_node_construct(char code);
 void trie_node_destruct(trie_node_mv trie_node);
 
-void  trie_insert(trie_io root, const char* tag, void* src);
-void* trie_remove(trie_io root, const char* tag);
-void* trie_check(trie_cref root, const char* tag);
+void     trie_insert(trie_ref trie, const char* tag, void_hld src);
+void_hld trie_remove(trie_ref trie, const char* tag);
+void_ref trie_check(trie_cref trie, const char* tag);

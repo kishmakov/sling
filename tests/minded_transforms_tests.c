@@ -29,23 +29,23 @@ static int32_t discriminant_classifier(int32_t a, int32_t b, int32_t c)
 static transform_hld construct_discriminant_classifier()
 {
     minded_transform_impl_hld impl = malloc(sizeof(minded_transform_impl_type));
-    impl->minds = NULL;
-    impl->transforms = NULL;
+    impl->minds = trie_construct();
+    impl->transforms = trie_construct();
 
-    trie_insert(&(impl->minds), "int32_sign", int32_sign_construct());
+    trie_insert(impl->minds, "int32_sign", int32_sign_construct());
     {
         uint32_t d[][2] = {};
         uint32_t t[][2] = {};
-        trie_insert(&(impl->transforms), "context_filter", MACRO_BUILD_CONTEXT_FILTER(d, t));
+        trie_insert(impl->transforms, "context_filter", MACRO_BUILD_CONTEXT_FILTER(d, t));
     }
-    trie_insert(&(impl->transforms), "int32_dupl", build_int32_duplicator());
-    trie_insert(&(impl->transforms), "int32_add", build_int32_addition());
-    trie_insert(&(impl->transforms), "int32_gen_-1", build_int32_gen(-1));
-    trie_insert(&(impl->transforms), "int32_gen_0", build_int32_gen(0));
-    trie_insert(&(impl->transforms), "int32_gen_1", build_int32_gen(1));
-    trie_insert(&(impl->transforms), "int32_gen_2", build_int32_gen(2));
-    trie_insert(&(impl->transforms), "int32_mult", build_int32_multiplication());
-    trie_insert(&(impl->transforms), "int32_mult_by_-4", build_int32_mult_by(-4));
+    trie_insert(impl->transforms, "int32_dupl", build_int32_duplicator());
+    trie_insert(impl->transforms, "int32_add", build_int32_addition());
+    trie_insert(impl->transforms, "int32_gen_-1", build_int32_gen(-1));
+    trie_insert(impl->transforms, "int32_gen_0", build_int32_gen(0));
+    trie_insert(impl->transforms, "int32_gen_1", build_int32_gen(1));
+    trie_insert(impl->transforms, "int32_gen_2", build_int32_gen(2));
+    trie_insert(impl->transforms, "int32_mult", build_int32_multiplication());
+    trie_insert(impl->transforms, "int32_mult_by_-4", build_int32_mult_by(-4));
 
     MACRO_VECTOR_ALLOCATE(impl->states, state_hld, 12);
 
@@ -64,7 +64,6 @@ static transform_hld construct_discriminant_classifier()
 
     impl->start = impl->states[0];
     impl->finish = impl->states[1];
-
 
     { // 0: branch on A sign and doubling B if A != 0
         state_ref state = impl->states[0];

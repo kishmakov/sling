@@ -9,34 +9,36 @@ static void trie_test_1(void)
     char* strings[] = {"abacaba", "aba", "abba", "baba"};
     int v[] = {1, 2, 3, 4};
 
-    trie_hld test_trie = NULL;
+    trie_hld test_trie = trie_construct();
 
     for (int i = 0; i < 4; i++)
-        trie_insert(&test_trie, strings[i], &v[i]);
+        trie_insert(test_trie, strings[i], &v[i]);
 
     for (int i = 0; i < 4; i++)
         assert_ptr_equal(&v[i], trie_check(test_trie, strings[i]));
 
-    assert_ptr_equal(&v[0], trie_remove(&test_trie, strings[0]));
-    assert_null(trie_remove(&test_trie, strings[0]));
-    assert_ptr_equal(&v[3], trie_remove(&test_trie, strings[3]));
-    assert_null(trie_remove(&test_trie, strings[3]));
+    assert_ptr_equal(&v[0], trie_remove(test_trie, strings[0]));
+    assert_null(trie_remove(test_trie, strings[0]));
+    assert_ptr_equal(&v[3], trie_remove(test_trie, strings[3]));
+    assert_null(trie_remove(test_trie, strings[3]));
 
     void* vv[] = {NULL, &v[1], &v[2], NULL};
 
     for (int i = 0; i < 4; i++)
         assert_ptr_equal(vv[i], trie_check(test_trie, strings[i]));
 
-    assert_ptr_equal(&v[1], trie_remove(&test_trie, strings[1]));
-    assert_null(trie_remove(&test_trie, strings[1]));
-    assert_ptr_equal(&v[2], trie_remove(&test_trie, strings[2]));
-    assert_null(trie_remove(&test_trie, strings[2]));
+    assert_ptr_equal(&v[1], trie_remove(test_trie, strings[1]));
+    assert_null(trie_remove(test_trie, strings[1]));
+    assert_ptr_equal(&v[2], trie_remove(test_trie, strings[2]));
+    assert_null(trie_remove(test_trie, strings[2]));
 
+    trie_destruct(&test_trie);
+    assert_null(test_trie);
 }
 
 static void trie_test_2(void)
 {
-    trie_hld test_trie = NULL;
+    trie_hld test_trie = trie_construct();
 
     const char* strings[] = {
         "a",
@@ -86,18 +88,21 @@ static void trie_test_2(void)
             assert_ptr_equal(trie_check(test_trie, string), ptr);
         } else if (action == 1 && count[i % NUM] == 0) { // add
             count[i % NUM] = 1;
-            trie_insert(&test_trie, string, &v[i % NUM]);
+            trie_insert(test_trie, string, &v[i % NUM]);
         } else {
             count[i % NUM] = 0;
-            assert_ptr_equal(trie_remove(&test_trie, string), ptr);
+            assert_ptr_equal(trie_remove(test_trie, string), ptr);
         }
     }
 
     for (int i = 0; i < NUM; i++) {
         const char* string = strings[i];
         void* ptr = count[i] == 0 ? NULL : &v[i];
-        assert_ptr_equal(trie_remove(&test_trie, string), ptr);
+        assert_ptr_equal(trie_remove(test_trie, string), ptr);
     }
+
+    trie_destruct(&test_trie);
+    assert_null(test_trie);
 }
 
 void run_trie_tests(void **state)
