@@ -4,6 +4,20 @@
 #include <stdlib.h>
 #include <string.h>
 
+void state_destruct(state_mv state_ptr)
+{
+    state_hld state = *state_ptr;
+
+    free(state->steps); // FixMe: Proper steps destructors.
+    if (state->download != NULL)
+        transmitter_destruct(&(state->download));
+    assert(state->download == NULL);
+    free(state->mind_profile);
+
+    free(state);
+    *state_ptr = NULL;
+}
+
 state_hld state_copy(state_cref state)
 {
     state_hld result = malloc(sizeof(state_type));

@@ -83,6 +83,11 @@ static void minded_transform_destruct(transform_mv transform_ptr)
     trie_destruct(&(impl->transforms));
     assert(impl->transforms == NULL);
 
+    for (uint32_t id = 0; id < impl->states_size; id++) {
+        state_destruct(&(impl->states[id]));
+        assert(impl->states[id] == NULL);
+    }
+
     free(impl->states);
     free(impl);
 

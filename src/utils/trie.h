@@ -28,6 +28,6 @@ void     trie_destruct(trie_mv trie_ptr);
 trie_node_hld trie_node_construct(char code);
 void trie_node_destruct(trie_node_mv trie_node);
 
-void     trie_insert(trie_ref trie, const char* tag, void_hld src);
+void     trie_insert(trie_ref trie, const char* tag, void_hld value);
 void_hld trie_remove(trie_ref trie, const char* tag);
 void_ref trie_check(trie_cref trie, const char* tag);

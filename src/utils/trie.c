@@ -27,9 +27,10 @@ void trie_node_destruct(trie_node_mv node)
 
     assert((*node)->hor == NULL);
     assert((*node)->ver == NULL);
-    assert((*node)->value == NULL);
 
+    free((*node)->value);
     free(*node);
+
     *node = NULL;
 }
 
@@ -62,8 +63,6 @@ void trie_destruct(trie_mv trie_ptr)
         for (uint32_t id = 0; id < trie->size; id++) {
             nodes[id]->ver = NULL;
             nodes[id]->hor = NULL;
-            free(nodes[id]->value);
-            nodes[id]->value = NULL;
             trie_node_destruct(&nodes[id]);
             assert(nodes[id] == NULL);
         }

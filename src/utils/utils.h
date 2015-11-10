@@ -8,10 +8,15 @@
 #define MACRO_MIN(x, y)  ((x) < (y) ? (x) : (y))
 #define MACRO_MAX(x, y)  ((x) > (y) ? (x) : (y))
 
-typedef void** void_mv;
-typedef void* void_hld;
-typedef void* void_cref;
-typedef void* void_ref;
+typedef void**      void_mv;
+typedef void*       void_hld;
+typedef const void* void_cref;
+typedef void*       void_ref;
+
+typedef char**      char_mv;
+typedef char*       char_hld;
+typedef const char* char_cref;
+typedef char*       char_ref;
 
 #define MACRO_STRUCTURE_DEFINITION(type_name) \
 struct type_name ## _type; \
@@ -60,7 +65,7 @@ if (name ## _size < (new_size)) { \
 }
 
 #define MACRO_STRING_COPY(dst, src) \
-dst = malloc(strlen(src)); \
+dst = malloc(strlen(src) + 1); \
 strcpy((char*) dst, src)
 
 #define MACRO_STRINGIFY(value) #value
@@ -113,16 +118,9 @@ static inline uint32_t ptr_to_uint32(void_cref ptr)
     return result;
 }
 
-static inline void_hld voidp_to_ptr(void* val)
+static inline void_mv void_r2m(void_ref value)
 {
-    void_hld result = malloc(sizeof(void*));
-    memcpy(result, (void*) &val, sizeof(void*));
-    return result;
-}
-
-static inline void* ptr_to_voidp(void_cref ptr)
-{
-    void* result;
-    memcpy((void*) &result, ptr, sizeof(void*));
-    return result;
+    void_mv value_ptr = malloc(sizeof(void_hld));
+    memcpy(value_ptr, (void*) &value, sizeof(void_hld));
+    return value_ptr;
 }
