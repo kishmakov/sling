@@ -77,11 +77,23 @@ static void minded_transform_destruct(transform_mv transform_ptr)
 
     minded_transform_impl_ref impl = (minded_transform_impl_ref) (*transform_ptr)->internal_data;
 
-    trie_destruct(&(impl->minds));
+    list_hld minds_left = trie_destruct(&(impl->minds));
     assert(impl->minds == NULL);
 
-    trie_destruct(&(impl->transforms));
+    list_hld transforms_left = trie_destruct(&(impl->transforms));
     assert(impl->transforms == NULL);
+
+    while (minds_left != NULL) {
+        mind_hld mind = (mind_hld) list_pop_front(&minds_left);
+        mind_destruct(&mind);
+        assert(mind == NULL);
+    }
+
+    while (transforms_left != NULL) {
+        transform_hld transform = (transform_hld) list_pop_front(&transforms_left);
+        transform_destruct(&transform);
+        assert(transform == NULL);
+    }
 
     for (uint32_t id = 0; id < impl->states_size; id++) {
         state_destruct(&(impl->states[id]));
@@ -91,6 +103,7 @@ static void minded_transform_destruct(transform_mv transform_ptr)
     free(impl->states);
     free(impl);
 
+    free(*transform_ptr);
     *transform_ptr = NULL;
 }
 

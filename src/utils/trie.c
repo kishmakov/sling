@@ -1,7 +1,5 @@
 #include "utils/trie.h"
 
-#include "utils/list.h"
-
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -27,8 +25,8 @@ void trie_node_destruct(trie_node_mv node)
 
     assert((*node)->hor == NULL);
     assert((*node)->ver == NULL);
+    assert((*node)->value == NULL);
 
-    free((*node)->value);
     free(*node);
 
     *node = NULL;
@@ -39,9 +37,11 @@ trie_hld trie_construct()
     return (trie_hld) calloc(1, sizeof(trie_type));
 }
 
-void trie_destruct(trie_mv trie_ptr)
+list_hld trie_destruct(trie_mv trie_ptr)
 {
     trie_ref trie = *trie_ptr;
+
+    list_hld values_left = NULL;
 
     if (trie->size > 0) {
         trie_node_hld* nodes = malloc(sizeof(trie_node_hld) * trie->size);
@@ -63,6 +63,10 @@ void trie_destruct(trie_mv trie_ptr)
         for (uint32_t id = 0; id < trie->size; id++) {
             nodes[id]->ver = NULL;
             nodes[id]->hor = NULL;
+            if (nodes[id]->value != NULL) {
+                list_insert(&values_left, &(nodes[id]->value));
+                nodes[id]->value = NULL;
+            }
             trie_node_destruct(&nodes[id]);
             assert(nodes[id] == NULL);
         }
@@ -72,6 +76,8 @@ void trie_destruct(trie_mv trie_ptr)
 
     free(trie);
     *trie_ptr = 0;
+
+    return values_left;
 }
 
 void trie_insert(trie_ref trie, const char* tag, void_hld value)

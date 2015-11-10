@@ -8,9 +8,20 @@ void state_destruct(state_mv state_ptr)
 {
     state_hld state = *state_ptr;
 
+    for (uint32_t id = 0; id < state->steps_size; id++) {
+        if (state->steps[id].download != NULL)
+            transmitter_destruct(&(state->steps[id].download));
+
+        if (state->steps[id].upload != NULL)
+            transmitter_destruct(&(state->steps[id].upload));
+        free(state->steps[id].transform_profile);
+    }
+
     free(state->steps); // FixMe: Proper steps destructors.
+
     if (state->download != NULL)
         transmitter_destruct(&(state->download));
+
     assert(state->download == NULL);
     free(state->mind_profile);
 

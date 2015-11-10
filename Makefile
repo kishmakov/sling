@@ -42,7 +42,6 @@ LFLAGS = -pthread -L$(LIB_DIR)
 # CFLAGS += -fsanitize=memory
 # LFLAGS += -fsanitize=memory
 
-
 TST_CFLAGS = $(CFLAGS) $(addprefix -I, $(TST_INCLUDES))
 TST_LFLAGS = $(LFLAGS) -lcmocka
 

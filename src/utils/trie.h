@@ -1,6 +1,7 @@
 #pragma once
 
 #include "utils/diagnostics.h"
+#include "utils/list.h"
 #include "utils/utils.h"
 
 #include <stdint.h>
@@ -23,7 +24,7 @@ MACRO_STRUCTURE_DEFINITION(trie)
 };
 
 trie_hld trie_construct();
-void     trie_destruct(trie_mv trie_ptr);
+list_hld trie_destruct(trie_mv trie_ptr);
 
 trie_node_hld trie_node_construct(char code);
 void trie_node_destruct(trie_node_mv trie_node);

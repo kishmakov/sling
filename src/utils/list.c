@@ -3,17 +3,17 @@
 #include <assert.h>
 #include <stdlib.h>
 
-void list_insert(list_node_io head, void_mv src)
+void list_insert(list_node_io head, void_mv value_ptr)
 {
-    assert(src != NULL);
-    assert(*src != NULL);
+    assert(value_ptr != NULL);
+    assert(*value_ptr != NULL);
     assert(head != NULL);
 
     list_node_hld new_head = malloc(sizeof(list_node_type));
     new_head->next = *head;
-    new_head->value = *src;
+    new_head->value = *value_ptr;
 
-    *src = NULL;
+    *value_ptr = NULL;
 
     *head = new_head;
 }
