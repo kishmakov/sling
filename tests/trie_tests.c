@@ -34,7 +34,7 @@ static void trie_test_1(void)
     assert_ptr_equal(&v[2], trie_remove(test_trie, strings[2]));
     assert_null(trie_remove(test_trie, strings[2]));
 
-    trie_destruct(&test_trie);
+    assert_null(trie_destruct(&test_trie));
     assert_null(test_trie);
 }
 
@@ -103,7 +103,7 @@ static void trie_test_2(void)
         assert_ptr_equal(trie_remove(test_trie, string), ptr);
     }
 
-    trie_destruct(&test_trie);
+    assert_null(trie_destruct(&test_trie));
     assert_null(test_trie);
 }
 
