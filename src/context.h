@@ -20,5 +20,6 @@ MACRO_STRUCTURE_DEFINITION(context)
 };
 
 context_hld context_construct(uint32_t data_size, uint32_t transforms_size);
+void        context_destruct(context_mv context_ptr);
+context_hld context_copy(context_cref context);
 
-void context_destruct(context_mv context);

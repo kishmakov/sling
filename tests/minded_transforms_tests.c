@@ -334,30 +334,35 @@ static transform_hld construct_discriminant_classifier()
     return build_minded_transform(&impl);
 }
 
-void run_discriminant_tests(void **state)
+static int32_t apply_classifier(transform_cref classifier, int32_t a, int32_t b, int32_t c)
 {
-    (void) state;
+    context_hld input = context_construct(3, 0);
+    input->data[0] = int32_datum_construct(a);
+    input->data[1] = int32_datum_construct(b);
+    input->data[2] = int32_datum_construct(c);
 
-    static const int32_t nums[] = {-239, -2, -1, 0, 1, 2, 239};
+    context_hld output = transform_function(classifier, &input);
+    assert_null(input);
+
+    assert_true(output->data_size > 0); // ToDo: must be 1
+    int32_t result = int32_datum_extract(output->data[0]);
+
+    context_destruct(&output);
+    assert_null(output);
+
+    return result;
+}
+
+static void discriminant_test_1()
+{
+    const int32_t nums[] = {-239, -2, -1, 0, 1, 2, 239};
 
     transform_hld classifier = construct_discriminant_classifier();
 
     for (int ia = 0; ia < sizeof(nums) / 4; ia++)
         for (int ib = 0; ib < sizeof(nums) / 4; ib++)
             for (int ic = 0; ic < sizeof(nums) / 4; ic++) {
-                context_hld input = context_construct(3, 0);
-                input->data[0] = int32_datum_construct(nums[ia]);
-                input->data[1] = int32_datum_construct(nums[ib]);
-                input->data[2] = int32_datum_construct(nums[ic]);
-
-                context_hld output = transform_function(classifier, &input);
-
-                assert_null(input);
-                assert_true(output->data_size > 0); // ToDo: must be 1
-                int32_t vres = int32_datum_extract(output->data[0]);
-                datum_destruct(&(output->data[0]));
-                context_destruct(&output);
-
+                int32_t vres = apply_classifier(classifier, nums[ia], nums[ib], nums[ic]);
                 assert_int_equal(vres, discriminant_classifier(nums[ia], nums[ib], nums[ic]));
             }
 
@@ -365,3 +370,31 @@ void run_discriminant_tests(void **state)
     assert_null(classifier);
 }
 
+// static void discriminant_test_2()
+// {
+//     const int32_t nums[] = {-239, -2, -1, 0, 1, 2, 239};
+
+//     transform_hld classifier0 = construct_discriminant_classifier();
+//     transform_hld classifier1 = transform_copy(classifier0);
+
+//     for (int ia = 0; ia < sizeof(nums) / 4; ia++)
+//         for (int ib = 0; ib < sizeof(nums) / 4; ib++)
+//             for (int ic = 0; ic < sizeof(nums) / 4; ic++) {
+//                 int32_t vres0 = apply_classifier(classifier0, nums[ia], nums[ib], nums[ic]);
+//                 int32_t vres1 = apply_classifier(classifier1, nums[ia], nums[ib], nums[ic]);
+//                 assert_int_equal(vres0, vres1);
+//             }
+
+//     transform_destruct(&classifier0);
+//     transform_destruct(&classifier1);
+//     assert_null(classifier0);
+//     assert_null(classifier1);
+// }
+
+void run_discriminant_tests(void **state)
+{
+    (void) state;
+
+    discriminant_test_1();
+    // discriminant_test_2();
+}
