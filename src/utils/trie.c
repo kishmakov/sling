@@ -19,17 +19,33 @@ trie_node_hld trie_node_construct(char code)
     return result;
 }
 
-void trie_node_destruct(trie_node_mv node)
+void trie_node_destruct(trie_node_mv node_ptr)
 {
-    DEBUG(allocation_list_remove(&allocated_trie_nodes, *node));
+    assert((*node_ptr)->hor == NULL);
+    assert((*node_ptr)->ver == NULL);
+    assert((*node_ptr)->value == NULL);
 
-    assert((*node)->hor == NULL);
-    assert((*node)->ver == NULL);
-    assert((*node)->value == NULL);
+    DEBUG(allocation_list_remove(&allocated_trie_nodes, *node_ptr));
 
-    free(*node);
+    free(*node_ptr);
 
-    *node = NULL;
+    *node_ptr = NULL;
+}
+
+trie_node_hld trie_node_copy(trie_node_cref node, value_copier copier)
+{
+    assert(node != NULL);
+    assert(copier != NULL);
+
+    trie_node_hld result = malloc(sizeof(trie_node_type));
+
+    result->ver = NULL;
+    result->hor = NULL;
+    result->value = copier(node->value);
+    result->count = node->count;
+    result->code = node->code;
+
+    return result;
 }
 
 trie_hld trie_construct()
@@ -78,6 +94,60 @@ list_hld trie_destruct(trie_mv trie_ptr)
     *trie_ptr = 0;
 
     return values_left;
+}
+
+trie_hld trie_copy(trie_cref trie, value_copier copier)
+{
+    assert(trie != NULL);
+
+    trie_hld result = calloc(1, sizeof(trie_type));
+
+    if (trie->size > 0) {
+        uint32_t null_value = 0xFFFFFFFF;
+        uint32_t* ver = malloc(sizeof(uint32_t) * trie->size);
+        uint32_t* hor = malloc(sizeof(uint32_t) * trie->size);
+        trie_node_hld* nodes = malloc(sizeof(trie_node_hld) * trie->size);
+
+        uint32_t current_id = 0;
+        uint32_t last_id = 0;
+        nodes[last_id++] = trie->root;
+
+        while (current_id < trie->size) {
+            hor[current_id] = null_value;
+            ver[current_id] = null_value;
+
+            if (nodes[current_id]->hor != NULL) {
+                hor[current_id] = last_id;
+                nodes[last_id++] = nodes[current_id]->hor;
+            }
+
+            if (nodes[current_id]->ver != NULL) {
+                ver[current_id] = last_id;
+                nodes[last_id++] = nodes[current_id]->ver;
+            }
+
+            current_id++;
+        }
+
+        for (uint32_t id = 0; id < trie->size; id++)
+            nodes[id] = trie_node_copy(nodes[id], copier);
+
+        for (uint32_t id = 0; id < trie->size; id++) {
+            if (ver[id] != null_value)
+                nodes[id]->ver = nodes[ver[id]];
+
+            if (hor[id] != null_value)
+                nodes[id]->hor = nodes[hor[id]];
+        }
+
+        result->root = nodes[0];
+
+        free(ver);
+        free(hor);
+        free(nodes);
+    }
+
+    return result;
 }
 
 void trie_insert(trie_ref trie, const char* tag, void_hld value)

@@ -38,6 +38,11 @@ static void trie_test_1(void)
     assert_null(test_trie);
 }
 
+static void_hld dummy_copier(void_cref value)
+{
+    return (void_hld) value;
+}
+
 static void trie_test_2(void)
 {
     trie_hld test_trie = trie_construct();
@@ -87,7 +92,11 @@ static void trie_test_2(void)
         void_hld ref_ptr = count[i % NUM] == 0 ? NULL : &v[i % NUM];
 
         if (action == 0) { // check
+            trie_hld copy_trie = trie_copy(test_trie, dummy_copier);
             assert_ptr_equal(trie_check(test_trie, string), ref_ptr);
+            assert_ptr_equal(trie_check(copy_trie, string), ref_ptr);
+            trie_destruct(&copy_trie);
+            assert_null(copy_trie);
         } else if (action == 1 && count[i % NUM] == 0) { // add
             count[i % NUM] = 1;
             trie_insert(test_trie, string, &v[i % NUM]);
