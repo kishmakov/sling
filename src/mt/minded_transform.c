@@ -9,6 +9,16 @@
 #include <assert.h>
 #include <stdlib.h>
 
+static void mind_destructor(void_mv value_ptr)
+{
+    mind_destruct((mind_mv) value_ptr);
+}
+
+static void transform_destructor(void_mv value_ptr)
+{
+    transform_destruct((transform_mv) value_ptr);
+}
+
 static transform_description_hld minded_transform_description = NULL;
 
 static const char* minded_transform_input_scheme(transform_cref transform)
@@ -77,23 +87,11 @@ static void minded_transform_destruct(transform_mv transform_ptr)
 
     minded_transform_impl_ref impl = (minded_transform_impl_ref) (*transform_ptr)->internal_data;
 
-    list_hld minds_left = trie_destruct(&(impl->minds));
+    trie_destruct(&(impl->minds), mind_destructor);
     assert(impl->minds == NULL);
 
-    list_hld transforms_left = trie_destruct(&(impl->transforms));
+    trie_destruct(&(impl->transforms), transform_destructor);
     assert(impl->transforms == NULL);
-
-    while (minds_left != NULL) {
-        mind_hld mind = (mind_hld) list_pop_front(&minds_left);
-        mind_destruct(&mind);
-        assert(mind == NULL);
-    }
-
-    while (transforms_left != NULL) {
-        transform_hld transform = (transform_hld) list_pop_front(&transforms_left);
-        transform_destruct(&transform);
-        assert(transform == NULL);
-    }
 
     for (uint32_t id = 0; id < impl->states_size; id++) {
         state_destruct(&(impl->states[id]));

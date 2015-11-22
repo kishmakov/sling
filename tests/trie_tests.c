@@ -4,6 +4,16 @@
 
 #include "utils/trie.h"
 
+static void_hld dummy_copier(void_cref value)
+{
+    return (void_hld) value;
+}
+
+static void dummy_deleter(void_mv value_ptr)
+{
+    *value_ptr = NULL;
+}
+
 static void trie_test_1(void)
 {
     char* strings[] = {"abacaba", "aba", "abba", "baba"};
@@ -34,13 +44,8 @@ static void trie_test_1(void)
     assert_ptr_equal(&v[2], trie_remove(test_trie, strings[2]));
     assert_null(trie_remove(test_trie, strings[2]));
 
-    assert_null(trie_destruct(&test_trie));
+    trie_destruct(&test_trie, dummy_deleter);
     assert_null(test_trie);
-}
-
-static void_hld dummy_copier(void_cref value)
-{
-    return (void_hld) value;
 }
 
 static void trie_test_2(void)
@@ -95,7 +100,7 @@ static void trie_test_2(void)
             trie_hld copy_trie = trie_copy(test_trie, dummy_copier);
             assert_ptr_equal(trie_check(test_trie, string), ref_ptr);
             assert_ptr_equal(trie_check(copy_trie, string), ref_ptr);
-            trie_destruct(&copy_trie);
+            trie_destruct(&copy_trie, dummy_deleter);
             assert_null(copy_trie);
         } else if (action == 1 && count[i % NUM] == 0) { // add
             count[i % NUM] = 1;
@@ -112,7 +117,7 @@ static void trie_test_2(void)
         assert_ptr_equal(trie_remove(test_trie, string), ptr);
     }
 
-    assert_null(trie_destruct(&test_trie));
+    trie_destruct(&test_trie, dummy_deleter);
     assert_null(test_trie);
 }
 

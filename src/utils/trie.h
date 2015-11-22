@@ -1,13 +1,13 @@
 #pragma once
 
 #include "utils/diagnostics.h"
-#include "utils/list.h"
 #include "utils/utils.h"
 
 #include <stdint.h>
 
 DEBUG(extern allocation_list_hld allocated_trie_nodes);
 
+typedef void (*value_destructor)(void_mv value_ptr);
 typedef void_hld (*value_copier)(void_cref value);
 
 MACRO_STRUCTURE_DEFINITION(trie_node)
@@ -20,7 +20,7 @@ MACRO_STRUCTURE_DEFINITION(trie_node)
 };
 
 trie_node_hld trie_node_construct(char code);
-void          trie_node_destruct(trie_node_mv node_ptr);
+void          trie_node_destruct(trie_node_mv node_ptr, value_destructor destructor);
 trie_node_hld trie_node_copy(trie_node_cref node, value_copier copier);
 
 MACRO_STRUCTURE_DEFINITION(trie)
@@ -30,7 +30,7 @@ MACRO_STRUCTURE_DEFINITION(trie)
 };
 
 trie_hld trie_construct();
-list_hld trie_destruct(trie_mv trie_ptr);
+void     trie_destruct(trie_mv trie_ptr, value_destructor destructor);
 trie_hld trie_copy(trie_cref trie, value_copier copier);
 
 void     trie_insert(trie_ref trie, const char* tag, void_hld value);

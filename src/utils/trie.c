@@ -1,5 +1,7 @@
 #include "utils/trie.h"
 
+#include "utils/list.h"
+
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -19,13 +21,18 @@ trie_node_hld trie_node_construct(char code)
     return result;
 }
 
-void trie_node_destruct(trie_node_mv node_ptr)
+void trie_node_destruct(trie_node_mv node_ptr, value_destructor destructor)
 {
     assert((*node_ptr)->hor == NULL);
     assert((*node_ptr)->ver == NULL);
-    assert((*node_ptr)->value == NULL);
 
     DEBUG(allocation_list_remove(&allocated_trie_nodes, *node_ptr));
+
+    if ((*node_ptr)->value != NULL) {
+        assert(destructor != NULL);
+        destructor(&((*node_ptr)->value));
+        assert((*node_ptr)->value == NULL);
+    }
 
     free(*node_ptr);
 
@@ -53,11 +60,9 @@ trie_hld trie_construct()
     return (trie_hld) calloc(1, sizeof(trie_type));
 }
 
-list_hld trie_destruct(trie_mv trie_ptr)
+void trie_destruct(trie_mv trie_ptr, value_destructor destructor)
 {
     trie_ref trie = *trie_ptr;
-
-    list_hld values_left = NULL;
 
     if (trie->size > 0) {
         trie_node_hld* nodes = malloc(sizeof(trie_node_hld) * trie->size);
@@ -79,11 +84,7 @@ list_hld trie_destruct(trie_mv trie_ptr)
         for (uint32_t id = 0; id < trie->size; id++) {
             nodes[id]->ver = NULL;
             nodes[id]->hor = NULL;
-            if (nodes[id]->value != NULL) {
-                list_insert(&values_left, &(nodes[id]->value));
-                nodes[id]->value = NULL;
-            }
-            trie_node_destruct(&nodes[id]);
+            trie_node_destruct(&nodes[id], destructor);
             assert(nodes[id] == NULL);
         }
 
@@ -92,8 +93,6 @@ list_hld trie_destruct(trie_mv trie_ptr)
 
     free(trie);
     *trie_ptr = 0;
-
-    return values_left;
 }
 
 trie_hld trie_copy(trie_cref trie, value_copier copier)
@@ -101,6 +100,7 @@ trie_hld trie_copy(trie_cref trie, value_copier copier)
     assert(trie != NULL);
 
     trie_hld result = calloc(1, sizeof(trie_type));
+    result->size = trie->size;
 
     if (trie->size > 0) {
         uint32_t null_value = 0xFFFFFFFF;
@@ -220,7 +220,7 @@ void_hld trie_remove(trie_ref trie, const char* tag)
         to_remove->ver = NULL;
         to_remove->hor = NULL;
         assert(to_remove->value == NULL);
-        trie_node_destruct(&to_remove);
+        trie_node_destruct(&to_remove, NULL);
         trie->size--;
         assert(to_remove == NULL);
     }
